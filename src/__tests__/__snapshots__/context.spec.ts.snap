@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`context should populate with capitalized keys 1`] = `
+Object {
+  "Name": "Foobar",
+  "h": Object {
+    "capitalize": [Function],
+    "changeCase": Object {
+      "camelCase": [Function],
+      "camelCaseTransform": [Function],
+      "camelCaseTransformMerge": [Function],
+      "capitalCase": [Function],
+      "capitalCaseTransform": [Function],
+      "constantCase": [Function],
+      "dotCase": [Function],
+      "headerCase": [Function],
+      "noCase": [Function],
+      "paramCase": [Function],
+      "pascalCase": [Function],
+      "pascalCaseTransform": [Function],
+      "pascalCaseTransformMerge": [Function],
+      "pathCase": [Function],
+      "sentenceCase": [Function],
+      "sentenceCaseTransform": [Function],
+      "snakeCase": [Function],
+    },
+    "inflection": Object {
+      "_apply_rules": [Function],
+      "camelize": [Function],
+      "capitalize": [Function],
+      "classify": [Function],
+      "dasherize": [Function],
+      "demodulize": [Function],
+      "foreign_key": [Function],
+      "humanize": [Function],
+      "indexOf": [Function],
+      "inflect": [Function],
+      "ordinalize": [Function],
+      "pluralize": [Function],
+      "singularize": [Function],
+      "tableize": [Function],
+      "titleize": [Function],
+      "transform": [Function],
+      "undasherize": [Function],
+      "underscore": [Function],
+      "version": "1.13.1",
+    },
+  },
+  "name": "foobar",
+}
+`;
