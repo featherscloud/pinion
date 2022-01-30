@@ -1,70 +1,33 @@
-import yargs from 'yargs-parser'
+// git
+export { addAndCommit } from './git/addAndCommit';
+export { confirmIfGitDirty } from './git/confirmIfGitDirty';
+export { gitReset } from './git/gitReset';
+export { hasProjectGit } from './git/hasProjectGit';
+export { isGitInstalled } from './git/isGitInstalled';
+export { isWorkingTreeClean } from './git/isWorkingTreeClean';
 
-import { RunnerResult, RunnerConfig, RunnerArgs } from './types'
-import resolve from './config-resolver'
-import Logger from './logger'
-import engine, { ShowHelpError } from './engine'
+// json
+export { extendJSON } from './json/extendJSON';
+export { readJSON } from './json/readJSON';
+export { writeJSON } from './json/writeJSON';
 
-import { printHelp, availableActions, VERSION } from './help'
+// node
+export { checkNodeVersion } from './node/checkNodeVersion';
 
-const getRunnerArgs = (argv: RunnerArgs | string[]): RunnerArgs => {
-  if (Array.isArray(argv)) {
-    const parsed = yargs(argv)
-    const [generator, _action, name] = parsed._
-    const { _, ...args } = parsed
-    const [action, subaction] = _action.split(':')
+// package-json
+export { addScript } from './package-json/addScript';
+export { extendPackageJSON } from './package-json/extendPackageJSON';
+export { getDependency } from './package-json/getDependency';
+export { getPackageJSON } from './package-json/getPackageJSON';
+export { getScript } from './package-json/getScript';
+export { hasDependency } from './package-json/hasDependency';
+export { writePackageJSON } from './package-json/writePackageJSON';
 
-    return {
-      generator,
-      action,
-      subaction,
-      name,
-      args,
-    }
-  }
+// package manager
+export { install } from './package-manager/install';
+export { runScript } from './package-manager/runScript';
+export { uninstall } from './package-manager/uninstall';
 
-  const [action, subaction] = argv.action.split(':')
+//
 
-  return {
-    action,
-    subaction,
-    ...argv,
-  }
-}
-
-const runner = async (
-  argv: RunnerArgs | string[],
-  config: RunnerConfig,
-): Promise<RunnerResult> => {
-  const resolvedConfig = await resolve(config)
-  const { templates, logger } = resolvedConfig
-  try {
-    const runnerArgs = getRunnerArgs(argv)
-    const { actions } = await engine(runnerArgs, resolvedConfig)
-    return { success: true, actions, time: 0 }
-  } catch (err) {
-    logger.log(err.toString())
-    if (resolvedConfig.debug) {
-      logger.log('details -----------')
-      logger.log(err.stack)
-      logger.log('-------------------')
-    }
-    if (err instanceof ShowHelpError) {
-      printHelp(templates, logger)
-    }
-    return { success: false, actions: [], time: 0 }
-  }
-}
-
-export * from './types'
-
-export {
-  runner,
-  engine,
-  resolve,
-  printHelp,
-  getRunnerArgs,
-  availableActions,
-  Logger,
-  VERSION,
-}
+export * from './types';

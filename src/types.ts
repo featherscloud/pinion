@@ -1,4 +1,12 @@
-import { ExecaReturnValue } from 'execa'
+import type { ExecaReturnValue } from 'execa';
+
+export type AnyTask = () => Promise<any>
+
+export interface PinionConfig {
+  packageManager: 'npm' | 'yarn' | 'pnpm' | 'prompt'
+}
+
+export type DependencyType = 'dependency' | 'devDependency' | 'peerDependency';
 
 export interface Logger {
   ok: (msg: string) => void
@@ -11,6 +19,17 @@ export interface Logger {
 
 export interface Prompter<Q = any, T = any> {
   prompt: (arg0: Q) => Promise<T>
+}
+
+export interface RunnerConfig<H = {}> {
+  exec?: (sh: string, body: string) => Promise<ExecaReturnValue<string>>
+  templates?: string
+  cwd?: string
+  logger?: Logger
+  debug?: boolean
+  helpers?: H
+  localsDefaults?: any
+  createPrompter?: <Q, T>() => Prompter<Q, T>
 }
 
 export type RenderAttributes = {
@@ -37,9 +56,8 @@ export interface RenderedAction {
   body: string
 }
 
-export type Arguments = Record<string, any>
+export type ActionResult = any
 
-export type OpType = 'inject' | 'add' | 'shell'
 export type OpStatus =
   | 'added'
   | 'executed'
@@ -47,6 +65,12 @@ export type OpStatus =
   | 'ignored'
   | 'skipped'
   | 'error'
+
+export type OpType = 'inject' | 'add' | 'shell'
+
+
+
+export type Arguments = Record<string, any>
 
 export type PromptOptions<H = {}, Q = any, T = any> = {
   prompter: Prompter<Q, T>
@@ -63,35 +87,6 @@ export type RunnerArgs = {
   name?: string
 }
 
-export interface RunnerConfig<H = {}> {
-  exec?: (sh: string, body: string) => Promise<ExecaReturnValue<string>>
-  templates?: string
-  cwd?: string
-  logger?: Logger
-  debug?: boolean
-  helpers?: H
-  localsDefaults?: any
-  createPrompter?: <Q, T>() => Prompter<Q, T>
-}
-
-export interface ResolverIO {
-  exists: (arg0: string) => Promise<boolean>
-  load: (arg0: string) => Promise<Record<string, any>>
-  none: (arg0: string) => Record<string, any>
-}
-
-export type ActionResult = any
-
-export type ParamsResult = {
-  templates: string
-  generator: string
-  action: string
-  subaction?: string
-  actionfolder?: string
-  name?: string
-  dry?: boolean
-} & Arguments
-
 export type PromptList = any[]
 
 export interface InteractiveHook<H = {}> {
@@ -103,13 +98,23 @@ export interface InteractiveHook<H = {}> {
 
 export type HookModule<H = {}> = PromptList | InteractiveHook<H> | null
 
+export type ParamsResult = {
+  templates: string
+  generator: string
+  action: string
+  subaction?: string
+  actionfolder?: string
+  name?: string
+  dry?: boolean
+} & Arguments
+
 export interface EngineResult {
   actions: ActionResult[]
   args: ParamsResult
   hookModule: HookModule
 }
 
-export type RenderFile = (context: Record<string, any>) => RenderResult
+export type RenderFile = (context: Record<string, any>) => RenderResult;
 
 export type RenderResult = RenderAttributes & {
   body: string
@@ -122,14 +127,4 @@ export type GeneratorContext<H extends {}, T extends {}> = {
   cwd: string
   generator: string
   templates: string
-} & T
-
-export interface RunnerResult {
-  success: boolean
-  time: number
-  actions: ActionResult[]
-  failure?: {
-    message: string
-    availableActions: string[]
-  }
-}
+} & T;

@@ -1,33 +1,29 @@
-const chalk = require('chalk')
+import chalk from 'chalk';
 
-const { yellow, red, green, magenta, template } = chalk
+export class Logger {
+  log: (message?: any, ...optionalParams: any[]) => void;
 
-class Logger {
-  log: (message?: any, ...optionalParams: any[]) => void
-
-  constructor(log: (message?: any, ...optionalParams: any[]) => void) {
-    this.log = log
+  constructor (log: (message?: any, ...optionalParams: any[]) => void) {
+    this.log = log;
   }
 
-  colorful(msg: string): void {
-    this.log(template(chalk, msg))
+  colorful (msg: string) {
+    this.log(chalk`${msg}`);
   }
 
-  notice(msg: string): void {
-    this.log(magenta(msg))
+  notice (msg: string) {
+    this.log(chalk.magenta(msg));
   }
 
-  warn(msg: string): void {
-    this.log(yellow(msg))
+  warn (msg: string) {
+    this.log(chalk.yellow(msg));
   }
 
-  err(msg: string): void {
-    this.log(red(msg))
+  err (msg: string) {
+    this.log(chalk.red(msg));
   }
 
-  ok(msg: string): void {
-    this.log(green(msg))
+  ok (msg: string) {
+    this.log(chalk.green(msg));
   }
 }
-
-export default Logger

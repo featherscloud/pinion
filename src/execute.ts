@@ -1,29 +1,29 @@
-import resolve from './ops'
-import { RunnerConfig, RenderedAction, ActionResult } from './types'
+import resolve from './file-ops/index';
+import type { RunnerConfig, RenderedAction, ActionResult } from './types';
 
 const execute = async (
   renderedActions: RenderedAction[],
   args: any,
-  config: RunnerConfig,
+  config: RunnerConfig
 ): Promise<ActionResult[]> => {
-  const { logger } = config
-  const messages = []
-  const results = []
+  const { logger } = config;
+  const messages = [];
+  const results = [];
   for (const action of renderedActions) {
-    const { message } = action.attributes
+    const { message } = action.attributes;
     if (message) {
-      messages.push(message)
+      messages.push(message);
     }
-    const ops = await resolve(action.attributes)
+    const ops = await resolve(action.attributes);
     for (const op of ops) {
-      results.push(await op(action, args, config))
+      results.push(await op(action, args, config));
     }
   }
   if (messages.length > 0) {
-    logger.colorful(`${args.action}:\n${messages.join('\n')}`)
+    logger.colorful(`${args.action}:\n${messages.join('\n')}`);
   }
 
-  return results
-}
+  return results;
+};
 
-export default execute
+export default execute;

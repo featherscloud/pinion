@@ -4,37 +4,37 @@ import type {
   RunnerConfig,
   PromptList,
   RunnerArgs,
-  HookModule,
-} from './types'
+  HookModule
+} from './types';
 
 const prompt = (
   config: RunnerConfig,
   runnerArgs: RunnerArgs,
-  hookModule: HookModule = null,
+  hookModule: HookModule = null
 ): Promise<Arguments> => {
-  const { args } = runnerArgs
+  const { args } = runnerArgs;
 
   if (!hookModule) {
-    return Promise.resolve({})
+    return Promise.resolve({});
   }
 
-  const { createPrompter } = config
-  const hooksModule = hookModule as InteractiveHook
+  const { createPrompter } = config;
+  const hooksModule = hookModule as InteractiveHook;
 
   if (hooksModule.params) {
-    return hooksModule.params({ args, config })
+    return hooksModule.params({ args, config });
   }
 
   // lazy loads prompter
   // everything below requires it
-  const prompter = createPrompter()
+  const prompter = createPrompter();
   if (hooksModule.prompt) {
     return hooksModule.prompt({
       args,
       config,
       prompter,
-      inquirer: prompter,
-    })
+      inquirer: prompter
+    });
   }
 
   return prompter.prompt(
@@ -43,9 +43,9 @@ const prompt = (
       (p) =>
         args[p.name] === undefined ||
         args[p.name] === null ||
-        args[p.name].length === 0,
-    ),
-  )
-}
+        args[p.name].length === 0
+    )
+  );
+};
 
-export default prompt
+export default prompt;
