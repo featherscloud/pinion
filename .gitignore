@@ -111,3 +111,4 @@ dist/
 
 # TypeScript compiled files
 packages/**/lib
+packages/**/tmp

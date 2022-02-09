@@ -8,7 +8,10 @@
     "feathers",
     "feathers-plugin"
   ],
-  "license": "MIT",
+  "bin": {
+    "pinion": "./bin/pinion"
+  },
+  "license": "GPL",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/daffl"
@@ -48,6 +51,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@types/inquirer": "^8.2.0",
+    "inquirer": "^8.2.0",
+    "ts-node": "^10.5.0"
   },
   "devDependencies": {
     "@types/mocha": "^9.1.0",
