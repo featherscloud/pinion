@@ -3,7 +3,7 @@ import { readFile } from 'fs/promises'
 import assert from 'assert'
 import { run } from '../src'
 
-describe('@feathersjs/pinion', () => {
+describe('@feathershq/pinion', () => {
   it('simple', async () => {
     const ctx = await run(path.join(__dirname, 'templates', 'pinion.ts'), {
       name: 'Simple test'

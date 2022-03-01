@@ -48,7 +48,7 @@ export const renderTemplate = <C extends PinionContext> (template: Callable<stri
 
     await writeFile(fileName, content)
 
-    logger.log(`Wrote file ${fileName}`)
+    logger.log(`Wrote file ${relative(ctx.cwd, fileName)}`)
 
     return ctx
   }

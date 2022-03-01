@@ -1,4 +1,4 @@
-import { PinionContext, generator, runFolder, renderTemplate, prompt, to } from '../../src'
+import { PinionContext, generator, runGenerators, renderTemplate, prompt, to } from '../../src'
 
 export interface Context extends PinionContext {
   name: string
@@ -14,4 +14,4 @@ export const generate = (ctx: Context) => generator(ctx)
     name: 'name',
     when: !ctx.name
   }]))
-  .then(runFolder(__dirname))
+  .then(runGenerators(__dirname))

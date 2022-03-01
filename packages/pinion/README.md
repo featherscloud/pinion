@@ -1,14 +1,14 @@
-# @feathersjs/pinion
+# @feathershq/pinion
 
 [![CI](https://github.com/feathersjs/feathers/workflows/CI/badge.svg)](https://github.com/feathersjs/feathers/actions?query=workflow%3ACI)
-[![Download Status](https://img.shields.io/npm/dm/@feathersjs/pinion.svg?style=flat-square)](https://www.npmjs.com/package/@feathersjs/pinion)
+[![Download Status](https://img.shields.io/npm/dm/@feathershq/pinion.svg?style=flat-square)](https://www.npmjs.com/package/@feathershq/pinion)
 
 > A fast and typesafe code generator
 
 ## Installation
 
 ```
-npm install @feathersjs/pinion --save
+npm install @feathershq/pinion --save
 ```
 
 ## Documentation
