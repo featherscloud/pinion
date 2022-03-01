@@ -1,16 +1,23 @@
 import path from 'path'
+import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { loadModule } from '../src/index'
+import { run } from '../src'
 
 describe('@feathersjs/pinion', () => {
-  it.skip('renders a simple template', async () => {
-    const generate = await loadModule(path.join(__dirname, './templates/simple.tpl.ts'))
-    const result = await generate({
-      cwd: path.join(__dirname, 'tmp'),
-      name: 'A test',
-      description: 'Testing'
+  it('simple', async () => {
+    const ctx = await run(path.join(__dirname, 'templates', 'pinion.ts'), {
+      name: 'Simple test'
+    }, {
+      force: true,
+      cwd: __dirname
     })
 
-    assert.ok(result)
+    assert.strictEqual(ctx.a, true)
+    assert.strictEqual(ctx.b, true)
+    assert.deepStrictEqual(ctx.order, ['a', 'b'])
+
+    const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
+
+    assert.strictEqual(written.toString(), '# Hello world')
   })
 })
