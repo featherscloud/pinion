@@ -1,7 +1,7 @@
 {
   "name": "@feathershq/pinion",
   "description": "A fast and typesafe code generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "https://feathersjs.com",
   "main": "lib/",
   "keywords": [
