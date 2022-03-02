@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/feathershq/pinion/compare/v0.1.0...v0.1.1) (2022-03-02)
+
+
+### Bug Fixes
+
+* Update references and trigger re-publish ([fb9060c](https://github.com/feathershq/pinion/commit/fb9060c359a7a3bd9ffd62c85fc6474f85dde6d3))
+
+
+
+
+
 # 0.1.0 (2022-03-01)
 
 
