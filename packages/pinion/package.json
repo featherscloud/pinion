@@ -5,20 +5,21 @@
   "homepage": "https://feathersjs.com",
   "main": "lib/",
   "keywords": [
-    "feathers",
-    "feathers-plugin"
+    "pinion",
+    "generator",
+    "typescript"
   ],
   "bin": {
     "pinion": "./bin/pinion"
   },
-  "license": "GPL",
+  "license": "MIT",
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/daffl"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/feathersjs/pinion.git"
+    "url": "git://github.com/feathershq/pinion.git"
   },
   "author": {
     "name": "Feathers contributors",
@@ -27,7 +28,7 @@
   },
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/feathersjs/pinion/issues"
+    "url": "https://github.com/feathershq/pinion/issues"
   },
   "engines": {
     "node": ">= 14"

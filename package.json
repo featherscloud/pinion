@@ -4,7 +4,7 @@
   "homepage": "http://feathersjs.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/feathersjs/pinion.git"
+    "url": "git://github.com/feathershq/pinion.git"
   },
   "author": {
     "name": "Feathers contributor",
@@ -17,7 +17,7 @@
     "url": "https://github.com/sponsors/daffl"
   },
   "bugs": {
-    "url": "https://github.com/feathersjs/pinion/issues"
+    "url": "https://github.com/feathershq/pinion/issues"
   },
   "engines": {
     "node": ">= 14"

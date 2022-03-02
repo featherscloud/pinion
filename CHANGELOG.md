@@ -8,4 +8,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* Initial Pinion prototype ([#3](https://github.com/feathersjs/pinion/issues/3)) ([b08aacf](https://github.com/feathersjs/pinion/commit/b08aacf22a5a61587243683a7d83097dbb576801))
+* Initial Pinion prototype ([#3](https://github.com/feathershq/pinion/issues/3)) ([b08aacf](https://github.com/feathershq/pinion/commit/b08aacf22a5a61587243683a7d83097dbb576801))
