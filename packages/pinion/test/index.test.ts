@@ -5,9 +5,11 @@ import { getContext, runModule } from '../src'
 
 const expectedFileContent =
 `<!-- Prepended -->
+This is injected before
+
 # Hello world
 
-This is injected
+This is injected after
 <!-- Appended -->`
 
 describe('@feathershq/pinion', () => {

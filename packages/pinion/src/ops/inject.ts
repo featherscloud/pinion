@@ -5,7 +5,7 @@ import { EOL } from 'os'
 
 const EOLRegex = /\r?\n/
 
-export type Location<C extends PinionContext> = (lines: string[], ctx: C) => Promise<{ index: number, pattern: string | RegExp | undefined }>
+export type Location<C extends PinionContext> = (lines: string[], ctx: C) => Promise<{ index: number, pattern?: string | RegExp | undefined }>
 
 export const inject = <C extends PinionContext> (template: Callable<string, C>, location: Location<C>, target: Callable<string, C>) =>
   async <T extends C> (ctx: T) => {
@@ -73,14 +73,12 @@ export const after = <C extends PinionContext> (pattern: Callable<string | RegEx
   return { index, pattern: line }
 }
 
-export const prepend = <C extends PinionContext> (pattern?: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx)
-  return { index: 0, pattern: line }
+export const prepend = () => async () => {
+  return { index: 0 }
 }
 
-export const append = <C extends PinionContext> (pattern?: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx)
-  return { index: lines.length, pattern: line }
+export const append = () => async (lines: string[]) => {
+  return { index: lines.length }
 }
 
 const newline = (str: string) => {
