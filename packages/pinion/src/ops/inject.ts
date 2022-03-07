@@ -1,29 +1,29 @@
-import { existsSync, write } from 'fs'
-import { readFile, writeFile } from "fs/promises"
-import { PinionContext, Callable, getCallable, Promisable } from '../core'
+import { existsSync } from 'fs'
+import { readFile, writeFile } from 'fs/promises'
+import { PinionContext, Callable, getCallable } from '../core'
 import { EOL } from 'os'
 
 const EOLRegex = /\r?\n/
 
-export type Location<C extends PinionContext> = (lines: string[], ctx: any) => Promisable<{ index: number, pattern: string | RegExp }>
+export type Location<C extends PinionContext> = (lines: string[], ctx: C) => Promise<{ index: number, pattern: string | RegExp | undefined }>
 
 export const inject = <C extends PinionContext> (template: Callable<string, C>, location: Location<C>, target: Callable<string, C>) =>
   async <T extends C> (ctx: T) => {
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
 
-    const { force, logger, prompt } = ctx.pinion
+    // const { force, logger, prompt } = ctx.pinion
 
     if (!existsSync(fileName)) {
-      throw new Error(`Cannot inect to '${fileName}'. The file doesn't exist.`);
+      throw new Error(`Cannot inect to '${fileName}'. The file doesn't exist.`)
     }
 
-    const oldContent = (await readFile(fileName)).toString()
+    const fileContent = (await readFile(fileName)).toString()
 
-    const NL = newline(content)
-    const lines = content.split(NL)
+    const NL = newline(fileContent)
+    const lines = fileContent.split(NL)
 
-    const { pattern , index } = await location(lines, ctx);
+    const { index } = await location(lines, ctx)
 
     if (index >= 0) {
       lines.splice(index, 0, content)
@@ -31,13 +31,15 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
 
     const newContent = lines.join(NL)
 
-    await writeFile(fileName, newContent);
+    await writeFile(fileName, newContent)
+
+    return ctx
   }
 
 const getLineNumber = (
   pattern: string | RegExp,
   lines: string[],
-  isBefore: boolean,
+  isBefore: boolean
 ) => {
   const oneLineMatchIndex = lines.findIndex((l) => l.match(pattern))
 
@@ -60,32 +62,32 @@ const getLineNumber = (
 }
 
 export const before = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx);
-  const index = getLineNumber(line, lines, true);
+  const line = await getCallable(pattern, ctx)
+  const index = getLineNumber(line, lines, true)
   return { index, pattern: line }
 }
 
-export const after = <C extends PinionContext> (pattern: Callable<string |  RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx);
-  const index = getLineNumber(line, lines, false);
+export const after = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
+  const line = await getCallable(pattern, ctx)
+  const index = getLineNumber(line, lines, false)
   return { index, pattern: line }
 }
 
-export const prepend = <C extends PinionContext> (pattern: Callable<string |  RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx);
+export const prepend = <C extends PinionContext> (pattern?: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
+  const line = await getCallable(pattern, ctx)
   return { index: 0, pattern: line }
 }
 
-export const append = <C extends PinionContext> (pattern: Callable<string |  RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx);
-  return { index: lines.length - 1, pattern: line }
+export const append = <C extends PinionContext> (pattern?: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
+  const line = await getCallable(pattern, ctx)
+  return { index: lines.length, pattern: line }
 }
 
 const newline = (str: string) => {
   const newlines = str.match(/(?:\r?\n)/g) || []
 
   if (newlines.length === 0) {
-      return EOL
+    return EOL
   }
 
   const crlf = newlines.filter((newline) => newline === '\r\n').length
