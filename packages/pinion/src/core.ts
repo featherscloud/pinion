@@ -1,5 +1,8 @@
 import { prompt, PromptModule } from 'inquirer'
+import { Argv } from 'yargs'
 import { loadModule } from './utils'
+
+export { Argv }
 
 export interface Logger {
   warn: (msg: string) => void
@@ -57,15 +60,8 @@ export const getContext = <T> (initialCtx: T, initialConfig: Partial<Configurati
 
 export const generator = async <T extends PinionContext> (initialContext: T) => initialContext
 
-export const runModule = async (file: string, ctx: PinionContext, fnName: string = 'generate') => {
-  const module = await loadModule(file)
-  const generate = module[fnName]
+export const runModule = async (file: string, ctx: PinionContext) => {
+  const { generate } = await loadModule(file)
 
   return generate(ctx)
-}
-
-export const run = async <T> (file: string, initialCtx: T, initialConfig: Partial<Configuration> = {}) => {
-  const ctx = getContext(initialCtx, initialConfig)
-
-  return runModule(file, ctx)
 }

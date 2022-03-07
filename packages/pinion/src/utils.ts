@@ -10,3 +10,17 @@ export const listFiles = async (folder: string, extension?: string) => {
 
   return extension ? fileNames.filter(name => name.endsWith(extension)) : fileNames
 }
+
+export const merge = (target: { [key: string]: any }, source: { [key: string]: any }) => {
+  for (const key of Object.keys(source)) {
+    const value = source[key]
+
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      target[key] = merge(target[key] || {}, value)
+    } else {
+      target[key] = value
+    }
+  }
+
+  return target
+}

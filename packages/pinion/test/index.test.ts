@@ -1,20 +1,24 @@
 import path from 'path'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { run } from '../src'
+import { getContext, runModule } from '../src'
 
 describe('@feathershq/pinion', () => {
+  const rootGenerator = path.join(__dirname, 'templates', 'pinion.ts')
+
   it('simple', async () => {
-    const ctx = await run(path.join(__dirname, 'templates', 'pinion.ts'), {
+    const initialCtx = getContext({
       name: 'Simple test'
     }, {
       force: true,
       cwd: __dirname
     })
+    const ctx = await runModule(rootGenerator, initialCtx)
 
-    assert.strictEqual(ctx.a, true)
-    assert.strictEqual(ctx.b, true)
-    assert.deepStrictEqual(ctx.order, ['a', 'b'])
+    assert.deepStrictEqual(ctx.generated, {
+      a: true,
+      b: true
+    })
 
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
 
