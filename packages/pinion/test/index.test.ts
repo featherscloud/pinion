@@ -3,6 +3,15 @@ import { readFile } from 'fs/promises'
 import assert from 'assert'
 import { getContext, runModule } from '../src'
 
+const expectedFileContent =
+`<!-- Prepended -->
+This is injected before
+
+# Hello world
+
+This is injected after
+<!-- Appended -->`
+
 describe('@feathershq/pinion', () => {
   const rootGenerator = path.join(__dirname, 'templates', 'pinion.ts')
 
@@ -22,6 +31,6 @@ describe('@feathershq/pinion', () => {
 
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
 
-    assert.strictEqual(written.toString(), '# Hello world')
+    assert.strictEqual(written.toString(), expectedFileContent)
   })
 })

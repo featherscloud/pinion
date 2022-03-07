@@ -26,6 +26,7 @@ export type PinionContext = {
 
 export type ContextCallable<T, C extends PinionContext> = (ctx: C) => T|Promise<T>
 export type Callable<T, C extends PinionContext> = T|ContextCallable<T, C>
+export type Promisable<T> = T | Promise<T>
 
 export const getCallable = async <T, C extends PinionContext> (callable: Callable<T, C>, context: C) =>
   typeof callable === 'function' ? (callable as ContextCallable<T, C>)(context) : callable
