@@ -1,10 +1,10 @@
 import { join } from 'path'
-import { lstat } from 'fs/promises'
-import { runModule, PinionContext, Callable, mapCallables } from '../core'
-import { listFiles } from '../utils'
+import { stat } from 'fs/promises'
+import { PinionContext, Callable, mapCallables, runModule } from '../core'
+import { listFiles, merge } from '../utils'
 
 /**
-* Run all Pinion generators within a folder sequentially in alphabetical order.
+* Run all Pinion generators within a folder in parallel.
 *
 * @param pathParts The parts of the folder to run. Can be assembled dynamically based on context.
 * @returns The most recent context
@@ -12,20 +12,19 @@ import { listFiles } from '../utils'
 export const runGenerators = <C extends PinionContext> (...pathParts: Callable<string, C>[]) =>
   async <T extends C> (ctx: T) => {
     const name = join(...await mapCallables(pathParts, ctx))
-    const stat = await lstat(name)
+    const handle = await stat(name)
+    const runGenerator = async (fileName: string) => runModule(fileName, ctx)
 
-    if (stat.isFile()) {
-      return runModule(name, ctx)
-    }
+    if (handle.isFile()) {
+      await runGenerator(name)
 
-    if (stat.isDirectory()) {
+      return ctx
+    } else if (handle.isDirectory()) {
       const files = await listFiles(name, '.tpl.ts')
-      let currentCtx = ctx
+      const contexts = await Promise.all(files.map(runGenerator))
 
-      for (const fileName of files) {
-        currentCtx = await runModule(fileName, currentCtx)
-      }
-
-      return currentCtx
+      contexts.forEach(current => merge(ctx, current))
     }
+
+    return ctx
   }
