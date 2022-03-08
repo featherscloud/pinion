@@ -45,7 +45,7 @@ export const generate = (ctx: Context) => generator(ctx)
 Then create a `.pinion/readme.tpl.ts` like this:
 
 ```ts
-import { generator, renderTemplate, to } from '@feathershq/pinion'
+import { generator, renderTemplate, toFile } from '@feathershq/pinion'
 import { Context } from './pinion'
 
 // A template to render using JavaScript template strings
@@ -58,7 +58,7 @@ Copyright (c) ${new Date().getFullYear()}
 `
 
 export const generate = (ctx: Context) => generator(ctx)
-  .then(renderTemplate(template, to('readme.md')))
+  .then(renderTemplate(template, toFile('readme.md')))
 ```
 
 Then run
@@ -66,3 +66,17 @@ Then run
 ```
 npx pinion
 ```
+
+## Operations
+
+### prompt
+
+### renderTemplate
+
+### inject
+
+### writeJSON
+
+### readJSON
+
+### runGenerators

@@ -1,6 +1,9 @@
 import {
-  PinionContext, generator, runGenerators, renderTemplate, prompt, inject, to, after, prepend, append, before
+  PinionContext, generator, runGenerators, renderTemplate,
+  prompt, inject, toFile, after, prepend, append, before
 } from '../../src'
+
+const toHelloMd = toFile('tmp', 'hello.md')
 
 export interface Context extends PinionContext {
   name: string
@@ -10,11 +13,11 @@ export interface Context extends PinionContext {
 }
 
 export const generate = (ctx: Context) => generator(ctx)
-  .then(renderTemplate('# Hello world', to('tmp', 'hello.md')))
-  .then(inject('\nThis is injected after', after('Hello world'), to('tmp', 'hello.md')))
-  .then(inject('This is injected before\n', before('Hello world'), to('tmp', 'hello.md')))
-  .then(inject('<!-- Prepended -->', prepend(), to('tmp', 'hello.md')))
-  .then(inject('<!-- Appended -->', append(), to('tmp', 'hello.md')))
+  .then(renderTemplate('# Hello world', toHelloMd))
+  .then(inject('\nThis is injected after', after('Hello world'), toHelloMd))
+  .then(inject('This is injected before\n', before('Hello world'), toHelloMd))
+  .then(inject('<!-- Prepended -->', prepend(), toHelloMd))
+  .then(inject('<!-- Appended -->', append(), toHelloMd))
   .then(prompt((ctx: Context) => [{
     type: 'input',
     name: 'name',
