@@ -12,8 +12,6 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
 
-    // const { force, logger, prompt } = ctx.pinion
-
     if (!existsSync(fileName)) {
       throw new Error(`Cannot inect to '${fileName}'. The file doesn't exist.`)
     }

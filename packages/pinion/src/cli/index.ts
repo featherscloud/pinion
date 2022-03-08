@@ -4,6 +4,8 @@ import { getContext } from '../core'
 import { loadModule } from '../utils'
 import { convert } from './convert'
 
+export { convert }
+
 export const cli = async (cmd: string[]) => yargs(cmd)
   .scriptName('pinion')
   .usage('$0 <command> [options]')

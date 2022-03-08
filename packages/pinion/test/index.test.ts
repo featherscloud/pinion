@@ -24,13 +24,20 @@ describe('@feathershq/pinion', () => {
     })
     const ctx = await runModule(rootGenerator, initialCtx)
 
-    assert.deepStrictEqual(ctx.generated, {
-      a: true,
-      b: true
+    assert.ok(ctx.second)
+    assert.deepStrictEqual(ctx.example, {
+      message: 'This is an example JSON file'
     })
 
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
+    const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
 
     assert.strictEqual(written.toString(), expectedFileContent)
+    assert.deepStrictEqual(writtenJSON, {
+      written: true,
+      example: {
+        message: 'This is an example JSON file'
+      }
+    })
   })
 })
