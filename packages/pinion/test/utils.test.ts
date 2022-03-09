@@ -1,6 +1,6 @@
 import path from 'path'
 import assert from 'assert'
-import { merge, listFiles } from '../src/utils'
+import { merge, listFiles, loadModule } from '../src/utils'
 
 describe('@feathershq/pinion/utils', () => {
   it('listFiles', async () => {
@@ -22,6 +22,20 @@ describe('@feathershq/pinion/utils', () => {
     assert.deepStrictEqual(merged, {
       some: { thing: true, other: 'message' },
       value: { deep: true }
+    })
+  })
+
+  describe('loadModule', () => {
+    it('loads .js when available and no extension is given', async () => {
+      const { doSomething } = await loadModule(path.join(__dirname, 'fixtures', 'convertable'))
+
+      assert.strictEqual(doSomething('Feathers'), 'Yo Feathers')
+    })
+
+    it('loads .ts and compiles when full path is given', async () => {
+      const { doSomething } = await loadModule(path.join(__dirname, 'fixtures', 'convertable.ts'))
+
+      assert.strictEqual(doSomething('Feathers'), 'Hello Feathers')
     })
   })
 })

@@ -2,9 +2,9 @@ import path from 'path'
 import yargs from 'yargs'
 import { getContext } from '../core'
 import { loadModule } from '../utils'
-import { convert } from './convert'
+import { convert, ConverterContext } from './convert'
 
-export { convert }
+export { convert, ConverterContext }
 
 export const cli = async (cmd: string[]) => yargs(cmd)
   .scriptName('pinion')
@@ -20,7 +20,7 @@ export const cli = async (cmd: string[]) => yargs(cmd)
       default: '.pinion'
     })
   , argv => {
-    const ctx = getContext(argv, {})
+    const ctx = getContext<ConverterContext>(argv, {})
 
     return convert(ctx)
   })

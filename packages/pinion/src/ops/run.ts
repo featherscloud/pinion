@@ -18,7 +18,11 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
       throw new Error(`${name} must be a directory (runGenerators)`)
     }
 
-    const files = await listFiles(name, '.tpl.ts')
+    const [compiledFiles, tsFiles] = await Promise.all([
+      listFiles(name, '.tpl.js'),
+      listFiles(name, '.tpl.ts')
+    ])
+    const files = compiledFiles.length ? compiledFiles : tsFiles
     const contexts = await Promise.all(files.map(file => runModule(file, ctx)))
 
     contexts.forEach(current => merge(ctx, current))
@@ -35,11 +39,6 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
 export const runGenerator = <C extends PinionContext> (...pathParts: Callable<string, C>[]) =>
   async <T extends C> (ctx: T) => {
     const name = join(...await mapCallables(pathParts, ctx))
-    const handle = await stat(name)
-
-    if (!handle.isFile()) {
-      throw new Error(`${name} is not a valid file (runGenerator)`)
-    }
 
     return runModule(name, ctx)
   }

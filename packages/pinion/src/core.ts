@@ -1,12 +1,12 @@
 import { prompt, PromptModule } from 'inquirer'
-import { Argv } from 'yargs'
-import { existsSync, ObjectEncodingOptions } from 'fs'
+import yargs, { Argv } from 'yargs'
+import { existsSync } from 'fs'
 import { relative } from 'path'
 import { writeFile } from 'fs/promises'
 
 import { loadModule } from './utils'
 
-export { Argv }
+export { Argv, yargs }
 
 export interface Logger {
   warn: (msg: string) => void
@@ -79,14 +79,14 @@ export const promptWriteFile = async <C extends PinionContext> (
   return ctx
 }
 
-export const getContext = <T> (initialCtx: T, initialConfig: Partial<Configuration>) => {
+export const getContext = <T> (initialCtx: any, initialConfig: Partial<Configuration> = {}) => {
   const pinion = getConfig(initialConfig)
 
   return {
     cwd: pinion.cwd,
     ...initialCtx,
     pinion
-  } as PinionContext & T
+  } as T
 }
 
 export const generator = async <T extends PinionContext> (initialContext: T) => initialContext

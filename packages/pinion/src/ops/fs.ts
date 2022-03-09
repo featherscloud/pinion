@@ -37,11 +37,23 @@ export type JSONData = { [key: string]: any }
  */
 export const loadJSON = <C extends PinionContext> (
   file: Callable<string, C>,
-  converter: (data: JSONData, ctx: C) => JSONData = data => data
+  converter: (data: JSONData, ctx: C) => JSONData = data => data,
+  fallback?: Callable<JSONData, C>
 ) => async <T extends C> (ctx: T) => {
     const fileName = await getCallable(file, ctx)
-    const content = (await readFile(fileName)).toString()
-    const data = JSON.parse(content)
+    let data
+
+    try {
+      const content = (await readFile(fileName)).toString()
+      data = JSON.parse(content)
+    } catch (error) {
+      if (fallback) {
+        data = await getCallable(fallback, ctx)
+      } else {
+        throw error
+      }
+    }
+
     const converted = await converter(data, ctx)
 
     return {
