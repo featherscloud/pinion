@@ -1,7 +1,7 @@
 import path from 'path'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { getContext, runModule } from '../src'
+import { getContext, PinionContext, runModule } from '../src'
 
 const expectedFileContent =
 `<!-- Prepended -->
@@ -12,11 +12,15 @@ This is injected before
 This is injected after
 <!-- Appended -->`
 
+interface NamedContext extends PinionContext {
+  name: string
+}
+
 describe('@feathershq/pinion', () => {
   const rootGenerator = path.join(__dirname, 'templates', 'pinion.ts')
 
   it('simple', async () => {
-    const initialCtx = getContext({
+    const initialCtx = getContext<NamedContext>({
       name: 'Simple test'
     }, {
       force: true,

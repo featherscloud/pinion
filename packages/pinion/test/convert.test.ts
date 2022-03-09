@@ -2,11 +2,11 @@ import path from 'path'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
 import { getContext } from '../src'
-import { convert } from '../src/cli'
+import { convert, ConverterContext } from '../src/cli'
 
 describe('@feathershq/pinion/cli/convert', () => {
   it('basic conversion', async () => {
-    const context = getContext({
+    const context = getContext<ConverterContext>({
       file: 'fixtures',
       to: 'tmp'
     }, {
