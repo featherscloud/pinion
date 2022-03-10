@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/feathershq/pinion/compare/v0.2.0...v0.2.1) (2022-03-10)
+
+
+### Features
+
+* Add loadJSON and writeJSON operations ([#7](https://github.com/feathershq/pinion/issues/7)) ([157c2ed](https://github.com/feathershq/pinion/commit/157c2ede34e511631855d4a81600e5f33eec4ff7))
+* Allow to load compiled modules first and improve operations ([#8](https://github.com/feathershq/pinion/issues/8)) ([b7a347f](https://github.com/feathershq/pinion/commit/b7a347fac32fe7d678a2ddb59aedaf03e95f3d9e))
+
+
+
+
+
 # [0.2.0](https://github.com/feathershq/pinion/compare/v0.1.0...v0.2.0) (2022-03-07)
 
 
