@@ -1,8 +1,41 @@
-import { resolve, dirname } from 'path'
-import { mkdir, readFile } from 'fs/promises'
+import { relative, resolve, dirname } from 'path'
+import { existsSync } from 'fs'
+import { mkdir, writeFile, readFile } from 'fs/promises'
 import {
-  PinionContext, Callable, mapCallables, getCallable, promptWriteFile
+  PinionContext, Callable, mapCallables, getCallable
 } from '../core'
+
+export type WriteFileOptions = {
+  force: boolean
+}
+
+export const promptWriteFile = async <C extends PinionContext> (
+  fileName: string,
+  content: string|Buffer,
+  ctx: C,
+  options: Partial<WriteFileOptions> = {}
+) => {
+  const { prompt, logger } = ctx.pinion
+  const force = options.force !== undefined ? options.force : ctx.pinion.force
+
+  if (existsSync(fileName) && !force) {
+    const { overwrite } = await prompt([{
+      type: 'confirm',
+      name: 'overwrite',
+      message: `File ${relative(ctx.cwd, fileName)} already exists. Overwrite?`
+    }])
+
+    if (!overwrite) {
+      logger.log(`Skipped file ${relative(ctx.cwd, fileName)}`)
+      return ctx
+    }
+  }
+
+  await writeFile(fileName, content)
+  logger.log(`Wrote file ${relative(ctx.cwd, fileName)}`)
+
+  return ctx
+}
 
 /**
  * Return an absolute filename based on the current folder
@@ -69,11 +102,14 @@ export const loadJSON = <C extends PinionContext> (
  * @param file The filename to write to
  * @returns The current context
  */
-export const writeJSON = <C extends PinionContext> (json: Callable<JSONData, C>, file: Callable<string, C>) =>
-  async <T extends C> (ctx: T) => {
+export const writeJSON = <C extends PinionContext> (
+  json: Callable<JSONData, C>,
+  file: Callable<string, C>,
+  options: Partial<WriteFileOptions> = {}
+) => async <T extends C> (ctx: T) => {
     const fileName = await getCallable(file, ctx)
     const data = await getCallable(json, ctx)
     const content = JSON.stringify(data, null, '  ')
 
-    return promptWriteFile(fileName, content, ctx)
+    return promptWriteFile(fileName, content, ctx, options)
   }

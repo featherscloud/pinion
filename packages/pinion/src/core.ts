@@ -1,8 +1,5 @@
 import { prompt, PromptModule } from 'inquirer'
 import yargs, { Argv } from 'yargs'
-import { existsSync } from 'fs'
-import { relative } from 'path'
-import { writeFile } from 'fs/promises'
 
 import { loadModule } from './utils'
 
@@ -52,32 +49,6 @@ export const getConfig = (initialConfig?: Partial<Configuration>) : Configuratio
   },
   ...initialConfig
 })
-
-export const promptWriteFile = async <C extends PinionContext> (
-  fileName: string,
-  content: string|Buffer,
-  ctx: C
-) => {
-  const { prompt, force, logger } = ctx.pinion
-
-  if (existsSync(fileName) && !force) {
-    const { overwrite } = await prompt([{
-      type: 'confirm',
-      name: 'overwrite',
-      message: `File ${relative(ctx.cwd, fileName)} already exists. Overwrite?`
-    }])
-
-    if (!overwrite) {
-      logger.log(`Skipped file ${relative(ctx.cwd, fileName)}`)
-      return ctx
-    }
-  }
-
-  await writeFile(fileName, content)
-  logger.log(`Wrote file ${relative(ctx.cwd, fileName)}`)
-
-  return ctx
-}
 
 export const getContext = <T> (initialCtx: any, initialConfig: Partial<Configuration> = {}) => {
   const pinion = getConfig(initialConfig)
