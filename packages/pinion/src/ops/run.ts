@@ -4,7 +4,7 @@ import { PinionContext, Callable, mapCallables, runModule } from '../core'
 import { listFiles, merge } from '../utils'
 
 /**
-* Run all Pinion generators within a folder in parallel.
+* Run all Pinion generators within a folder in sequence, ordered by name
 *
 * @param pathParts The parts of the folder to run. Can be assembled dynamically based on context.
 * @returns The context returned by all generators merged together
@@ -23,9 +23,10 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
       listFiles(name, '.tpl.ts')
     ])
     const files = compiledFiles.length ? compiledFiles : tsFiles
-    const contexts = await Promise.all(files.map(file => runModule(file, ctx)))
 
-    contexts.forEach(current => merge(ctx, current))
+    for (const file of files.sort()) {
+      merge(ctx, await runModule(file, ctx))
+    }
 
     return ctx
   }

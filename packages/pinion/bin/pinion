@@ -2,4 +2,4 @@
 
 'use strict'
 
-require('../lib/cli').cli(process.argv.slice(2))
+require('../lib/cli/index').cli(process.argv.slice(2))

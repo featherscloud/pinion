@@ -1,7 +1,7 @@
 import path from 'path'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { getContext, PinionContext, runModule } from '../src'
+import { getContext, PinionContext, runModule } from '../src/index'
 
 const expectedFileContent =
 `<!-- Prepended -->

@@ -1,4 +1,4 @@
 export { loadModule } from './utils'
 export * from './core'
-export * from './ops'
-export * from './cli'
+export * from './ops/index'
+export * from './cli/index'
