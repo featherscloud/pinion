@@ -1,8 +1,8 @@
 import path from 'path'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { getContext } from '../src'
-import { convert, ConverterContext } from '../src/cli'
+import { getContext } from '../src/index'
+import { convert, ConverterContext } from '../src/cli/convert'
 
 describe('@feathershq/pinion/cli/convert', () => {
   it('basic conversion', async () => {

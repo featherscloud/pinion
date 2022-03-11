@@ -1,7 +1,8 @@
 import {
   PinionContext, generator, runGenerators, renderTemplate,
-  prompt, inject, toFile, after, prepend, append, before
-} from '../../src'
+  prompt, inject, toFile, after, prepend, append, before,
+  install
+} from '../../src/index'
 
 const toHelloMd = toFile('tmp', 'hello.md')
 
@@ -23,4 +24,5 @@ export const generate = (ctx: Context) => generator(ctx)
     name: 'name',
     when: !ctx.name
   }]))
+  .then(install(['@feathersjs/feathers'], false, 'echo'))
   .then(runGenerators(__dirname))

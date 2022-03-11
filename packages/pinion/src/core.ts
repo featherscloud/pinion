@@ -1,3 +1,4 @@
+import { spawn, SpawnOptions } from 'child_process'
 import { prompt, PromptModule } from 'inquirer'
 import yargs, { Argv } from 'yargs'
 
@@ -16,12 +17,12 @@ export type Configuration = {
   logger: Logger
   force: boolean
   prompt: PromptModule
-  exec: (sh: string, args: string) => number
+  exec: (command: string, args: string[], options?: SpawnOptions) => Promise<number>
 }
 
 export type PinionContext = {
   cwd: string
-  _?: string[]
+  _?: (number|string)[]
   pinion: Configuration
 }
 
@@ -40,17 +41,20 @@ export const getConfig = (initialConfig?: Partial<Configuration>) : Configuratio
   logger: console,
   cwd: process.cwd(),
   force: false,
-  exec: (command: string, args: string) => {
-    const spawn = require('execa')
+  exec: (command: string, args: string[], options?: SpawnOptions) => {
+    const child = spawn(command, args, {
+      stdio: 'inherit',
+      ...options
+    })
 
-    return spawn(command, args, {
-      stdio: 'inherit'
+    return new Promise((resolve, reject) => {
+      child.once('exit', code => code === 0 ? resolve(code) : reject(code))
     })
   },
   ...initialConfig
 })
 
-export const getContext = <T> (initialCtx: any, initialConfig: Partial<Configuration> = {}) => {
+export const getContext = <T extends PinionContext> (initialCtx: Partial<T>, initialConfig: Partial<Configuration> = {}) => {
   const pinion = getConfig(initialConfig)
 
   return {

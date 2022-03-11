@@ -1,4 +1,4 @@
-import { generator, loadJSON, fromFile, toFile, writeJSON } from '../../src'
+import { generator, loadJSON, fromFile, toFile, writeJSON } from '../../src/index'
 import { Context } from './pinion'
 
 interface JSONContext extends Context {

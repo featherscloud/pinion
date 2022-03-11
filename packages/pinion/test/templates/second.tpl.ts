@@ -1,4 +1,4 @@
-import { generator } from '../../src'
+import { generator } from '../../src/index'
 import { Context } from './pinion'
 
 export const generate = (ctx: Context) => generator(ctx)
