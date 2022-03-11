@@ -119,6 +119,18 @@ export const generate = (context: Context) => generator(context)
 
 ### readJSON
 
+### install
+
+Install dependencies using the `npm` or `yarn` package manager
+
+```ts
+import { PinionContext, generator, install } from '@feathershq/pinion'
+
+export const generate = (context: Context) => generator(context)
+  .then(install(['@feathersjs/feathers']))
+  .then(install(['ts-node'], true))
+```
+
 ### runGenerator
 
 ### runGenerators
