@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/feathershq/pinion/compare/v0.2.1...v0.2.2) (2022-03-11)
+
+
+### Features
+
+* Add simple package manager installation script ([#9](https://github.com/feathershq/pinion/issues/9)) ([5bbb767](https://github.com/feathershq/pinion/commit/5bbb76768f4a5f8f97bc2e088ed061f44ca2a75d))
+
+
+
+
+
 ## [0.2.1](https://github.com/feathershq/pinion/compare/v0.2.0...v0.2.1) (2022-03-10)
 
 

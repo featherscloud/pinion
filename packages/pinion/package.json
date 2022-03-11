@@ -1,7 +1,7 @@
 {
   "name": "@feathershq/pinion",
   "description": "A fast and typesafe code generator",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://feathersjs.com",
   "main": "lib/",
   "keywords": [
@@ -54,8 +54,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/yargs": "^17.0.8",
     "@types/inquirer": "^8.2.0",
+    "@types/yargs": "^17.0.8",
     "chalk": "^4.0.0",
     "inquirer": "^8.2.0",
     "ts-node": "^10.5.0",
