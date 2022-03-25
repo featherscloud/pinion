@@ -243,3 +243,9 @@ import { PinionContext, generator, runGenerators } from '@feathershq/pinion'
 export const generate = (context: Context) => generator(context)
   .then(runGenerators(__dirname, 'commons')
 ```
+
+## License
+
+Copyright (c) 2022 Feathers Cloud Inc.
+
+Licensed under the [MIT license](./LICENSE).

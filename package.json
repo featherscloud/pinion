@@ -7,9 +7,9 @@
     "url": "git://github.com/feathershq/pinion.git"
   },
   "author": {
-    "name": "Feathers contributor",
-    "email": "hello@feathersjs.com",
-    "url": "https://feathersjs.com"
+    "name": "Feathers Cloud Inc.",
+    "email": "hello@feathers.cloud",
+    "url": "https://feathers.cloud"
   },
   "license": "MIT",
   "funding": {
