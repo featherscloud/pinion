@@ -1,4 +1,5 @@
 import { existsSync } from 'fs'
+import { relative } from 'path'
 import { readFile, writeFile } from 'fs/promises'
 import { PinionContext, Callable, getCallable } from '../core'
 import { EOL } from 'os'
@@ -11,6 +12,7 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
   async <T extends C> (ctx: T) => {
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
+    const relativeName = relative(ctx.cwd, fileName)
 
     if (!existsSync(fileName)) {
       throw new Error(`Cannot inect to '${fileName}'. The file doesn't exist.`)
@@ -30,6 +32,8 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
     const newContent = lines.join(NL)
 
     await writeFile(fileName, newContent)
+
+    ctx.pinion.logger.notice(`Injected to ${relativeName}`)
 
     return ctx
   }

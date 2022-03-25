@@ -9,6 +9,9 @@ export const install = <C extends PinionContext> (
     const packageManager = await getCallable(packager, ctx)
     const subCommand = packageManager === 'yarn' ? 'add' : 'install'
     const flags = packageManager === 'yarn' ? (dev ? ['-D'] : []) : (dev ? ['--save-dev'] : ['--save'])
+
+    ctx.pinion.logger.warn(`Running ${packageManager} ${subCommand} ${flags.join(' ')}`)
+
     const exitCode = await ctx.pinion.exec(packageManager, [subCommand, ...flags, ...dependencyList], {
       cwd: ctx.cwd
     })
