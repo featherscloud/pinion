@@ -1,5 +1,5 @@
 import { PinionContext, Callable, getCallable } from '../core'
-import { WriteFileOptions, promptWriteFile } from './fs'
+import { WriteFileOptions, promptWriteFile } from './helpers'
 
 /**
  * Renders a template to a file.

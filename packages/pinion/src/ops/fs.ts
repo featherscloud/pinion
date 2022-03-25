@@ -1,41 +1,9 @@
-import { relative, resolve, dirname } from 'path'
-import { existsSync } from 'fs'
-import { mkdir, writeFile, readFile } from 'fs/promises'
+import { resolve, dirname } from 'path'
+import { mkdir, readFile } from 'fs/promises'
 import {
   PinionContext, Callable, mapCallables, getCallable
 } from '../core'
-
-export type WriteFileOptions = {
-  force: boolean
-}
-
-export const promptWriteFile = async <C extends PinionContext> (
-  fileName: string,
-  content: string|Buffer,
-  ctx: C,
-  options: Partial<WriteFileOptions> = {}
-) => {
-  const { prompt, logger } = ctx.pinion
-  const force = options.force !== undefined ? options.force : ctx.pinion.force
-
-  if (existsSync(fileName) && !force) {
-    const { overwrite } = await prompt([{
-      type: 'confirm',
-      name: 'overwrite',
-      message: `File ${relative(ctx.cwd, fileName)} already exists. Overwrite?`
-    }])
-
-    if (!overwrite) {
-      logger.log(`Skipped file ${relative(ctx.cwd, fileName)}`)
-      return ctx
-    }
-  }
-
-  await writeFile(fileName, content)
-  logger.log(`Wrote file ${relative(ctx.cwd, fileName)}`)
-
-  return ctx
-}
+import { WriteFileOptions, promptWriteFile } from './helpers'
 
 /**
  * Return an absolute filename based on the current folder
@@ -43,9 +11,9 @@ export const promptWriteFile = async <C extends PinionContext> (
  * @param target The (relative) filename
  * @returns The absolute resolved filename
  */
-export const fileName = <C extends PinionContext> (...targets: Callable<string, C>[]) =>
+export const fileName = <C extends PinionContext> (...targets: Callable<string|string[], C>[]) =>
   async <T extends C> (ctx: T) => {
-    const segments = await mapCallables(targets, ctx)
+    const segments = (await mapCallables(targets, ctx)).flat()
     const fullPath = resolve(ctx.cwd, ...segments)
 
     await mkdir(dirname(fullPath), {

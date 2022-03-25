@@ -12,4 +12,4 @@ export const generate = (ctx: JSONContext) => generator(ctx)
       written: true,
       example: ctx.example
     }
-  }, toFile('tmp', 'testing.json')))
+  }, toFile('tmp', () => ['testing.json'])))

@@ -1,15 +1,39 @@
 import { spawn, SpawnOptions } from 'child_process'
 import { prompt, PromptModule } from 'inquirer'
 import yargs, { Argv } from 'yargs'
+import chalk from 'chalk'
 
 import { loadModule } from './utils'
 
 export { Argv, yargs }
 
+const { yellow, red, blue } = chalk
+
 export interface Logger {
   warn: (msg: string) => void
   error: (msg: string) => void
   log: (msg: string) => void
+  notice: (msg: string) => void
+}
+
+export class BasicLogger implements Logger {
+  logger: typeof console = console
+
+  warn (msg: string) {
+    this.logger.log(yellow(`    ${msg}`))
+  }
+
+  error (msg: string) {
+    this.logger.log(red(msg))
+  }
+
+  log (msg: string) {
+    this.logger.log(msg)
+  }
+
+  notice (msg: string) {
+    this.logger.log(blue(`    ${msg}`))
+  }
 }
 
 export type Configuration = {
@@ -38,7 +62,7 @@ export const mapCallables = <X, C extends PinionContext> (callables: Callable<X,
 
 export const getConfig = (initialConfig?: Partial<Configuration>) : Configuration => ({
   prompt,
-  logger: console,
+  logger: new BasicLogger(),
   cwd: process.cwd(),
   force: false,
   exec: (command: string, args: string[], options?: SpawnOptions) => {
