@@ -6,27 +6,24 @@ import {
 import { WriteFileOptions, promptWriteFile, overwrite } from './helpers'
 import { listFiles, merge } from '../utils'
 
-/**
- * Return an absolute filename based on the current folder
- *
- * @param target The (relative) filename
- * @returns The absolute resolved filename
- */
-export const fileName = <C extends PinionContext> (...targets: Callable<string|string[], C>[]) =>
-  async <T extends C> (ctx: T) => {
-    const segments = (await mapCallables(targets, ctx)).flat()
-    const fullPath = resolve(ctx.cwd, ...segments)
+const fileName = (createFolders: boolean = false) =>
+<C extends PinionContext> (...targets: Callable<string|string[], C>[]) =>
+    async <T extends C> (ctx: T) => {
+      const segments = (await mapCallables(targets, ctx)).flat()
+      const fullPath = resolve(ctx.cwd, ...segments)
 
-    await mkdir(dirname(fullPath), {
-      recursive: true
-    })
+      if (createFolders) {
+        await mkdir(dirname(fullPath), {
+          recursive: true
+        })
+      }
 
-    return fullPath
-  }
+      return fullPath
+    }
 
-export const toFile = fileName
+export const toFile = fileName(true)
 
-export const fromFile = fileName
+export const fromFile = fileName()
 
 export type JSONData = { [key: string]: any }
 

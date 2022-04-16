@@ -1,7 +1,13 @@
 import { join } from 'path'
 import { stat } from 'fs/promises'
-import { PinionContext, Callable, mapCallables, runModule } from '../core'
+import { PinionContext, Callable, runModule, mapCallables } from '../core'
 import { listFiles, merge } from '../utils'
+
+const getFileName = async <C extends PinionContext> (ctx: C, pathParts: Callable<string|string[], C>[]) => {
+  const segments = (await mapCallables(pathParts, ctx)).flat()
+
+  return join(...segments)
+}
 
 /**
 * Run all Pinion generators within a folder in sequence, ordered by name
@@ -11,7 +17,7 @@ import { listFiles, merge } from '../utils'
 */
 export const runGenerators = <C extends PinionContext> (...pathParts: Callable<string, C>[]) =>
   async <T extends C> (ctx: T) => {
-    const name = join(...await mapCallables(pathParts, ctx))
+    const name = await getFileName(ctx, pathParts)
     const handle = await stat(name)
 
     if (!handle.isDirectory()) {
@@ -34,12 +40,12 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
 /**
  * Run a single generator file
  *
- * @param pathParts
- * @returns
+ * @param pathParts The parts of the folder to run. Can be assembled dynamically based on context.
+ * @returns The current and generator context merged together
  */
 export const runGenerator = <C extends PinionContext> (...pathParts: Callable<string, C>[]) =>
   async <T extends C> (ctx: T) => {
-    const name = join(...await mapCallables(pathParts, ctx))
+    const name = await getFileName(ctx, pathParts)
 
-    return runModule(name, ctx)
+    return merge(ctx, await runModule(name, ctx))
   }
