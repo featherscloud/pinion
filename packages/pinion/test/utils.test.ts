@@ -11,6 +11,12 @@ describe('@feathershq/pinion/utils', () => {
     ))
   })
 
+  it('listFiles recursive', async () => {
+    const files = await listFiles(path.join(__dirname))
+
+    assert.ok(files.length > 4)
+  })
+
   it('merge', () => {
     const merged = merge({
       some: { thing: true }

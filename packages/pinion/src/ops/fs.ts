@@ -1,9 +1,10 @@
-import { resolve, dirname } from 'path'
-import { mkdir, readFile } from 'fs/promises'
+import { resolve, dirname, relative, join } from 'path'
+import { mkdir, readFile, writeFile, copyFile } from 'fs/promises'
 import {
   PinionContext, Callable, mapCallables, getCallable
 } from '../core'
-import { WriteFileOptions, promptWriteFile } from './helpers'
+import { WriteFileOptions, promptWriteFile, overwrite } from './helpers'
+import { listFiles, merge } from '../utils'
 
 /**
  * Return an absolute filename based on the current folder
@@ -28,6 +29,39 @@ export const toFile = fileName
 export const fromFile = fileName
 
 export type JSONData = { [key: string]: any }
+
+/**
+ * Recursively copy all files from a folder to a destination.
+ * Will prompt if the to file already exists.
+ *
+ * @param from The (local) folder to copy files from
+ * @param to The destination to copy the files to
+ * @param options File copy options (e.g. `{ force: true }`)
+ * @returns The current context
+ */
+export const copyFiles = <C extends PinionContext> (
+  from: Callable<string, C>,
+  to: Callable<string, C>,
+  options: Partial<WriteFileOptions> = {}
+) => async <T extends C> (ctx: T) => {
+    const source = await getCallable(from, ctx)
+    const target = await getCallable(to, ctx)
+    const fileList = await listFiles(source)
+
+    await Promise.all(fileList.map(async file => {
+      const destination = join(target, relative(source, file))
+
+      await mkdir(dirname(destination), {
+        recursive: true
+      })
+
+      if (await overwrite(ctx, destination, options)) {
+        await copyFile(file, destination)
+      }
+    }))
+
+    return ctx
+  }
 
 /**
  * Load a JSON file and merge the data into the context
@@ -80,4 +114,26 @@ export const writeJSON = <C extends PinionContext> (
     const content = JSON.stringify(data, null, '  ')
 
     return promptWriteFile(fileName, content, ctx, options)
+  }
+
+/**
+ * Merge an existing JSON file with new data
+ *
+ * @param json The JSON data to add to the file
+ * @param file The filename to write to
+ * @returns The current context
+ */
+export const mergeJSON = <C extends PinionContext> (
+  json: Callable<JSONData, C>,
+  file: Callable<string, C>
+) => async <T extends C> (ctx: T) => {
+    const fileName = await getCallable(file, ctx)
+    const payload = await getCallable(json, ctx)
+    const existingContent = (await readFile(fileName)).toString()
+    const data = merge(JSON.parse(existingContent), payload)
+    const content = JSON.stringify(data, null, '  ')
+
+    await writeFile(fileName, content)
+
+    return ctx
   }

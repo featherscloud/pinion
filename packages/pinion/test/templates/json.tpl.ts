@@ -1,4 +1,4 @@
-import { generator, loadJSON, fromFile, toFile, writeJSON } from '../../src/index'
+import { generator, loadJSON, fromFile, toFile, writeJSON, mergeJSON } from '../../src/index'
 import { Context } from './pinion'
 
 interface JSONContext extends Context {
@@ -13,3 +13,4 @@ export const generate = (ctx: JSONContext) => generator(ctx)
       example: ctx.example
     }
   }, toFile('tmp', () => ['testing.json'])))
+  .then(mergeJSON({ merged: true }, toFile('tmp', 'testing.json')))

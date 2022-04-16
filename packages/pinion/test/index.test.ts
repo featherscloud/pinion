@@ -39,6 +39,7 @@ describe('@feathershq/pinion', () => {
     assert.strictEqual(written.toString(), expectedFileContent)
     assert.deepStrictEqual(writtenJSON, {
       written: true,
+      merged: true,
       example: {
         message: 'This is an example JSON file'
       }

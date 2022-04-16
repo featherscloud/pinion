@@ -7,10 +7,9 @@ export type WriteFileOptions = {
   force: boolean;
 };
 
-export const promptWriteFile = async <C extends PinionContext>(
-  fileName: string,
-  content: string | Buffer,
+export const overwrite = async <C extends PinionContext> (
   ctx: C,
+  fileName: string,
   options: Partial<WriteFileOptions> = {}
 ) => {
   const { prompt, logger } = ctx.pinion
@@ -26,12 +25,26 @@ export const promptWriteFile = async <C extends PinionContext>(
 
     if (!overwrite) {
       logger.warn(`Skipped file ${relativeName}`)
-      return ctx
+      return false
     }
   }
 
-  await writeFile(fileName, content)
-  logger.notice(`Wrote file ${relativeName}`)
+  return true
+}
+
+export const promptWriteFile = async <C extends PinionContext> (
+  fileName: string,
+  content: string | Buffer,
+  ctx: C,
+  options: Partial<WriteFileOptions> = {}
+) => {
+  const { logger } = ctx.pinion
+  const relativeName = relative(ctx.cwd, fileName)
+
+  if (await overwrite(ctx, fileName, options)) {
+    await writeFile(fileName, content)
+    logger.notice(`Wrote file ${relativeName}`)
+  }
 
   return ctx
 }
