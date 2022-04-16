@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/feathershq/pinion/compare/v0.2.3...v0.2.4) (2022-04-16)
+
+
+### Bug Fixes
+
+* Improve generator execution flow ([f47ec38](https://github.com/feathershq/pinion/commit/f47ec38aab281c1db46fe31738dd8a9697dd3191))
+
+
+### Features
+
+* Add copyFiles and mergeJSON operations ([#11](https://github.com/feathershq/pinion/issues/11)) ([4f8c2e2](https://github.com/feathershq/pinion/commit/4f8c2e27515c20b7cd64934dc91a7165e4075f1b))
+
+
+
+
+
 ## [0.2.3](https://github.com/feathershq/pinion/compare/v0.2.2...v0.2.3) (2022-03-25)
 
 **Note:** Version bump only for package pinion
