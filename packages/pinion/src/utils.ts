@@ -33,9 +33,13 @@ export const loadModule = async (file: string) => {
   return import(file)
 }
 
-export const listFiles = async (folder: string, extension?: string) => {
-  const list = await readdir(folder)
-  const fileNames = list.map(name => path.resolve(folder, name)).sort()
+export const listFiles = async (folder: string, extension?: string): Promise<string[]> => {
+  const list = await readdir(folder, { withFileTypes: true })
+  const fileNames = (await Promise.all(list.map(file => {
+    const fullName = path.resolve(folder, file.name)
+
+    return file.isDirectory() ? listFiles(fullName, extension) : fullName
+  }))).flat().sort()
 
   return extension ? fileNames.filter(name => name.endsWith(extension)) : fileNames
 }

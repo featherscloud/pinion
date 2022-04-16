@@ -176,6 +176,17 @@ export const generate = (context: PinionContext) => generator(context)
   .then(inject('Appended hello world', append(), toFile('readme.md')))
 ```
 
+### copyFiles
+
+`copyFiles(fromFile, toFile, options)` recursively copies all files from a location to a destination. It will prompt to overwrite if a file already exists. `writeOptions` can be `{ force: true }` to skip prompting if an an existing file should be overwritten.
+
+```ts
+import { PinionContext, copyFiles, fromFile, toFile } from '@feathershq/pinion'
+
+export const generate = (context: PinionContext) => generator(context)
+  .then(copyFiles(fromFile(__dirname, 'static'), toFile('.')))
+```
+
 ### writeJSON
 
 `writeJSON(data|context => data, toFile, writeOptions)` write JSON data to a file. `writeOptions` can be `{ force: true }` to skip prompting if an an existing file should be overwritten.
@@ -186,6 +197,10 @@ import { PinionContext, writeJSON, toFile } from '@feathershq/pinion'
 export const generate = (context: PinionContext) => generator(context)
   .then(writeJSON({ description: 'Something' }, toFile('package.json')))
 ```
+
+### mergeJSON
+
+`mergeJSON(data|context => data, toFile, writeOptions)` merges new data into an existing file.
 
 ### readJSON
 
