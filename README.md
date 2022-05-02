@@ -159,6 +159,33 @@ export const generate = (context: Context) => generator(context)
   .then(renderTemplate(template, toFile('readme.md')))
 ```
 
+### when
+
+`when(boolean|context => boolean, operation)` evaluates a condition and runs the operation when it returns true.
+
+```ts
+import { PinionContext, generator, prompt } from '@feathershq/pinion'
+
+// The main types of your generator
+export interface Context extends PinionContext {
+  // Add the types from prompts and command line arguments here
+  name: string
+}
+
+export const generate = (context: Context) => generator(context)
+  .then(prompt(context => [{
+    type: 'input',
+    name: 'name',
+    message: 'What is the name of your app?',
+    // Only show prompt if there is no name
+    when: !context.name
+  }]))
+  .then(when<Context>(
+    ({ name }) => name === 'David',
+    renderTemplate('I\'m afraid I can\'t do that Dave', toFile('greeting.md'))
+  )
+```
+
 ### inject
 
 `inject(text|context => text, location, toFile)` injects a template at a specific location into an existing file. The location functions can be used as follows:
