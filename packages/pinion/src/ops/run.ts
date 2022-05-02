@@ -47,5 +47,5 @@ export const runGenerator = <C extends PinionContext> (...pathParts: Callable<st
   async <T extends C> (ctx: T) => {
     const name = await getFileName(ctx, pathParts)
 
-    return merge(ctx, await runModule(name, ctx))
+    return merge(ctx, await runModule(name, ctx)) as T
   }
