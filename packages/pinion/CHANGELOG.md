@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/feathershq/pinion/compare/v0.2.4...v0.2.5) (2022-05-02)
+
+
+### Bug Fixes
+
+* Fix runGenerator return type ([#12](https://github.com/feathershq/pinion/issues/12)) ([3f7bd1a](https://github.com/feathershq/pinion/commit/3f7bd1a1552f6762d6892dd054bd163f2c2cb5ed))
+
+
+### Features
+
+* Add when helper for conditional operations ([#13](https://github.com/feathershq/pinion/issues/13)) ([f75409d](https://github.com/feathershq/pinion/commit/f75409de4f5c0d8c754eda85732182ff0fa3a67f))
+
+
+
+
+
 ## [0.2.4](https://github.com/feathershq/pinion/compare/v0.2.3...v0.2.4) (2022-04-16)
 
 
