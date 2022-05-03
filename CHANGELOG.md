@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/feathershq/pinion/compare/v0.2.5...v0.2.6) (2022-05-03)
+
+
+### Bug Fixes
+
+* Escape inject pattern strings to not be treated as regular expressions ([#14](https://github.com/feathershq/pinion/issues/14)) ([ebfbdd7](https://github.com/feathershq/pinion/commit/ebfbdd75243dc3fa1bcc935d0420f5d935d14b6a))
+
+
+
+
+
 ## [0.2.5](https://github.com/feathershq/pinion/compare/v0.2.4...v0.2.5) (2022-05-02)
 
 
