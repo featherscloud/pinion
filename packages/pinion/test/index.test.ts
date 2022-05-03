@@ -7,7 +7,7 @@ const expectedFileContent =
 `<!-- Prepended -->
 This is injected before
 
-# Hello world
+# Hello (world)
 
 This is injected after
 <!-- Appended -->`
