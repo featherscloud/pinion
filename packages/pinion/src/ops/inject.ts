@@ -38,16 +38,19 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
     return ctx
   }
 
+const escapeString = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 const getLineNumber = (
   pattern: string | RegExp,
   lines: string[],
   isBefore: boolean
 ) => {
-  const oneLineMatchIndex = lines.findIndex((l) => l.match(pattern))
+  const matcher = pattern instanceof RegExp ? pattern : new RegExp(escapeString(pattern), 'm')
+  const oneLineMatchIndex = lines.findIndex((l) => l.match(matcher))
 
   if (oneLineMatchIndex < 0) {
     const fullText = lines.join('\n')
-    const fullMatch = fullText.match(new RegExp(pattern, 'm'))
+    const fullMatch = fullText.match(matcher)
 
     if (fullMatch && fullMatch.length) {
       if (isBefore) {

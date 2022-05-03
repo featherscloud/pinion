@@ -14,9 +14,9 @@ export interface Context extends PinionContext {
 }
 
 export const generate = (ctx: Context) => generator(ctx)
-  .then(renderTemplate('# Hello world', toHelloMd))
-  .then(inject('\nThis is injected after', after('Hello world'), toHelloMd))
-  .then(inject('This is injected before\n', before('Hello world'), toHelloMd))
+  .then(renderTemplate('# Hello (world)', toHelloMd))
+  .then(inject('\nThis is injected after', after('Hello (world)'), toHelloMd))
+  .then(inject('This is injected before\n', before(/Hello\s/), toHelloMd))
   .then(inject('<!-- Prepended -->', prepend(), toHelloMd))
   .then(inject('<!-- Appended -->', append(), toHelloMd))
   .then(prompt((ctx: Context) => [{
