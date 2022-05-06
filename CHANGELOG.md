@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/feathershq/pinion/compare/v0.2.6...v0.2.7) (2022-05-06)
+
+
+### Bug Fixes
+
+* Only run generators in the current folder, not recursively ([#15](https://github.com/feathershq/pinion/issues/15)) ([6e74853](https://github.com/feathershq/pinion/commit/6e7485345e9d95d942081d0b739c1b9afc008f9a))
+
+
+
+
+
 ## [0.2.6](https://github.com/feathershq/pinion/compare/v0.2.5...v0.2.6) (2022-05-03)
 
 
