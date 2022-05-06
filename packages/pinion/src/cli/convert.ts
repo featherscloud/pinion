@@ -1,7 +1,7 @@
 import { join, dirname, relative } from 'path'
 import { stat, readFile, writeFile, mkdir } from 'fs/promises'
 import { PinionContext } from '../core'
-import { listFiles } from '../utils'
+import { listAllFiles } from '../utils'
 
 export interface ConverterContext extends PinionContext {
   file: string
@@ -39,7 +39,7 @@ export const convert = async (ctx: ConverterContext) => {
     pinion.logger.log(`Converted file ${relativeName}`)
   }
   const convertDirectory = async (directory: string) => {
-    const files = await listFiles(directory)
+    const files = await listAllFiles(directory)
 
     await Promise.all(files.map(async file =>
       (await stat(file)).isDirectory() ? convertDirectory(file) : convertFile(file)

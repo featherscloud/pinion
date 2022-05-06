@@ -1,18 +1,16 @@
 import path from 'path'
 import assert from 'assert'
-import { merge, listFiles, loadModule } from '../src/utils'
+import { merge, listAllFiles, loadModule, listFiles } from '../src/utils'
 
 describe('@feathershq/pinion/utils', () => {
-  it('listFiles', async () => {
-    const files = await listFiles(path.join(__dirname, 'templates'))
+  it('listFiles with extension', async () => {
+    const files = await listFiles(path.join(__dirname, 'templates'), '.tpl.ts')
 
-    assert.ok(files.includes(
-      path.join(__dirname, 'templates', 'pinion.ts')
-    ))
+    assert.strictEqual(files.length, 2)
   })
 
-  it('listFiles recursive', async () => {
-    const files = await listFiles(path.join(__dirname))
+  it('listAllFiles recursive', async () => {
+    const files = await listAllFiles(path.join(__dirname))
 
     assert.ok(files.length > 4)
   })
