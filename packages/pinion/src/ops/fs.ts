@@ -4,7 +4,7 @@ import {
   PinionContext, Callable, mapCallables, getCallable
 } from '../core'
 import { WriteFileOptions, promptWriteFile, overwrite } from './helpers'
-import { listFiles, merge } from '../utils'
+import { listAllFiles, merge } from '../utils'
 
 const fileName = (createFolders: boolean = false) =>
 <C extends PinionContext> (...targets: Callable<string|string[], C>[]) =>
@@ -43,7 +43,7 @@ export const copyFiles = <C extends PinionContext> (
 ) => async <T extends C> (ctx: T) => {
     const source = await getCallable(from, ctx)
     const target = await getCallable(to, ctx)
-    const fileList = await listFiles(source)
+    const fileList = await listAllFiles(source)
 
     await Promise.all(fileList.map(async file => {
       const destination = join(target, relative(source, file))

@@ -35,13 +35,21 @@ export const loadModule = async (file: string) => {
 
 export const listFiles = async (folder: string, extension?: string): Promise<string[]> => {
   const list = await readdir(folder, { withFileTypes: true })
-  const fileNames = (await Promise.all(list.map(file => {
-    const fullName = path.resolve(folder, file.name)
-
-    return file.isDirectory() ? listFiles(fullName, extension) : fullName
-  }))).flat().sort()
+  const fileNames = list.filter(file => file.isFile())
+    .map(({ name }) => path.resolve(folder, name))
 
   return extension ? fileNames.filter(name => name.endsWith(extension)) : fileNames
+}
+
+export const listAllFiles = async (folder: string): Promise<string[]> => {
+  const list = await readdir(folder, { withFileTypes: true })
+  const nameList = await Promise.all(list.map(file => {
+    const fullName = path.resolve(folder, file.name)
+
+    return file.isDirectory() ? listAllFiles(fullName) : fullName
+  }))
+
+  return nameList.flat().sort()
 }
 
 export const merge = (target: { [key: string]: any }, source: { [key: string]: any }) => {
