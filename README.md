@@ -264,26 +264,15 @@ export const generate = (context: Context) => generator(context)
   .then(install(['ts-node'], true))
 ```
 
-### runGenerator
-
-`runGenerator((filePart|context => filePart)[])` runs a single generator (usually in `__dirname`) from a path that can be assembled dynamically. When no extension is given it will look first for compile `.js` file and then a `.ts` file.
-
-```ts
-import { PinionContext, generator, runGenerator } from '@feathershq/pinion'
-
-export const generate = (context: Context) => generator(context)
-  .then(runGenerator(__dirname, context => context.name, 'generator')
-```
-
 ### runGenerators
 
-`runGenerators((filePart|context => filePart)[])` will run all `*.tpl.ts` or `*.tpl.js` generators in the given path alphabetically in sequence.
+`runGenerators((filePart|context => filePart)[])` will run all `*.tpl.ts` or `*.tpl.js` generators in the given path alphabetically in sequence, passing the current context.
 
 ```ts
 import { PinionContext, generator, runGenerators } from '@feathershq/pinion'
 
 export const generate = (context: Context) => generator(context)
-  .then(runGenerators(__dirname, 'commons')
+  .then(runGenerators(__dirname, 'templates')
 ```
 
 ## License
