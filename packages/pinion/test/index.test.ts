@@ -27,10 +27,15 @@ describe('@feathershq/pinion', () => {
       cwd: __dirname
     })
     const ctx = await runModule(rootGenerator, initialCtx)
+    const json = require('./tmp/testing.json')
 
-    assert.ok(ctx.second)
-    assert.deepStrictEqual(ctx.example, {
-      message: 'This is an example JSON file'
+    assert.ok(ctx.finalized)
+    assert.deepStrictEqual(json, {
+      written: true,
+      example: {
+        message: 'This is an example JSON file'
+      },
+      merged: true
     })
 
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))

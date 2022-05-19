@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { stat } from 'fs/promises'
 import { PinionContext, Callable, runModule, mapCallables } from '../core'
-import { listFiles, merge } from '../utils'
+import { listFiles } from '../utils'
 
 const getFileName = async <C extends PinionContext> (ctx: C, pathParts: Callable<string|string[], C>[]) => {
   const segments = (await mapCallables(pathParts, ctx)).flat()
@@ -31,7 +31,7 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
     const files = compiledFiles.length ? compiledFiles : tsFiles
 
     for (const file of files.sort()) {
-      merge(ctx, await runModule(file, ctx))
+      await runModule(file, ctx)
     }
 
     return ctx
@@ -47,5 +47,7 @@ export const runGenerator = <C extends PinionContext> (...pathParts: Callable<st
   async <T extends C> (ctx: T) => {
     const name = await getFileName(ctx, pathParts)
 
-    return merge(ctx, await runModule(name, ctx)) as T
+    await runModule(name, ctx)
+
+    return ctx
   }
