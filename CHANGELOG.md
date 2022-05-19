@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/feathershq/pinion/compare/v0.2.7...v0.3.0) (2022-05-19)
+
+
+### Features
+
+* Do not merge context and remove runGenerator ([#16](https://github.com/feathershq/pinion/issues/16)) ([60c7e9e](https://github.com/feathershq/pinion/commit/60c7e9efacc51ecd4290bf9404fe40ee3f9660f3))
+
+
+
+
+
 ## [0.2.7](https://github.com/feathershq/pinion/compare/v0.2.6...v0.2.7) (2022-05-06)
 
 
