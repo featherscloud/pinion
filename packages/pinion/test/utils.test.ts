@@ -6,7 +6,7 @@ describe('@feathershq/pinion/utils', () => {
   it('listFiles with extension', async () => {
     const files = await listFiles(path.join(__dirname, 'templates'), '.tpl.ts')
 
-    assert.strictEqual(files.length, 2)
+    assert.strictEqual(files.length, 1)
   })
 
   it('listAllFiles recursive', async () => {

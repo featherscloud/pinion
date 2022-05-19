@@ -11,6 +11,7 @@ export interface Context extends PinionContext {
   order: string[]
   a: boolean
   b: boolean
+  finalized: boolean
 }
 
 export const generate = (ctx: Context) => generator(ctx)
@@ -28,3 +29,7 @@ export const generate = (ctx: Context) => generator(ctx)
   .then(install(['@feathersjs/feathers'], false, 'echo'))
   .then(copyFiles(fromFile(__dirname), toFile('tmp', 'copy')))
   .then(runGenerators(__dirname))
+  .then(ctx => ({
+    ...ctx,
+    finalized: true
+  }))
