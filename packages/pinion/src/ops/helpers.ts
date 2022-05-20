@@ -3,6 +3,20 @@ import { existsSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import { PinionContext } from '../core'
 
+/**
+ * Add tracing information on what happened to the Pinion context
+ *
+ * @param ctx The current context
+ * @param name The name of the operation
+ * @param data The data to log
+ * @returns The current context
+ */
+export const addTrace = <C extends PinionContext> (ctx: C, name: string, info: unknown) => {
+  ctx.pinion.trace = [...ctx.pinion.trace, { name, info, timestamp: Date.now() }]
+
+  return ctx
+}
+
 export type WriteFileOptions = {
   force: boolean;
 };

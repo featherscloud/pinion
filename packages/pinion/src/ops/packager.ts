@@ -1,4 +1,5 @@
 import { Callable, getCallable, PinionContext } from '../core'
+import { addTrace } from './helpers'
 
 export const install = <C extends PinionContext> (
   dependencies: Callable<string[], C>,
@@ -20,5 +21,5 @@ export const install = <C extends PinionContext> (
       throw new Error(`Package manager ${packageManager} exited with error code ${exitCode}`)
     }
 
-    return ctx
+    return addTrace(ctx, 'install', { packageManager, subCommand, flags, dependencyList })
   }

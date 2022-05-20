@@ -36,11 +36,18 @@ export class BasicLogger implements Logger {
   }
 }
 
+export type PinionTrace = {
+  name: string,
+  timestamp: number,
+  info: unknown
+}
+
 export type Configuration = {
   cwd: string
   logger: Logger
   force: boolean
   prompt: PromptModule
+  trace: PinionTrace[]
   exec: (command: string, args: string[], options?: SpawnOptions) => Promise<number>
 }
 
@@ -65,6 +72,7 @@ export const getConfig = (initialConfig?: Partial<Configuration>) : Configuratio
   logger: new BasicLogger(),
   cwd: process.cwd(),
   force: false,
+  trace: [],
   exec: (command: string, args: string[], options?: SpawnOptions) => {
     const child = spawn(command, args, {
       stdio: 'inherit',

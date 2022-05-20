@@ -3,6 +3,7 @@ import { relative } from 'path'
 import { readFile, writeFile } from 'fs/promises'
 import { PinionContext, Callable, getCallable } from '../core'
 import { EOL } from 'os'
+import { addTrace } from './helpers'
 
 const EOLRegex = /\r?\n/
 
@@ -35,7 +36,7 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
 
     ctx.pinion.logger.notice(`Injected to ${relativeName}`)
 
-    return ctx
+    return addTrace(ctx, 'inject', { fileName, content })
   }
 
 const escapeString = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

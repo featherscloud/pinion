@@ -1,6 +1,7 @@
 import { QuestionCollection } from 'inquirer'
 
 import { PinionContext, Callable, getCallable } from '../core'
+import { addTrace } from './helpers'
 
 /**
  * Show prompts using Inquirer
@@ -11,9 +12,10 @@ import { PinionContext, Callable, getCallable } from '../core'
 export const prompt = <C extends PinionContext> (prompts: Callable<QuestionCollection, C>) =>
   async <T extends C> (ctx: T) => {
     const answers = await ctx.pinion.prompt(await getCallable(prompts, ctx))
-
-    return {
+    const result = {
       ...ctx,
       ...answers
     } as T
+
+    return addTrace(result, 'prompt', answers)
   }

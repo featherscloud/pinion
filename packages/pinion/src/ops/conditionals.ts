@@ -1,4 +1,5 @@
 import { PinionContext, Callable, getCallable } from '../core'
+import { addTrace } from './helpers'
 
 /**
  * Conditionally run an operation
@@ -12,6 +13,7 @@ export const when = <C extends PinionContext> (
   operation: (ctx: C) => Promise<C>
 ) => async <T extends C> (ctx: T) => {
     const value = await getCallable(condition, ctx)
+    const result = await (value ? operation(ctx) : ctx)
 
-    return value ? operation(ctx) : ctx
+    return addTrace(result, 'when', { value })
   }
