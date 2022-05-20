@@ -6,7 +6,7 @@ import { EOL } from 'os'
 
 const EOLRegex = /\r?\n/
 
-export type Location<C extends PinionContext> = (lines: string[], ctx: C) => Promise<{ index: number, pattern?: string | RegExp | undefined }>
+export type Location<C extends PinionContext> = (lines: string[], ctx: C, fileName: string) => Promise<{ index: number, pattern?: string | RegExp | undefined }>
 
 export const inject = <C extends PinionContext> (template: Callable<string, C>, location: Location<C>, target: Callable<string, C>) =>
   async <T extends C> (ctx: T) => {
@@ -23,7 +23,7 @@ export const inject = <C extends PinionContext> (template: Callable<string, C>, 
     const NL = newline(fileContent)
     const lines = fileContent.split(NL)
 
-    const { index } = await location(lines, ctx)
+    const { index } = await location(lines, ctx, relativeName)
 
     if (index >= 0) {
       lines.splice(index, 0, content)
@@ -61,22 +61,36 @@ const getLineNumber = (
       const fullTextUntilMatchEnd = fullText.substring(0, matchEndIndex)
       return fullTextUntilMatchEnd.split(EOLRegex).length
     }
+
+    return oneLineMatchIndex
   }
 
   return oneLineMatchIndex + (isBefore ? 0 : 1)
 }
 
-export const before = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx)
-  const index = getLineNumber(line, lines, true)
-  return { index, pattern: line }
-}
+export const before = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) =>
+  async (lines: string[], ctx: any, fileName: string) => {
+    const line = await getCallable(pattern, ctx)
+    const index = getLineNumber(line, lines, true)
 
-export const after = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) => async (lines: string[], ctx: any) => {
-  const line = await getCallable(pattern, ctx)
-  const index = getLineNumber(line, lines, false)
-  return { index, pattern: line }
-}
+    if (index < 0) {
+      throw new Error(`Could not find line '${line}' in file ${fileName} to inject content before`)
+    }
+
+    return { index, pattern: line }
+  }
+
+export const after = <C extends PinionContext> (pattern: Callable<string | RegExp, C>) =>
+  async (lines: string[], ctx: any, fileName: string) => {
+    const line = await getCallable(pattern, ctx)
+    const index = getLineNumber(line, lines, false)
+
+    if (index < 0) {
+      throw new Error(`Could not find line '${line}' in file ${fileName} to inject content after`)
+    }
+
+    return { index, pattern: line }
+  }
 
 export const prepend = () => async () => {
   return { index: 0 }
