@@ -1,7 +1,7 @@
 import { generator, loadJSON, fromFile, toFile, writeJSON, mergeJSON } from '../../src/index'
-import { Context } from './pinion'
+import { GeneratorContext } from './pinion'
 
-interface JSONContext extends Context {
+interface JSONContext extends GeneratorContext {
   example: any
 }
 
