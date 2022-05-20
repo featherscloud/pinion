@@ -14,6 +14,7 @@ This is injected after
 
 interface NamedContext extends PinionContext {
   name: string
+  finalized: boolean
 }
 
 describe('@feathershq/pinion', () => {
@@ -26,7 +27,7 @@ describe('@feathershq/pinion', () => {
       force: true,
       cwd: __dirname
     })
-    const ctx = await runModule(rootGenerator, initialCtx)
+    const ctx: NamedContext = await runModule(rootGenerator, initialCtx)
     const json = require('./tmp/testing.json')
 
     assert.ok(ctx.finalized)
@@ -41,7 +42,7 @@ describe('@feathershq/pinion', () => {
     const { trace } = ctx.pinion
 
     assert.strictEqual(trace[0].name, 'renderTemplate')
-    assert.strictEqual(trace[0].data.content, '# Hello (world)')
+    assert.strictEqual((trace[0].info as any).content, '# Hello (world)')
 
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
     const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
