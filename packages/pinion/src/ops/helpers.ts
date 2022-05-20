@@ -11,8 +11,8 @@ import { PinionContext } from '../core'
  * @param data The data to log
  * @returns The current context
  */
-export const addTrace = <C extends PinionContext> (ctx: C, name: string, data: unknown) => {
-  ctx.pinion.trace = [...ctx.pinion.trace, { name, data, timestamp: Date.now() }]
+export const addTrace = <C extends PinionContext> (ctx: C, name: string, info: unknown) => {
+  ctx.pinion.trace = [...ctx.pinion.trace, { name, info, timestamp: Date.now() }]
 
   return ctx
 }

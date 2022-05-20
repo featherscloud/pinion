@@ -57,7 +57,7 @@ export const copyFiles = <C extends PinionContext> (
       }
     }))
 
-    return addTrace(ctx, 'copyFiles', fileList)
+    return addTrace(ctx, 'copyFiles', { fileList, target, source })
   }
 
 /**
@@ -92,7 +92,7 @@ export const loadJSON = <C extends PinionContext> (
       ...converted
     } as T
 
-    return addTrace(result, 'loadJSON', data)
+    return addTrace(result, 'loadJSON', { fileName, data })
   }
 
 /**
@@ -112,7 +112,7 @@ export const writeJSON = <C extends PinionContext> (
     const content = JSON.stringify(data, null, '  ')
     const result = await promptWriteFile(fileName, content, ctx, options)
 
-    return addTrace(result, 'writeJSON', data)
+    return addTrace(result, 'writeJSON', { fileName, data })
   }
 
 /**

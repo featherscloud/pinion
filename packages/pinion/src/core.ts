@@ -39,7 +39,7 @@ export class BasicLogger implements Logger {
 export type PinionTrace = {
   name: string,
   timestamp: number,
-  data: unknown
+  info: unknown
 }
 
 export type Configuration = {
