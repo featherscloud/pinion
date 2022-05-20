@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/feathershq/pinion/compare/v0.3.0...v0.3.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* Allow prompt to specify a different return type ([#17](https://github.com/feathershq/pinion/issues/17)) ([5d893da](https://github.com/feathershq/pinion/commit/5d893da11d72c8a3454029384c8a17ca2c10237d))
+* Fix inject after handling and add error messages when lines were not found ([#19](https://github.com/feathershq/pinion/issues/19)) ([ceb9696](https://github.com/feathershq/pinion/commit/ceb9696c4330d5b132407a3930f32bad6b9dcd26))
+
+
+### Features
+
+* Add tracing mechanism ([#18](https://github.com/feathershq/pinion/issues/18)) ([4e20211](https://github.com/feathershq/pinion/commit/4e202117218b56e564321f2fa40fb80d19dfd597))
+
+
+
+
+
 # [0.3.0](https://github.com/feathershq/pinion/compare/v0.2.7...v0.3.0) (2022-05-19)
 
 
