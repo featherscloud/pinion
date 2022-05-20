@@ -27,9 +27,9 @@ export const generate = (ctx: GeneratorArguments) => generator(ctx)
     name: 'name',
     when: !ctx.name
   }]))
-  .then(when<GeneratorContext>(() => true, install(['@feathersjs/feathers'], false, 'echo')))
-  .then(copyFiles<GeneratorContext>(fromFile(__dirname), toFile('tmp', 'copy')))
-  .then(runGenerators<GeneratorContext>(__dirname))
+  .then(when(() => true, install(['@feathersjs/feathers'], false, 'echo')))
+  .then(copyFiles(fromFile(__dirname), toFile('tmp', 'copy')))
+  .then(runGenerators(__dirname))
   .then((ctx: GeneratorContext) => ({
     ...ctx,
     finalized: true
