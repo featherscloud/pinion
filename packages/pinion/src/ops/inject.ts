@@ -85,8 +85,6 @@ export const after = <C extends PinionContext> (pattern: Callable<string | RegEx
     const line = await getCallable(pattern, ctx)
     const index = getLineNumber(line, lines, false)
 
-    console.log('!', line, index)
-
     if (index < 0) {
       throw new Error(`Could not find line '${line}' in file ${fileName} to inject content after`)
     }
