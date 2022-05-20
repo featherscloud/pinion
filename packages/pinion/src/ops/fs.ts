@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile, copyFile } from 'fs/promises'
 import {
   PinionContext, Callable, mapCallables, getCallable
 } from '../core'
-import { WriteFileOptions, promptWriteFile, overwrite } from './helpers'
+import { WriteFileOptions, promptWriteFile, overwrite, addTrace } from './helpers'
 import { listAllFiles, merge } from '../utils'
 
 const fileName = (createFolders: boolean = false) =>
@@ -57,7 +57,7 @@ export const copyFiles = <C extends PinionContext> (
       }
     }))
 
-    return ctx
+    return addTrace(ctx, 'copyFiles', fileList)
   }
 
 /**
@@ -87,11 +87,12 @@ export const loadJSON = <C extends PinionContext> (
     }
 
     const converted = await converter(data, ctx)
-
-    return {
+    const result = {
       ...ctx,
       ...converted
     } as T
+
+    return addTrace(result, 'loadJSON', data)
   }
 
 /**
@@ -109,8 +110,9 @@ export const writeJSON = <C extends PinionContext> (
     const fileName = await getCallable(file, ctx)
     const data = await getCallable(json, ctx)
     const content = JSON.stringify(data, null, '  ')
+    const result = await promptWriteFile(fileName, content, ctx, options)
 
-    return promptWriteFile(fileName, content, ctx, options)
+    return addTrace(result, 'writeJSON', data)
   }
 
 /**
@@ -132,5 +134,5 @@ export const mergeJSON = <C extends PinionContext> (
 
     await writeFile(fileName, content)
 
-    return ctx
+    return addTrace(ctx, 'mergeJSON', { fileName, payload })
   }

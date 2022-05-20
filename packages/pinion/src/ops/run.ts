@@ -2,6 +2,7 @@ import { join } from 'path'
 import { stat } from 'fs/promises'
 import { PinionContext, Callable, runModule, mapCallables } from '../core'
 import { listFiles } from '../utils'
+import { addTrace } from './helpers'
 
 const getFileName = async <C extends PinionContext> (ctx: C, pathParts: Callable<string|string[], C>[]) => {
   const segments = (await mapCallables(pathParts, ctx)).flat()
@@ -34,7 +35,7 @@ export const runGenerators = <C extends PinionContext> (...pathParts: Callable<s
       await runModule(file, ctx)
     }
 
-    return ctx
+    return addTrace(ctx, 'runGenerators', { files })
   }
 
 /**

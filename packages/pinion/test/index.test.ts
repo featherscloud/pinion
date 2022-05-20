@@ -38,6 +38,11 @@ describe('@feathershq/pinion', () => {
       merged: true
     })
 
+    const { trace } = ctx.pinion
+
+    assert.strictEqual(trace[0].name, 'renderTemplate')
+    assert.strictEqual(trace[0].data.content, '# Hello (world)')
+
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
     const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
 
