@@ -11,7 +11,7 @@ import { addTrace } from './helpers'
 export const when = <C extends PinionContext> (
   condition: Callable<boolean, C>,
   operation: (ctx: C) => Promise<C>
-) => async <T extends C> (ctx: T) => {
+) => async (ctx: C) => {
     const value = await getCallable(condition, ctx)
     const result = await (value ? operation(ctx) : ctx)
 

@@ -6,7 +6,7 @@ import {
 
 const toHelloMd = toFile('tmp', 'hello.md')
 
-export interface Context extends PinionContext {
+export interface GeneratorContext extends PinionContext {
   name: string
   order: string[]
   a: boolean
@@ -14,13 +14,15 @@ export interface Context extends PinionContext {
   finalized: boolean
 }
 
-export const generate = (ctx: Context) => generator(ctx)
+export type GeneratorArguments = PinionContext & Partial<Pick<GeneratorContext, 'name'>>
+
+export const generate = (ctx: GeneratorArguments) => generator(ctx)
   .then(renderTemplate('# Hello (world)', toHelloMd))
   .then(inject('\nThis is injected after', after('Hello (world)'), toHelloMd))
   .then(inject('This is injected before\n', before(/Hello\s/), toHelloMd))
   .then(inject('<!-- Prepended -->', prepend(), toHelloMd))
   .then(inject('<!-- Appended -->', append(), toHelloMd))
-  .then(prompt((ctx: Context) => [{
+  .then(prompt<GeneratorArguments, GeneratorContext>(ctx => [{
     type: 'input',
     name: 'name',
     when: !ctx.name
@@ -28,7 +30,7 @@ export const generate = (ctx: Context) => generator(ctx)
   .then(when(() => true, install(['@feathersjs/feathers'], false, 'echo')))
   .then(copyFiles(fromFile(__dirname), toFile('tmp', 'copy')))
   .then(runGenerators(__dirname))
-  .then(ctx => ({
+  .then((ctx: GeneratorContext) => ({
     ...ctx,
     finalized: true
   }))
