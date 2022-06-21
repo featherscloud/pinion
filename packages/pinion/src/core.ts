@@ -18,6 +18,7 @@ export interface Logger {
 
 export class BasicLogger implements Logger {
   logger: typeof console = console
+  previousNotice: string = ''
 
   warn (msg: string) {
     this.logger.log(yellow(`    ${msg}`))
@@ -32,13 +33,16 @@ export class BasicLogger implements Logger {
   }
 
   notice (msg: string) {
-    this.logger.log(blue(`    ${msg}`))
+    if (this.previousNotice !== msg) {
+      this.logger.log(blue(`    ${msg}`))
+      this.previousNotice = msg
+    }
   }
 }
 
 export type PinionTrace = {
-  name: string,
-  timestamp: number,
+  name: string
+  timestamp: number
   info: unknown
 }
 
@@ -53,21 +57,21 @@ export type Configuration = {
 
 export type PinionContext = {
   cwd: string
-  _?: (number|string)[]
+  _?: (number | string)[]
   pinion: Configuration
 }
 
-export type ContextCallable<T, C extends PinionContext> = (ctx: C) => T|Promise<T>
-export type Callable<T, C extends PinionContext> = T|ContextCallable<T, C>
+export type ContextCallable<T, C extends PinionContext> = (ctx: C) => T | Promise<T>
+export type Callable<T, C extends PinionContext> = T | ContextCallable<T, C>
 export type Promisable<T> = T | Promise<T>
 
-export const getCallable = async <T, C extends PinionContext> (callable: Callable<T, C>, context: C) =>
+export const getCallable = async <T, C extends PinionContext>(callable: Callable<T, C>, context: C) =>
   typeof callable === 'function' ? (callable as ContextCallable<T, C>)(context) : callable
 
-export const mapCallables = <X, C extends PinionContext> (callables: Callable<X, C>[], context: C) =>
-  Promise.all(callables.map(callable => getCallable(callable, context)))
+export const mapCallables = <X, C extends PinionContext>(callables: Callable<X, C>[], context: C) =>
+  Promise.all(callables.map((callable) => getCallable(callable, context)))
 
-export const getConfig = (initialConfig?: Partial<Configuration>) : Configuration => ({
+export const getConfig = (initialConfig?: Partial<Configuration>): Configuration => ({
   prompt,
   logger: new BasicLogger(),
   cwd: process.cwd(),
@@ -80,13 +84,16 @@ export const getConfig = (initialConfig?: Partial<Configuration>) : Configuratio
     })
 
     return new Promise((resolve, reject) => {
-      child.once('exit', code => code === 0 ? resolve(code) : reject(code))
+      child.once('exit', (code) => (code === 0 ? resolve(code) : reject(code)))
     })
   },
   ...initialConfig
 })
 
-export const getContext = <T extends PinionContext> (initialCtx: Partial<T>, initialConfig: Partial<Configuration> = {}) => {
+export const getContext = <T extends PinionContext>(
+  initialCtx: Partial<T>,
+  initialConfig: Partial<Configuration> = {}
+) => {
   const pinion = getConfig(initialConfig)
 
   return {
@@ -96,7 +103,7 @@ export const getContext = <T extends PinionContext> (initialCtx: Partial<T>, ini
   } as T
 }
 
-export const generator = async <T extends PinionContext> (initialContext: T) => initialContext
+export const generator = async <T extends PinionContext>(initialContext: T) => initialContext
 
 export const runModule = async (file: string, ctx: PinionContext) => {
   const { generate } = await loadModule(file)

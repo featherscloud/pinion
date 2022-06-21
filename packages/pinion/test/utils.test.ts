@@ -16,12 +16,15 @@ describe('@feathershq/pinion/utils', () => {
   })
 
   it('merge', () => {
-    const merged = merge({
-      some: { thing: true }
-    }, {
-      some: { other: 'message' },
-      value: { deep: true }
-    })
+    const merged = merge(
+      {
+        some: { thing: true }
+      },
+      {
+        some: { other: 'message' },
+        value: { deep: true }
+      }
+    )
 
     assert.deepStrictEqual(merged, {
       some: { thing: true, other: 'message' },
