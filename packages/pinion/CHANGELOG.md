@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/feathershq/pinion/compare/v0.3.2...v0.3.3) (2022-06-21)
+
+
+### Bug Fixes
+
+* Fix conditional evaluation issue ([#22](https://github.com/feathershq/pinion/issues/22)) ([6a62acc](https://github.com/feathershq/pinion/commit/6a62acc98f42a6df2f6050304ddfdbbc14d95e15))
+
+
+
+
+
 ## [0.3.2](https://github.com/feathershq/pinion/compare/v0.3.1...v0.3.2) (2022-06-21)
 
 
