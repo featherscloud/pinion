@@ -11,7 +11,7 @@ export interface ConverterContext extends PinionContext {
 const conversionRegex = /(`|\$\{)/g
 const convertContent = (content: string) => content.replace(conversionRegex, '\\$1')
 const template = (content: string, fileName: string) =>
-`import { PinionContext, generator, renderTemplate, to } from '@feathershq/pinion'
+  `import { PinionContext, generator, renderTemplate, to } from '@feathershq/pinion'
 
 export interface Context extends PinionContext {
   // Put additional context variables here
@@ -41,9 +41,11 @@ export const convert = async (ctx: ConverterContext) => {
   const convertDirectory = async (directory: string) => {
     const files = await listAllFiles(directory)
 
-    await Promise.all(files.map(async file =>
-      (await stat(file)).isDirectory() ? convertDirectory(file) : convertFile(file)
-    ))
+    await Promise.all(
+      files.map(async (file) =>
+        (await stat(file)).isDirectory() ? convertDirectory(file) : convertFile(file)
+      )
+    )
   }
 
   const fileName = join(cwd, file)

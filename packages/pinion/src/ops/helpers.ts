@@ -11,17 +11,17 @@ import { PinionContext } from '../core'
  * @param data The data to log
  * @returns The current context
  */
-export const addTrace = <C extends PinionContext> (ctx: C, name: string, info: unknown) => {
+export const addTrace = <C extends PinionContext>(ctx: C, name: string, info: unknown) => {
   ctx.pinion.trace = [...ctx.pinion.trace, { name, info, timestamp: Date.now() }]
 
   return ctx
 }
 
 export type WriteFileOptions = {
-  force: boolean;
-};
+  force: boolean
+}
 
-export const overwrite = async <C extends PinionContext> (
+export const overwrite = async <C extends PinionContext>(
   ctx: C,
   fileName: string,
   options: Partial<WriteFileOptions> = {}
@@ -31,11 +31,13 @@ export const overwrite = async <C extends PinionContext> (
   const relativeName = relative(ctx.cwd, fileName)
 
   if (existsSync(fileName) && !force) {
-    const { overwrite } = await prompt([{
-      type: 'confirm',
-      name: 'overwrite',
-      message: `File ${relativeName} already exists. Overwrite?`
-    }])
+    const { overwrite } = await prompt([
+      {
+        type: 'confirm',
+        name: 'overwrite',
+        message: `File ${relativeName} already exists. Overwrite?`
+      }
+    ])
 
     if (!overwrite) {
       logger.warn(`Skipped file ${relativeName}`)
@@ -46,7 +48,7 @@ export const overwrite = async <C extends PinionContext> (
   return true
 }
 
-export const promptWriteFile = async <C extends PinionContext> (
+export const promptWriteFile = async <C extends PinionContext>(
   fileName: string,
   content: string | Buffer,
   ctx: C,

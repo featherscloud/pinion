@@ -3,8 +3,7 @@ import { readFile } from 'fs/promises'
 import assert from 'assert'
 import { getContext, PinionContext, runModule } from '../src/index'
 
-const expectedFileContent =
-`<!-- Prepended -->
+const expectedFileContent = `<!-- Prepended -->
 This is injected before
 
 # Hello (world)
@@ -21,12 +20,15 @@ describe('@feathershq/pinion', () => {
   const rootGenerator = path.join(__dirname, 'templates', 'pinion.ts')
 
   it('simple', async () => {
-    const initialCtx = getContext<NamedContext>({
-      name: 'Simple test'
-    }, {
-      force: true,
-      cwd: __dirname
-    })
+    const initialCtx = getContext<NamedContext>(
+      {
+        name: 'Simple test'
+      },
+      {
+        force: true,
+        cwd: __dirname
+      }
+    )
     const ctx: NamedContext = await runModule(rootGenerator, initialCtx)
     const json = require('./tmp/testing.json')
 

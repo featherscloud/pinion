@@ -8,12 +8,11 @@ import { addTrace } from './helpers'
  * @param operation The operation to run when the condition is true
  * @returns The updated context
  */
-export const when = <C extends PinionContext> (
-  condition: Callable<boolean, C>,
-  operation: (ctx: C) => Promise<C>
-) => async (ctx: C) => {
-    const value = await getCallable(condition, ctx)
-    const result = await (value ? operation(ctx) : ctx)
+export const when =
+  <C extends PinionContext>(condition: Callable<boolean, C>, ...operations: ((ctx: C) => Promise<C>)[]) =>
+    async (ctx: C) => {
+      const value = await getCallable(condition, ctx)
+      const result = await operations.reduce((current, op) => current.then(op), Promise.resolve(ctx))
 
-    return addTrace(result, 'when', { value })
-  }
+      return addTrace(result, 'when', { value })
+    }

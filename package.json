@@ -26,7 +26,9 @@
     "install": "lerna bootstrap",
     "publish": "lerna publish",
     "publish:prerelease": "lerna publish prerelease --preid pre --pre-dist-tag pre --dist-tag pre",
-    "lint": "eslint packages/**/src/**/*.ts packages/**/test/**/*.ts --fix",
+    "prettier": "npx prettier \"packages/{,!(node_modules)/**/(src|test)/**/}*.ts\" --write",
+    "eslint": "eslint \"packages/**/*.ts\" --fix",
+    "lint": "npm run prettier && npm run eslint",
     "update-dependencies": "ncu -u && lerna exec -- ncu -u",
     "test": "npm run lint && c8 lerna run test"
   },
@@ -41,6 +43,7 @@
     "eslint-plugin-promise": "^5.0.0",
     "lerna": "^4.0.0",
     "npm-check-updates": "^12.5.0",
+    "prettier": "^2.7.1",
     "typescript": "^4.6.2"
   }
 }
