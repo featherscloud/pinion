@@ -12,7 +12,9 @@ export const when =
   <C extends PinionContext>(condition: Callable<boolean, C>, ...operations: ((ctx: C) => Promise<C>)[]) =>
     async (ctx: C) => {
       const value = await getCallable(condition, ctx)
-      const result = await operations.reduce((current, op) => current.then(op), Promise.resolve(ctx))
+      const result = value
+        ? await operations.reduce((current, op) => current.then(op), Promise.resolve(ctx))
+        : ctx
 
       return addTrace(result, 'when', { value })
     }
