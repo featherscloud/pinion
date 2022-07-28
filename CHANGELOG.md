@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/feathershq/pinion/compare/v0.3.3...v0.3.4) (2022-07-28)
+
+
+### Bug Fixes
+
+* Fix spawn command to work properly with Windows ([#23](https://github.com/feathershq/pinion/issues/23)) ([9064c55](https://github.com/feathershq/pinion/commit/9064c558845d22f576e7b4b615fd9ea26b41b8d0))
+
+
+
+
+
 ## [0.3.3](https://github.com/feathershq/pinion/compare/v0.3.2...v0.3.3) (2022-06-21)
 
 
