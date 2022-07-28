@@ -80,6 +80,7 @@ export const getConfig = (initialConfig?: Partial<Configuration>): Configuration
   exec: (command: string, args: string[], options?: SpawnOptions) => {
     const child = spawn(command, args, {
       stdio: 'inherit',
+      shell: true,
       ...options
     })
 
