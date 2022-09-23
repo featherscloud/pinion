@@ -1,7 +1,7 @@
-import { spawn, SpawnOptions } from 'child_process'
 import { prompt, PromptModule } from 'inquirer'
 import yargs, { Argv } from 'yargs'
 import chalk from 'chalk'
+import { execa, ExecaChildProcess, Options as ExecaOptions } from 'execa'
 
 import { loadModule } from './utils'
 
@@ -52,7 +52,11 @@ export type Configuration = {
   force: boolean
   prompt: PromptModule
   trace: PinionTrace[]
-  exec: (command: string, args: string[], options?: SpawnOptions) => Promise<number>
+  exec: (
+    command: string,
+    args: string[],
+    options?: ExecaOptions<string>
+  ) => Promise<ExecaChildProcess<string>>
 }
 
 export type PinionContext = {
@@ -77,16 +81,17 @@ export const getConfig = (initialConfig?: Partial<Configuration>): Configuration
   cwd: process.cwd(),
   force: false,
   trace: [],
-  exec: (command: string, args: string[], options?: SpawnOptions) => {
-    const child = spawn(command, args, {
-      stdio: 'inherit',
-      shell: true,
-      ...options
-    })
-
-    return new Promise((resolve, reject) => {
-      child.once('exit', (code) => (code === 0 ? resolve(code) : reject(code)))
-    })
+  exec: async (command: string, args: string[], options?: ExecaOptions<string>) => {
+    try {
+      const child = await execa(command, args, {
+        stdio: 'inherit',
+        shell: true,
+        ...options
+      })
+      return child
+    } catch (e: any) {
+      return e
+    }
   },
   ...initialConfig
 })

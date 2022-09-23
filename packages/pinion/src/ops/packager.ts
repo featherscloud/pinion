@@ -15,12 +15,12 @@ export const install =
 
       ctx.pinion.logger.warn(`Running ${packageManager} ${subCommand} ${flags.join(' ')}`)
 
-      const exitCode = await ctx.pinion.exec(packageManager, [subCommand, ...flags, ...dependencyList], {
-        cwd: ctx.cwd
-      })
-
-      if (exitCode !== 0) {
-        throw new Error(`Package manager ${packageManager} exited with error code ${exitCode}`)
+      try {
+        await ctx.pinion.exec(packageManager, [subCommand, ...flags, ...dependencyList], {
+          cwd: ctx.cwd
+        })
+      } catch (err: any) {
+        throw new Error(`Package manager ${packageManager} exited with error code ${err.exitCode}`)
       }
 
       return addTrace(ctx, 'install', { packageManager, subCommand, flags, dependencyList })

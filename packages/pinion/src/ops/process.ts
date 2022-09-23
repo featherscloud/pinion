@@ -2,31 +2,31 @@ import { Callable, getCallable, PinionContext } from '../core'
 import { addTrace } from './helpers'
 
 /**
- * Run a child process using node's native `child_process.spawn()` function.
- * 
- * The `child_process.spawn()` method spawns a new process using the given command, with command-line arguments in args. If omitted, args defaults to an empty array.
- * 
- * The spawnOptions argument is passed directly to the underlying child_process.spawn() function. See the Node.js documentation for more details:
- * https://nodejs.org/api/child_process.html#child_processspawncommand-args-options
- * 
+ * A utility function to run a command in a child process using `execa`.
+ *
+ * The `execa` method spawns a new process using the given command, with command-line arguments in args. If omitted, args defaults to an empty array.
+ *
+ * The options argument is passed directly to the underlying `execa` function. See the `execa` documentation for more details:
+ * https://github.com/sindresorhus/execa#readme
+ *
  * @param command The command-line command to run.
  * @param args The command-line arguments
- * @param spawnOptions options for child_process.spawn()
- * @returns The current context
+ * @param options options for execa
+ * @returns The child process
  */
-export const exec =
+export const utilExec =
   <C extends PinionContext>(
     command: Callable<string, C>,
     args?: Callable<string | string[], C>,
-    spawnOptions?: Callable<import('child_process').SpawnOptions, C>
+    options?: Callable<import('execa').Options, C>
   ) =>
     async <T extends C>(ctx: T) => {
       const cmd = await getCallable(command, ctx)
       const cmdArgOrArgs = await getCallable(args, ctx)
-      const options = await getCallable(spawnOptions, ctx)
+      const opts = await getCallable(options, ctx)
 
-      let cmdArgs: string[] = [];
-      
+      let cmdArgs: string[] = []
+
       if (cmdArgOrArgs) {
         if (Array.isArray(cmdArgOrArgs)) {
           cmdArgs = cmdArgOrArgs
@@ -35,18 +35,55 @@ export const exec =
         }
       }
 
-      const cmdSpawnOptions = { 
+      const cmdOptions = {
         cwd: ctx.cwd,
-        ...options 
+        ...opts
       }
 
       ctx.pinion.logger.warn(`Running ${cmd} ${cmdArgs.join(' ')}`)
 
-      const exitCode = await ctx.pinion.exec(cmd, cmdArgs, cmdSpawnOptions)
+      try {
+        return await ctx.pinion.exec(cmd, cmdArgs, cmdOptions)
+      } catch (err: any) {
+        throw new Error(`Command ${cmd} exited with error code ${err.exitCode}`)
+      }
+    }
 
-      if (exitCode !== 0) {
-        throw new Error(`Command ${cmd} exited with error code ${exitCode}`)
+/**
+ * Run a child process using `execa`.
+ *
+ * The `execa` method spawns a new process using the given command, with command-line arguments in args. If omitted, args defaults to an empty array.
+ *
+ * The options argument is passed directly to the underlying `execa` function. See the `execa` documentation for more details:
+ * https://github.com/sindresorhus/execa#readme
+ *
+ * @param command The command-line command to run.
+ * @param args The command-line arguments
+ * @param options options for execa
+ * @returns The current process
+ */
+export const exec =
+  <C extends PinionContext>(
+    command: Callable<string, C>,
+    args?: Callable<string | string[], C>,
+    options?: Callable<import('execa').Options, C>
+  ) =>
+    async <T extends C>(ctx: T) => {
+      const cmd = await getCallable(command, ctx)
+      const cmdArgOrArgs = await getCallable(args, ctx)
+      const opts = await getCallable(options, ctx)
+
+      let cmdArgs: string[] = []
+
+      if (cmdArgOrArgs) {
+        if (Array.isArray(cmdArgOrArgs)) {
+          cmdArgs = cmdArgOrArgs
+        } else {
+          cmdArgs = [cmdArgOrArgs]
+        }
       }
 
-      return addTrace(ctx, 'exec', { cmd, cmdArgs, cmdSpawnOptions })
+      await utilExec<C>(cmd, cmdArgOrArgs, opts)(ctx)
+
+      return addTrace(ctx, 'exec', { cmd, args: cmdArgs, options: opts })
     }
