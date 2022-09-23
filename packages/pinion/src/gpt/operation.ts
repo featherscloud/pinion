@@ -72,7 +72,7 @@ export const checkLogin = async <C extends PinionContext>(ctx: C) => {
       user
     }
   } catch (error) {
-    const { loginConfirm } = await prompt<C & { loginConfirm?: boolean }>([
+    const { loginConfirm } = await prompt([
       {
         type: 'confirm',
         name: 'loginConfirm',

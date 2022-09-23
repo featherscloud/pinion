@@ -1,6 +1,6 @@
 import { QuestionCollection } from 'inquirer'
-
 import { PinionContext, Callable, getCallable } from '../core'
+import { InferAnswerTypes } from '../declarations'
 import { addTrace } from './helpers'
 
 /**
@@ -10,13 +10,13 @@ import { addTrace } from './helpers'
  * @returns The generator context updated with the prompt results
  */
 export const prompt =
-  <C extends PinionContext, R extends PinionContext = C>(prompts: Callable<QuestionCollection, C>) =>
+  <C extends PinionContext, Q extends QuestionCollection = QuestionCollection>(prompts: Callable<Q, C>) =>
   async <T extends C>(ctx: T) => {
     const answers = await ctx.pinion.prompt(await getCallable(prompts, ctx))
     const result = {
       ...ctx,
       ...answers
-    } as R
+    } as C & InferAnswerTypes<Q>
 
     return addTrace(result, 'prompt', answers)
   }
