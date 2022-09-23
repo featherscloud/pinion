@@ -264,6 +264,17 @@ export const generate = (context: Context) => generator(context)
   .then(install(['ts-node'], true))
 ```
 
+### exec
+
+`exec(command|context => command, (args | args[])|context => (args | args[]), options|context => options)` executes a command using `child_process.spawn`.
+
+```ts
+import { PinionContext, generator, exec } from '@feathershq/pinion'
+
+export const generate = (context: Context) => generator(context)
+  .then(exec('git', 'init'))
+```
+
 ### runGenerators
 
 `runGenerators((filePart|context => filePart)[])` will run all `*.tpl.ts` or `*.tpl.js` generators in the given path alphabetically in sequence, passing the current context.
