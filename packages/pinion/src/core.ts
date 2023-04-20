@@ -1,13 +1,16 @@
 import { spawn, SpawnOptions } from 'child_process'
-import { prompt, PromptModule } from 'inquirer'
+import inquirer from 'inquirer'
 import yargs, { Argv } from 'yargs'
-import chalk from 'chalk'
 
 import { loadModule } from './utils'
 
 export { Argv, yargs }
 
-const { yellow, red, blue } = chalk
+const { prompt } = inquirer
+
+const yellow = (text: string) => `\u001b[33m${text}\u001b[39m`
+const red = (text: string) => `\u001b[31m${text}\u001b[39m`
+const blue = (text: string) => `\u001b[34m${text}\u001b[39m`
 
 export interface Logger {
   warn: (msg: string) => void
@@ -50,7 +53,7 @@ export type Configuration = {
   cwd: string
   logger: Logger
   force: boolean
-  prompt: PromptModule
+  prompt: typeof prompt
   trace: PinionTrace[]
   exec: (command: string, args: string[], options?: SpawnOptions) => Promise<number>
 }
