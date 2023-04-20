@@ -29,21 +29,21 @@
     "prettier": "npx prettier \"packages/{,!(node_modules)/**/(src|test)/**/}*.ts\" --write",
     "eslint": "eslint \"packages/**/*.ts\" --fix",
     "lint": "npm run prettier && npm run eslint",
-    "update-dependencies": "ncu -u && lerna exec -- ncu -u -x chalk -x inquirer",
+    "update-dependencies": "ncu -u && lerna exec -- ncu -u -x inquirer",
     "test": "npm run lint && c8 lerna run test"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
-    "c8": "^7.12.0",
-    "eslint": "^8.21.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "c8": "^7.13.0",
+    "eslint": "^8.38.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "lerna": "^5.3.0",
-    "npm-check-updates": "^16.0.5",
-    "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "eslint-plugin-promise": "^6.1.1",
+    "lerna": "^6.6.1",
+    "npm-check-updates": "^16.10.8",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
   }
 }

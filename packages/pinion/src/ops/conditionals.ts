@@ -13,7 +13,7 @@ export const when =
     async (ctx: C) => {
       const value = await getCallable(condition, ctx)
       const result = value
-        ? await operations.reduce((current, op) => current.then(op), Promise.resolve(ctx))
+        ? await operations.reduce((current, op) => current.then(op as any), Promise.resolve(ctx))
         : ctx
 
       return addTrace(result, 'when', { value })
