@@ -1,50 +1,35 @@
-import path from 'path'
-import yargs from 'yargs'
+import { join } from 'path'
+import { existsSync } from 'fs'
+import { Command } from 'commander'
 import { getContext } from '../core'
 import { loadModule } from '../utils'
 import { convert, ConverterContext } from './convert'
 
 export { convert, ConverterContext }
 
-export const cli = async (cmd: string[]) =>
-  yargs(cmd)
-    .scriptName('pinion')
-    .usage('$0 <command> [options]')
-    .command(
-      'convert [file]',
-      'Convert a file or folder into a generator',
-      (yargs) =>
-        yargs
-          .positional('file', {
-            type: 'string',
-            describe: 'The file or folder to convert',
-            demandOption: true
-          })
-          .option('to', {
-            describe: 'The path or filename to write the generator to',
-            default: '.pinion'
-          }),
-      (argv) => {
-        const ctx = getContext<ConverterContext>(argv, {})
+export const cli = async (cmd: string[]) => {
+  const [name, ...argv] = cmd
 
-        return convert(ctx)
-      }
-    )
-    .command(
-      'generate',
-      'Run your local generator',
-      async (yargs) => {
-        const moduleName = path.join(process.cwd(), '.pinion', 'pinion.ts')
-        const { command } = await loadModule(moduleName)
+  if (!name) {
+    throw new Error('Please specify a generator file name')
+  }
 
-        return typeof command === 'function' ? command(yargs) : yargs
-      },
-      async (argv) => {
-        const moduleName = path.join(process.cwd(), '.pinion', 'pinion.ts')
-        const { generate } = await loadModule(moduleName)
-        const ctx = getContext(argv, {})
+  const moduleName = join(process.cwd(), name)
 
-        return generate(ctx)
-      }
-    )
-    .help().argv
+  if (!existsSync(moduleName)) {
+    throw new Error(`The generator file ${name} does not exists`)
+  }
+
+  const { command, generate } = await loadModule(moduleName)
+  const commander: Command = typeof command === 'function' ? await command(new Command()) : new Command()
+  const args = commander.parse(argv, {
+    from: 'user'
+  })
+  const ctx = getContext(args.opts(), {})
+
+  if (typeof generate !== 'function') {
+    throw new Error('The generator file must export a generate function')
+  }
+
+  return generate(ctx)
+}
