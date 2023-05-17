@@ -1,10 +1,7 @@
 import { spawn, SpawnOptions } from 'child_process'
 import inquirer from 'inquirer'
-import yargs, { Argv } from 'yargs'
 
 import { loadModule } from './utils'
-
-export { Argv, yargs }
 
 const { prompt } = inquirer
 
@@ -23,19 +20,19 @@ export class BasicLogger implements Logger {
   logger: typeof console = console
   previousNotice: string = ''
 
-  warn (msg: string) {
+  warn(msg: string) {
     this.logger.log(yellow(`    ${msg}`))
   }
 
-  error (msg: string) {
+  error(msg: string) {
     this.logger.log(red(msg))
   }
 
-  log (msg: string) {
+  log(msg: string) {
     this.logger.log(msg)
   }
 
-  notice (msg: string) {
+  notice(msg: string) {
     if (this.previousNotice !== msg) {
       this.logger.log(blue(`    ${msg}`))
       this.previousNotice = msg
