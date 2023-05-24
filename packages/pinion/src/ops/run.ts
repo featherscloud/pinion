@@ -18,26 +18,26 @@ const getFileName = async <C extends PinionContext>(ctx: C, pathParts: Callable<
  */
 export const runGenerators =
   <C extends PinionContext>(...pathParts: Callable<string, C>[]) =>
-    async <T extends C>(ctx: T) => {
-      const name = await getFileName(ctx, pathParts)
-      const handle = await stat(name)
+  async <T extends C>(ctx: T) => {
+    const name = await getFileName(ctx, pathParts)
+    const handle = await stat(name)
 
-      if (!handle.isDirectory()) {
-        throw new Error(`${name} must be a directory (runGenerators)`)
-      }
-
-      const [compiledFiles, tsFiles] = await Promise.all([
-        listFiles(name, '.tpl.js'),
-        listFiles(name, '.tpl.ts')
-      ])
-      const files = compiledFiles.length ? compiledFiles : tsFiles
-
-      for (const file of files.sort()) {
-        await runModule(file, ctx)
-      }
-
-      return addTrace(ctx, 'runGenerators', { files })
+    if (!handle.isDirectory()) {
+      throw new Error(`${name} must be a directory (runGenerators)`)
     }
+
+    const [compiledFiles, tsFiles] = await Promise.all([
+      listFiles(name, '.tpl.js'),
+      listFiles(name, '.tpl.ts')
+    ])
+    const files = compiledFiles.length ? compiledFiles : tsFiles
+
+    for (const file of files.sort()) {
+      await runModule(file, ctx)
+    }
+
+    return addTrace(ctx, 'runGenerators', { files })
+  }
 
 /**
  * Run a single generator file
@@ -47,10 +47,10 @@ export const runGenerators =
  */
 export const runGenerator =
   <C extends PinionContext>(...pathParts: Callable<string, C>[]) =>
-    async <T extends C>(ctx: T) => {
-      const name = await getFileName(ctx, pathParts)
+  async <T extends C>(ctx: T) => {
+    const name = await getFileName(ctx, pathParts)
 
-      await runModule(name, ctx)
+    await runModule(name, ctx)
 
-      return ctx
-    }
+    return ctx
+  }

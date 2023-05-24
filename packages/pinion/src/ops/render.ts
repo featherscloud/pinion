@@ -14,10 +14,10 @@ export const renderTemplate =
     target: Callable<string, C>,
     options: Partial<WriteFileOptions> = {}
   ) =>
-    async <T extends C>(ctx: T) => {
-      const fileName = await getCallable(target, ctx)
-      const content = await getCallable(template, ctx)
-      const result = await promptWriteFile(fileName, content, ctx, options)
+  async <T extends C>(ctx: T) => {
+    const fileName = await getCallable(target, ctx)
+    const content = await getCallable(template, ctx)
+    const result = await promptWriteFile(fileName, content, ctx, options)
 
-      return addTrace(result, 'renderTemplate', { fileName, content })
-    }
+    return addTrace(result, 'renderTemplate', { fileName, content })
+  }
