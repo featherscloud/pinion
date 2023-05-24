@@ -5,7 +5,7 @@ module.exports = {
     mocha: true
   },
   extends: [
-    'standard'
+    'prettier'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

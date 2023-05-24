@@ -19,34 +19,34 @@ export const inject =
     location: Location<C>,
     target: Callable<string, C>
   ) =>
-    async <T extends C>(ctx: T) => {
-      const fileName = await getCallable(target, ctx)
-      const content = await getCallable(template, ctx)
-      const relativeName = relative(ctx.cwd, fileName)
+  async <T extends C>(ctx: T) => {
+    const fileName = await getCallable(target, ctx)
+    const content = await getCallable(template, ctx)
+    const relativeName = relative(ctx.cwd, fileName)
 
-      if (!existsSync(fileName)) {
-        throw new Error(`Cannot inject to '${fileName}'. The file doesn't exist.`)
-      }
-
-      const fileContent = (await readFile(fileName)).toString()
-
-      const NL = newline(fileContent)
-      const lines = fileContent.split(NL)
-
-      const { index } = await location(lines, ctx, relativeName)
-
-      if (index >= 0) {
-        lines.splice(index, 0, content)
-      }
-
-      const newContent = lines.join(NL)
-
-      await writeFile(fileName, newContent)
-
-      ctx.pinion.logger.notice(`Updated ${relativeName}`)
-
-      return addTrace(ctx, 'inject', { fileName, content })
+    if (!existsSync(fileName)) {
+      throw new Error(`Cannot inject to '${fileName}'. The file doesn't exist.`)
     }
+
+    const fileContent = (await readFile(fileName)).toString()
+
+    const NL = newline(fileContent)
+    const lines = fileContent.split(NL)
+
+    const { index } = await location(lines, ctx, relativeName)
+
+    if (index >= 0) {
+      lines.splice(index, 0, content)
+    }
+
+    const newContent = lines.join(NL)
+
+    await writeFile(fileName, newContent)
+
+    ctx.pinion.logger.notice(`Updated ${relativeName}`)
+
+    return addTrace(ctx, 'inject', { fileName, content })
+  }
 
 const escapeString = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -76,29 +76,29 @@ const getLineNumber = (pattern: string | RegExp, lines: string[], isBefore: bool
 
 export const before =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
-    async (lines: string[], ctx: any, fileName: string) => {
-      const line = await getCallable(pattern, ctx)
-      const index = getLineNumber(line, lines, true)
+  async (lines: string[], ctx: any, fileName: string) => {
+    const line = await getCallable(pattern, ctx)
+    const index = getLineNumber(line, lines, true)
 
-      if (index < 0) {
-        throw new Error(`Could not find line '${line}' in file ${fileName} to inject content before`)
-      }
-
-      return { index, pattern: line }
+    if (index < 0) {
+      throw new Error(`Could not find line '${line}' in file ${fileName} to inject content before`)
     }
+
+    return { index, pattern: line }
+  }
 
 export const after =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
-    async (lines: string[], ctx: any, fileName: string) => {
-      const line = await getCallable(pattern, ctx)
-      const index = getLineNumber(line, lines, false)
+  async (lines: string[], ctx: any, fileName: string) => {
+    const line = await getCallable(pattern, ctx)
+    const index = getLineNumber(line, lines, false)
 
-      if (index < 0) {
-        throw new Error(`Could not find line '${line}' in file ${fileName} to inject content after`)
-      }
-
-      return { index, pattern: line }
+    if (index < 0) {
+      throw new Error(`Could not find line '${line}' in file ${fileName} to inject content after`)
     }
+
+    return { index, pattern: line }
+  }
 
 export const prepend = () => async () => {
   return { index: 0 }

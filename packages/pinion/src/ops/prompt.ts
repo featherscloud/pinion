@@ -11,12 +11,12 @@ import { addTrace } from './helpers'
  */
 export const prompt =
   <C extends PinionContext, R extends PinionContext = C>(prompts: Callable<QuestionCollection, C>) =>
-    async <T extends C>(ctx: T) => {
-      const answers = await ctx.pinion.prompt(await getCallable(prompts, ctx))
-      const result = {
-        ...ctx,
-        ...answers
-      } as R
+  async <T extends C>(ctx: T) => {
+    const answers = await ctx.pinion.prompt(await getCallable(prompts, ctx))
+    const result = {
+      ...ctx,
+      ...answers
+    } as R
 
-      return addTrace(result, 'prompt', answers)
-    }
+    return addTrace(result, 'prompt', answers)
+  }
