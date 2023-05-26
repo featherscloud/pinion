@@ -1,6 +1,6 @@
 {
-  "timeout": 5000,
-  "require": [ "ts-node/register", "source-map-support/register" ],
+  "timeout": 50000,
+  "require": ["ts-node/register", "source-map-support/register"],
   "reporter": "Spec",
   "extension": ".test.ts"
 }

@@ -4,25 +4,37 @@ import { PinionContext, Callable, mapCallables, getCallable } from '../core'
 import { WriteFileOptions, promptWriteFile, overwrite, addTrace } from './helpers'
 import { listAllFiles, merge } from '../utils'
 
-const fileName =
-  (createFolders: boolean = false) =>
-  <C extends PinionContext>(...targets: Callable<string | string[], C>[]) =>
-  async <T extends C>(ctx: T) => {
-    const segments = (await mapCallables(targets, ctx)).flat()
-    const fullPath = resolve(ctx.cwd, ...segments)
+export type FileNameOptions = {
+  createFolders: boolean
+  prompt: string
+}
 
-    if (createFolders) {
-      await mkdir(dirname(fullPath), {
-        recursive: true
-      })
+const fileName =
+  (options: FileNameOptions) =>
+  <C extends PinionContext>(...targets: Callable<string | string[], C>[]) => {
+    const fn = async <T extends C>(ctx: T) => {
+      const segments = (await mapCallables(targets, ctx)).flat()
+      const fullPath = resolve(ctx.cwd, ...segments)
+
+      if (options.createFolders) {
+        await mkdir(dirname(fullPath), {
+          recursive: true
+        })
+      }
+
+      return fullPath
     }
 
-    return fullPath
+    fn.file = options
+
+    return fn
   }
 
-export const toFile = fileName(true)
+export type FileCallable = ReturnType<ReturnType<typeof fileName>>
 
-export const fromFile = fileName()
+export const file = fileName({ createFolders: false, prompt: 'file' })
+export const toFile = fileName({ createFolders: true, prompt: 'to file' })
+export const fromFile = fileName({ createFolders: false, prompt: 'from file' })
 
 export type JSONData = { [key: string]: any }
 
