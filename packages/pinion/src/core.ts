@@ -1,13 +1,11 @@
 import { spawn, SpawnOptions } from 'child_process'
 import inquirer from 'inquirer'
+import chalk from 'chalk'
 
 import { loadModule } from './utils'
 
 const { prompt } = inquirer
-
-const yellow = (text: string) => `\u001b[33m${text}\u001b[39m`
-const red = (text: string) => `\u001b[31m${text}\u001b[39m`
-const blue = (text: string) => `\u001b[34m${text}\u001b[39m`
+const { yellow, red, blue } = chalk
 
 export interface Logger {
   warn: (msg: string) => void

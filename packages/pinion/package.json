@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@types/inquirer": "^9.0.3",
+    "chalk": "4",
     "commander": "^10.0.1",
     "inquirer": "^8.0.0",
     "ts-node": "^10.9.1"
