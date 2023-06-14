@@ -13,9 +13,6 @@ interface MyContext extends PinionContext {
 describe('@feathershq/pinion/gpt', () => {
   it('getPromptData', async () => {
     const cwd = join(__dirname, '..')
-
-    console.log(cwd, (await stat(cwd)).isDirectory())
-
     const ctx = getContext<MyContext>({
       cwd,
       name: 'Dave'
