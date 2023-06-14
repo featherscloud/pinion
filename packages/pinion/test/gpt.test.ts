@@ -12,13 +12,14 @@ interface MyContext extends PinionContext {
 
 describe('@feathershq/pinion/gpt', () => {
   it('getPromptData', async () => {
+    const cwd = join(__dirname, '..')
     const ctx = getContext<MyContext>({
-      cwd: join(__dirname, '..'),
+      cwd,
       name: 'Dave'
     })
     const tagger = (strings: TemplateStringsArray, ...values: Callable<string, MyContext>[]) =>
       getPromptData(ctx, strings, ...values)
-    const fileContent = await readFile(join(__dirname, '..', 'readme.md'), 'utf-8')
+    const fileContent = await readFile(join(cwd, 'readme.md'), 'utf-8')
     const results = await tagger`Hey ${({ name }) => name}, I want to translate ${fromFile(
       'readme.md'
     )} to German ${toFile('docs', 'readme.de.md')}`
