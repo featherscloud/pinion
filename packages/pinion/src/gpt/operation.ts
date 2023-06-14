@@ -1,12 +1,14 @@
 import { readFile } from 'fs/promises'
-import { getCallable } from '../core'
 import { existsSync } from 'fs'
 import { relative, join } from 'path'
+import chalk from 'chalk'
+import open from 'open'
 
-import { Callable, PinionContext } from '../core'
+import { getCallable, Callable, PinionContext } from '../core'
 import { FileCallable, prompt } from '../ops'
 import { addTrace, promptWriteFile } from '../ops/helpers'
 import client from './client'
+import { consoleLoader } from '../utils'
 
 export type FileList = { [key: string]: string }
 
@@ -26,7 +28,7 @@ export type PromptData = {
  */
 export const getPromptData = async <C extends PinionContext>(
   ctx: C,
-  strings: TemplateStringsArray,
+  strings: TemplateStringsArray | string[],
   ...values: Callable<string, C>[]
 ) => {
   let prompt = ''
@@ -61,56 +63,56 @@ export const getPromptData = async <C extends PinionContext>(
   return promptData
 }
 
-// export const checkLogin = async <C extends PinionContext>(ctx: C) => {
-//   try {
-//     const { user } = await client.reAuthenticate()
+export const checkLogin = async <C extends PinionContext>(ctx: C) => {
+  try {
+    const { user } = await client.reAuthenticate()
 
-//     return {
-//       ...ctx,
-//       user
-//     }
-//   } catch (error) {
-//     const { loginConfirm } = await prompt<C & { loginConfirm?: boolean }>([
-//       {
-//         type: 'confirm',
-//         name: 'loginConfirm',
-//         message: `You need to sign in to ${chalk.gray(
-//           'feathers.cloud'
-//         )} to use GPT. Do you want to sign in with GitHub now?`
-//       }
-//     ])(ctx)
+    return {
+      ...ctx,
+      user
+    }
+  } catch (error) {
+    const { loginConfirm } = await prompt<C & { loginConfirm?: boolean }>([
+      {
+        type: 'confirm',
+        name: 'loginConfirm',
+        message: `You need to sign in to ${chalk.gray(
+          'feathers.cloud'
+        )} to use GPT. Do you want to sign in with GitHub now?`
+      }
+    ])(ctx)
 
-//     if (!loginConfirm) {
-//       throw new Error('Login required to use GPT')
-//     }
+    if (!loginConfirm) {
+      throw new Error('Login required to use GPT')
+    }
 
-//     const { version } = JSON.parse(await readFile(join(__dirname, '..', '..', 'package.json'), 'utf8'))
-//     const login = await gpt.client.service('login').create({
-//       platform: 'node',
-//       os: process.platform,
-//       version
-//     })
+    const { version } = JSON.parse(await readFile(join(__dirname, '..', '..', 'package.json'), 'utf8'))
+    const login = await gpt.client.service('login').create({
+      platform: 'node',
+      os: process.platform,
+      version
+    })
 
-//     ctx.pinion.logger.log(
-//       chalk.gray(`\nIf a browser window did not open, visit ${chalk.underline(login.url)} to sign in.\n`)
-//     )
+    ctx.pinion.logger.log(
+      chalk.gray(`\nIf a browser window did not open, visit ${chalk.underline(login.url)} to sign in.\n`)
+    )
 
-//     await open(login.url)
+    await open(login.url)
 
-//     const timeout = login.expiry - Date.now()
-//     const { user } = await gpt.client.authenticate(
-//       { strategy: 'code', code: login.code },
-//       {
-//         connection: { timeout }
-//       }
-//     )
+    const timeout = login.expiry - Date.now()
+    const { user } = await gpt.client.authenticate(
+      { strategy: 'code', code: login.code },
+      {
+        connection: { timeout }
+      }
+    )
 
-//     return {
-//       ...ctx,
-//       user
-//     }
-//   }
-// }
+    return {
+      ...ctx,
+      user
+    }
+  }
+}
 
 /**
  * A tagged template string handler that returns a Pinion operation
@@ -120,20 +122,31 @@ export const getPromptData = async <C extends PinionContext>(
  * @returns
  */
 export const gpt =
-  <C extends PinionContext>(strings: TemplateStringsArray, ...values: Callable<string, C>[]) =>
-  async <T extends C>(ctx: T) => {
-    const request = await getPromptData(ctx, strings, ...values)
-    const response = await gpt.client.service('prompt').create(request)
+  <C extends PinionContext>(strings: TemplateStringsArray | string[], ...values: Callable<string, C>[]) =>
+  async <T extends C>(ctx: T) =>
+    Promise.resolve(ctx)
+      .then(checkLogin)
+      .then(async (ctx) => {
+        const request = await getPromptData(ctx, strings, ...values)
 
-    if (response.data) {
-      const fileList = response.data
+        ctx.pinion.logger.notice(`Running "${chalk.grey(request.prompt)}"`)
 
-      for (const name of Object.keys(fileList)) {
-        await promptWriteFile(join(ctx.cwd, name), fileList[name], ctx)
-      }
-    }
+        const stopLoader = consoleLoader()
+        const response = await gpt.client.service('prompt').create(request)
 
-    return addTrace(ctx, 'gpt', { request, response })
-  }
+        stopLoader()
+
+        if (response.files) {
+          const fileList = response.files
+          for (const name of Object.keys(fileList)) {
+            const fileContent =
+              typeof fileList[name] === 'object' ? JSON.stringify(fileList[name]) : fileList[name]
+
+            await promptWriteFile(join(ctx.cwd, name), fileContent, ctx)
+          }
+        }
+
+        return addTrace(ctx, 'gpt', { request, response })
+      })
 
 gpt.client = client

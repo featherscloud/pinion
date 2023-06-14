@@ -66,3 +66,18 @@ export const merge = (target: { [key: string]: any }, source: { [key: string]: a
 
   return target
 }
+
+export const consoleLoader = (frames = ['\\', '|', '/', '-'], frameRate = 250) => {
+  let x = 0
+  const interval = setInterval(
+    () => process.stdout.write('\r' + frames[(x = ++x % frames.length)]),
+    frameRate
+  )
+
+  return () => {
+    clearInterval(interval)
+    process.stdout.write('\r')
+  }
+}
+
+export const formatString = (template: string, ...args: any[]) => template.replace(/%s/g, () => args.shift())

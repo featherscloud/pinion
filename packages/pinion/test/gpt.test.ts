@@ -1,9 +1,10 @@
 import assert from 'assert'
+import { join } from 'path'
 import { readFile } from 'fs/promises'
+
 import { PinionContext, fromFile, toFile } from '../src'
 import { Callable, file, getContext } from '../src'
 import { getPromptData, gpt } from '../src/gpt/operation'
-import { join } from 'path'
 
 interface MyContext extends PinionContext {
   name: string
@@ -12,6 +13,7 @@ interface MyContext extends PinionContext {
 describe('@feathershq/pinion/gpt', () => {
   it('getPromptData', async () => {
     const ctx = getContext<MyContext>({
+      cwd: join(__dirname, '..'),
       name: 'Dave'
     })
     const tagger = (strings: TemplateStringsArray, ...values: Callable<string, MyContext>[]) =>
@@ -31,14 +33,16 @@ describe('@feathershq/pinion/gpt', () => {
     })
   })
 
-  it.skip('gpt', async () => {
-    const ctx = getContext<MyContext>({
-      name: 'Dave'
-    })
-    const result = await Promise.resolve(ctx).then(
-      gpt`Translate ${file('readme.md')} to German ${toFile('test', 'tmp', 'readme.de.md')}`
-    )
+  if (process.env.PINION_API_KEY) {
+    it('gpt', async () => {
+      const ctx = getContext<MyContext>({
+        name: 'Dave'
+      })
+      const result = await Promise.resolve(ctx).then(
+        gpt`Translate ${file('readme.md')} to German ${toFile('test', 'tmp', 'readme.de.md')}`
+      )
 
-    console.log(result)
-  })
+      console.log(result)
+    })
+  }
 })
