@@ -26,8 +26,9 @@
     "packages/*"
   ],
   "scripts": {
-    "publish": "lerna publish",
-    "publish:prerelease": "lerna publish prerelease --preid pre --pre-dist-tag pre --dist-tag pre",
+    "publish": "lerna publish && npm run update-changelog",
+    "publish:prerelease": "lerna publish prerelease --preid pre --pre-dist-tag pre --dist-tag pre && npm run update-changelog",
+    "update-changelog": "git commit -am \"chore: Update changelog\" && git push origin",
     "prettier": "npx prettier \"packages/{,!(node_modules)/**/(src|test)/**/}*.ts\" --write",
     "eslint": "eslint \"packages/**/*.ts\" --fix",
     "lint": "npm run prettier && npm run eslint",

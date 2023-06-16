@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0-pre.2](https://github.com/feathershq/pinion/compare/v0.4.0-pre.1...v0.4.0-pre.2) (2023-06-16)
+
+### Bug Fixes
+
+- Improve CLI commands ([#39](https://github.com/feathershq/pinion/issues/39)) ([f768c1d](https://github.com/feathershq/pinion/commit/f768c1d4e705977a860589996f08acf51d61512d))
+
 # [0.4.0-pre.1](https://github.com/feathershq/pinion/compare/v0.4.0-pre.0...v0.4.0-pre.1) (2023-06-16)
 
 ### Bug Fixes
