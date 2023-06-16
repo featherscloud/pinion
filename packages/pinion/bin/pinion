@@ -3,7 +3,9 @@
 'use strict'
 const chalk = require('chalk')
 
-require('../lib/cli/index').cli(process.argv.slice(2)).catch(error => {
+require('../lib/cli/index').cli(process.argv.slice(2)).then(() => {
+  process.exit(0)
+}).catch(error => {
   console.error(`${chalk.red('Oh no! Something went wrong:')} ${error.message}`)
 
   if (error.data?.id) {
