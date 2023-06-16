@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0-pre.1](https://github.com/feathershq/pinion/compare/v0.4.0-pre.0...v0.4.0-pre.1) (2023-06-16)
+
+### Bug Fixes
+
+- Update feathers.cloud API client ([#38](https://github.com/feathershq/pinion/issues/38)) ([a3cb51e](https://github.com/feathershq/pinion/commit/a3cb51e9c699633b5553c1aa2cffea0f2be06fe3))
+
 # [0.4.0-pre.0](https://github.com/feathershq/pinion/compare/v0.3.5...v0.4.0-pre.0) (2023-06-16)
 
 ### Bug Fixes

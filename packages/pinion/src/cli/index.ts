@@ -1,7 +1,6 @@
 import { join } from 'path'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import { Command } from 'commander'
-import chalk from 'chalk'
 
 import { getContext } from '../core'
 import { loadModule } from '../utils'
@@ -11,6 +10,9 @@ import { file } from '../ops'
 
 export { convert, ConverterContext }
 
+const { version } = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf8'))
+const BASE_ACTIONS = ['help', '--help', '-h', '--version', '-V']
+
 export const cli = async (cmd: string[]) => {
   const [action, ...argRest] = cmd
   const program = new Command()
@@ -18,9 +20,12 @@ export const cli = async (cmd: string[]) => {
   program.name('pinion').description('The Pinion CLI')
   program.command('<prompt> <files...>').description('Run a text prompt on a list of files.')
   program.command('run <name> [args...]').description('Run a generator file with command line arguments.')
+  program.version(version)
 
-  if (!action || action === 'help' || action === '--help' || action === '-h') {
-    program.help()
+  if (!action || BASE_ACTIONS.includes(action)) {
+    program.parse(cmd, {
+      from: 'user'
+    })
   } else if (action === 'run') {
     const [name, ...argv] = argRest
 
