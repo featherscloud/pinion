@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0-pre.3](https://github.com/feathershq/pinion/compare/v0.4.0-pre.2...v0.4.0-pre.3) (2023-06-16)
+
+### Bug Fixes
+
+- Properly export GPT operation and utilities ([#40](https://github.com/feathershq/pinion/issues/40)) ([f88a705](https://github.com/feathershq/pinion/commit/f88a705814810aaf3f50b492859344338b8a36ba))
+
 # [0.4.0-pre.2](https://github.com/feathershq/pinion/compare/v0.4.0-pre.1...v0.4.0-pre.2) (2023-06-16)
 
 ### Bug Fixes
