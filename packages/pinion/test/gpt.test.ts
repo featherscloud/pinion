@@ -1,10 +1,7 @@
 import assert from 'assert'
 import { join } from 'path'
-import { readFile, stat } from 'fs/promises'
-
-import { PinionContext, fromFile, toFile } from '../src'
-import { Callable, file, getContext } from '../src'
-import { getPromptData, gpt } from '../src/gpt/operation'
+import { readFile } from 'fs/promises'
+import { PinionContext, fromFile, toFile, Callable, file, getContext, getPromptData, gpt } from '../src'
 
 interface MyContext extends PinionContext {
   name: string
