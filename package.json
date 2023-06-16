@@ -43,7 +43,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "lerna": "^7.0.1",
+    "lerna": "^7.0.2",
     "npm-check-updates": "^16.10.12",
     "prettier": "^2.8.8",
     "typescript": "^5.1.3"

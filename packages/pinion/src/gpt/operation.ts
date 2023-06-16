@@ -132,7 +132,13 @@ export const gpt =
         ctx.pinion.logger.notice(`Running "${chalk.grey(request.prompt)}"`)
 
         const stopLoader = consoleLoader()
-        const response = await gpt.client.service('prompt').create(request)
+        const response = await gpt.client
+          .service('prompt')
+          .create(request)
+          .catch((error: unknown) => {
+            stopLoader()
+            throw error
+          })
 
         stopLoader()
 

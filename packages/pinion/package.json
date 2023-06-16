@@ -54,7 +54,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@feathershq/api": "^0.1.0",
+    "@feathershq/api": "^0.2.0",
     "@types/inquirer": "^9.0.3",
     "chalk": "^4.0.0",
     "commander": "^10.0.1",
