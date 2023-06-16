@@ -1,16 +1,12 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.3.5",
+  "packages": ["packages/*"],
+  "version": "0.4.0-pre.0",
   "command": {
     "bootstrap": {
       "hoist": true
     },
     "publish": {
-      "allowBranch": [
-        "main"
-      ],
+      "allowBranch": ["main"],
       "message": "chore(release): publish %s",
       "conventionalCommits": true,
       "createRelease": "github"
