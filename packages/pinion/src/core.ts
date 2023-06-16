@@ -55,7 +55,6 @@ export type Configuration = {
 
 export type PinionContext = {
   cwd: string
-  _?: (number | string)[]
   pinion: Configuration
 }
 

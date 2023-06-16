@@ -1,6 +1,6 @@
 import path from 'path'
 import assert from 'assert'
-import { merge, listAllFiles, loadModule, listFiles } from '../src/utils'
+import { merge, listAllFiles, loadModule, listFiles, consoleLoader } from '../src/utils'
 
 describe('@feathershq/pinion/utils', () => {
   it('listFiles with extension', async () => {
@@ -30,6 +30,14 @@ describe('@feathershq/pinion/utils', () => {
       some: { thing: true, other: 'message' },
       value: { deep: true }
     })
+  })
+
+  it('consoleLoader', () => {
+    const stopLoader = consoleLoader()
+
+    assert.strictEqual(typeof stopLoader, 'function')
+
+    stopLoader()
   })
 
   describe('loadModule', () => {
