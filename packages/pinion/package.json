@@ -45,7 +45,7 @@
   "scripts": {
     "prepublish": "npm run compile",
     "compile": "shx rm -rf lib/ && tsc",
-    "test": "shx rm -rf test/tmp && mocha --config ../../.mocharc.json --recursive test/**.test.ts test/**/*.test.ts"
+    "test": "shx rm -rf test/tmp && mocha --config ../../.mocharc.json --recursive test/**.test.ts test/**/*.test.ts --exit"
   },
   "directories": {
     "lib": "lib"
@@ -54,7 +54,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@feathershq/api": "^0.2.0",
+    "@feathershq/api": "^0.3.0",
     "@types/inquirer": "^9.0.3",
     "chalk": "^4.0.0",
     "commander": "^10.0.1",
