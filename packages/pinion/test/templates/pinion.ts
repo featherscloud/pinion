@@ -36,7 +36,7 @@ export const generate = (ctx: GeneratorArguments) =>
     .then(inject('<!-- Prepended -->', prepend(), toHelloMd))
     .then(inject('<!-- Appended -->', append(), toHelloMd))
     .then(
-      prompt<GeneratorArguments, GeneratorContext>((ctx) => [
+      prompt<GeneratorArguments>((ctx) => [
         {
           type: 'input',
           name: 'name',
@@ -53,7 +53,7 @@ export const generate = (ctx: GeneratorArguments) =>
     )
     .then(copyFiles(fromFile(__dirname), toFile('tmp', 'copy')))
     .then(runGenerators(__dirname))
-    .then((ctx: GeneratorContext) => ({
+    .then((ctx) => ({
       ...ctx,
       finalized: true
     }))
