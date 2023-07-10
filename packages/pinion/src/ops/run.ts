@@ -18,7 +18,7 @@ const getFileName = async <C extends PinionContext>(ctx: C, pathParts: Callable<
  */
 export const runGenerators =
   <C extends PinionContext>(...pathParts: Callable<string, C>[]) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const name = await getFileName(ctx, pathParts)
     const handle = await stat(name)
 
@@ -47,7 +47,7 @@ export const runGenerators =
  */
 export const runGenerator =
   <C extends PinionContext>(...pathParts: Callable<string, C>[]) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const name = await getFileName(ctx, pathParts)
 
     await runModule(name, ctx)

@@ -1,7 +1,34 @@
-import { QuestionCollection } from 'inquirer'
+import { Question, QuestionCollection } from 'inquirer'
 import { PinionContext, Callable, getCallable } from '../core'
-import { InferAnswerTypes } from '../declarations'
 import { addTrace } from './helpers'
+
+export type InferAnswerType<Q extends Question> = Q extends { type: 'input' }
+  ? string
+  : Q extends { type: 'list' }
+  ? string
+  : Q extends { type: 'rawlist' }
+  ? string
+  : Q extends { type: 'number' }
+  ? number
+  : Q extends { type: 'password' }
+  ? string
+  : Q extends { type: 'confirm' }
+  ? boolean
+  : Q extends { type: 'checkbox' }
+  ? string[]
+  : Q extends { type: 'editor' }
+  ? string
+  : unknown
+
+export type InferAnswerTypes<Q extends QuestionCollection> = Q extends ReadonlyArray<
+  Question & { name: string }
+>
+  ? { [K in Q[number] as K['name']]: InferAnswerType<K> }
+  : Q extends Array<Question>
+  ? unknown
+  : {
+      [K in keyof Q]: InferAnswerType<Q[K]>
+    }
 
 /**
  * Show prompts using Inquirer
@@ -11,7 +38,7 @@ import { addTrace } from './helpers'
  */
 export const prompt =
   <C extends PinionContext, Q extends QuestionCollection = QuestionCollection>(prompts: Callable<Q, C>) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const answers = await ctx.pinion.prompt(await getCallable(prompts, ctx))
     const result = {
       ...ctx,

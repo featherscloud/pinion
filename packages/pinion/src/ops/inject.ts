@@ -19,7 +19,7 @@ export const inject =
     location: Location<C>,
     target: Callable<string, C>
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
     const relativeName = relative(ctx.cwd, fileName)

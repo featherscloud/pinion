@@ -123,7 +123,7 @@ export const checkLogin = async <C extends PinionContext>(ctx: C) => {
  */
 export const gpt =
   <C extends PinionContext>(strings: TemplateStringsArray | string[], ...values: Callable<string, C>[]) =>
-  async <T extends C>(ctx: T) =>
+  async (ctx: C) =>
     Promise.resolve(ctx)
       .then(checkLogin)
       .then(async (ctx) => {
