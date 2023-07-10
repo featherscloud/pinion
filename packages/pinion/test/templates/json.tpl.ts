@@ -1,16 +1,11 @@
-import { generator, loadJSON, fromFile, toFile, writeJSON, mergeJSON } from '../../src/index'
-import { GeneratorContext } from './pinion'
+import { generator, loadJSON, fromFile, toFile, writeJSON, mergeJSON, PinionContext } from '../../src/index'
 
-interface JSONContext extends GeneratorContext {
-  example: any
-}
-
-export const generate = (ctx: JSONContext) =>
+export const generate = (ctx: PinionContext) =>
   generator(ctx)
     .then(loadJSON(fromFile(__dirname, '..', 'fixtures', 'example.json'), (example) => ({ example })))
     .then(
       writeJSON(
-        (ctx: JSONContext) => {
+        (ctx) => {
           return {
             written: true,
             example: ctx.example

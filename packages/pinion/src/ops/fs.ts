@@ -83,9 +83,9 @@ export const copyFiles =
  * @returns The current context
  */
 export const loadJSON =
-  <C extends PinionContext>(
+  <C extends PinionContext, X>(
     file: Callable<string, C>,
-    converter: (data: JSONData, ctx: C) => JSONData = (data) => data,
+    converter: (data: JSONData, ctx: C) => X = (data) => data as X,
     fallback?: Callable<JSONData, C>
   ) =>
   async (ctx: C) => {
@@ -107,7 +107,7 @@ export const loadJSON =
     const result = {
       ...ctx,
       ...converted
-    } as C
+    } as C & X
 
     return addTrace(result, 'loadJSON', { fileName, data })
   }
