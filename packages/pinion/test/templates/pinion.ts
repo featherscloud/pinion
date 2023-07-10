@@ -34,17 +34,20 @@ export const generate = (ctx: GeneratorArguments) =>
     .then(inject('<!-- Prepended -->', prepend(), toFile('tmp', 'hello.md')))
     .then(inject('<!-- Appended -->', append(), toFile('tmp', 'hello.md')))
     .then(
-      prompt((ctx) => [
-        {
+      prompt((ctx) => ({
+        name: {
           type: 'input',
-          name: 'name',
+          when: !ctx.name
+        },
+        age: {
+          type: 'number',
           when: !ctx.name
         }
-      ])
+      }))
     )
     .then(
       when(
-        () => true,
+        (ctx) => !!ctx.name && !ctx.age,
         install(['@feathersjs/feathers'], false, 'echo'),
         install(['@feathersjs/feathers'], true, 'echo')
       )

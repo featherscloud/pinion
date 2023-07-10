@@ -47,3 +47,8 @@ export const prompt =
 
     return addTrace(result, 'prompt', answers)
   }
+
+/**
+ * Get the types for the answers from a prompt() function
+ */
+export type Answers<T extends ReturnType<typeof prompt>> = ReturnType<T> extends Promise<infer U> ? U : never
