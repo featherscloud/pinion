@@ -7,7 +7,7 @@ export const install =
     dev: boolean = false,
     packager: Callable<string, C> = 'npm'
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const dependencyList = await getCallable(dependencies, ctx)
     const packageManager = await getCallable(packager, ctx)
     const subCommand = packageManager === 'yarn' ? 'add' : 'install'

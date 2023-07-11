@@ -19,7 +19,7 @@ export const inject =
     location: Location<C>,
     target: Callable<string, C>
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
     const relativeName = relative(ctx.cwd, fileName)
@@ -76,7 +76,7 @@ const getLineNumber = (pattern: string | RegExp, lines: string[], isBefore: bool
 
 export const before =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
-  async (lines: string[], ctx: any, fileName: string) => {
+  async (lines: string[], ctx: C, fileName: string) => {
     const line = await getCallable(pattern, ctx)
     const index = getLineNumber(line, lines, true)
 
@@ -89,7 +89,7 @@ export const before =
 
 export const after =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
-  async (lines: string[], ctx: any, fileName: string) => {
+  async (lines: string[], ctx: C, fileName: string) => {
     const line = await getCallable(pattern, ctx)
     const index = getLineNumber(line, lines, false)
 

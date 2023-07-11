@@ -12,7 +12,7 @@ export type FileNameOptions = {
 const fileName =
   (options: FileNameOptions) =>
   <C extends PinionContext>(...targets: Callable<string | string[], C>[]) => {
-    const fn = async <T extends C>(ctx: T) => {
+    const fn = async (ctx: C) => {
       const segments = (await mapCallables(targets, ctx)).flat()
       const fullPath = resolve(ctx.cwd, ...segments)
 
@@ -53,7 +53,7 @@ export const copyFiles =
     to: Callable<string, C>,
     options: Partial<WriteFileOptions> = {}
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const source = await getCallable(from, ctx)
     const target = await getCallable(to, ctx)
     const fileList = await listAllFiles(source)
@@ -83,12 +83,12 @@ export const copyFiles =
  * @returns The current context
  */
 export const loadJSON =
-  <C extends PinionContext>(
+  <C extends PinionContext, X>(
     file: Callable<string, C>,
-    converter: (data: JSONData, ctx: C) => JSONData = (data) => data,
+    converter: (data: JSONData, ctx: C) => X = (data) => data as X,
     fallback?: Callable<JSONData, C>
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(file, ctx)
     let data
 
@@ -107,7 +107,7 @@ export const loadJSON =
     const result = {
       ...ctx,
       ...converted
-    } as T
+    } as C & X
 
     return addTrace(result, 'loadJSON', { fileName, data })
   }
@@ -125,7 +125,7 @@ export const writeJSON =
     file: Callable<string, C>,
     options: Partial<WriteFileOptions> = {}
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(file, ctx)
     const data = await getCallable(json, ctx)
     const content = JSON.stringify(data, null, '  ')
@@ -143,7 +143,7 @@ export const writeJSON =
  */
 export const mergeJSON =
   <C extends PinionContext>(json: Callable<JSONData, C>, file: Callable<string, C>) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(file, ctx)
     const payload = await getCallable(json, ctx)
     const existingContent = (await readFile(fileName)).toString()

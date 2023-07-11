@@ -16,8 +16,6 @@ import {
   copyFiles
 } from '../../src/index'
 
-const toHelloMd = toFile('tmp', 'hello.md')
-
 export interface GeneratorContext extends PinionContext {
   name: string
   order: string[]
@@ -30,23 +28,26 @@ export type GeneratorArguments = PinionContext & Partial<Pick<GeneratorContext, 
 
 export const generate = (ctx: GeneratorArguments) =>
   generator(ctx)
-    .then(renderTemplate('# Hello (world)', toHelloMd))
-    .then(inject('\nThis is injected after', after('Hello (world)'), toHelloMd))
-    .then(inject('This is injected before\n', before(/Hello\s/), toHelloMd))
-    .then(inject('<!-- Prepended -->', prepend(), toHelloMd))
-    .then(inject('<!-- Appended -->', append(), toHelloMd))
+    .then(renderTemplate('# Hello (world)', toFile('tmp', 'hello.md')))
+    .then(inject('\nThis is injected after', after('Hello (world)'), toFile('tmp', 'hello.md')))
+    .then(inject('This is injected before\n', before(/Hello\s/), toFile('tmp', 'hello.md')))
+    .then(inject('<!-- Prepended -->', prepend(), toFile('tmp', 'hello.md')))
+    .then(inject('<!-- Appended -->', append(), toFile('tmp', 'hello.md')))
     .then(
-      prompt<GeneratorArguments>((ctx) => [
-        {
+      prompt((ctx) => ({
+        name: {
           type: 'input',
-          name: 'name',
+          when: !ctx.name
+        },
+        age: {
+          type: 'number',
           when: !ctx.name
         }
-      ])
+      }))
     )
     .then(
       when(
-        () => true,
+        (ctx) => !!ctx.name && !ctx.age,
         install(['@feathersjs/feathers'], false, 'echo'),
         install(['@feathersjs/feathers'], true, 'echo')
       )

@@ -14,7 +14,7 @@ export const renderTemplate =
     target: Callable<string, C>,
     options: Partial<WriteFileOptions> = {}
   ) =>
-  async <T extends C>(ctx: T) => {
+  async (ctx: C) => {
     const fileName = await getCallable(target, ctx)
     const content = await getCallable(template, ctx)
     const result = await promptWriteFile(fileName, content, ctx, options)
