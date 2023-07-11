@@ -2,12 +2,11 @@ import { readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import { relative, join } from 'path'
 import chalk from 'chalk'
-import open from 'open'
 
 import { getCallable, Callable, PinionContext } from '../core'
-import { FileCallable, prompt } from '../ops'
+import { FileCallable } from '../ops'
 import { addTrace, promptWriteFile } from '../ops/helpers'
-import client from './client'
+import { checkLogin, client, handlePayment } from './client'
 import { consoleLoader } from '../utils'
 
 export type FileList = { [key: string]: string }
@@ -63,59 +62,8 @@ export const getPromptData = async <C extends PinionContext>(
   return promptData
 }
 
-export const checkLogin = async <C extends PinionContext>(ctx: C) => {
-  try {
-    const { user } = await client.reAuthenticate()
-
-    return {
-      ...ctx,
-      user
-    }
-  } catch (error) {
-    const { loginConfirm } = await prompt([
-      {
-        type: 'confirm',
-        name: 'loginConfirm',
-        message: `You need to sign in to ${chalk.gray(
-          'feathers.cloud'
-        )} to use GPT. Do you want to sign in with GitHub now?`
-      }
-    ])(ctx)
-
-    if (!loginConfirm) {
-      throw new Error('Login required to use GPT')
-    }
-
-    const { version } = JSON.parse(await readFile(join(__dirname, '..', '..', 'package.json'), 'utf8'))
-    const login = await gpt.client.service('login').create({
-      platform: 'node',
-      os: process.platform,
-      version
-    })
-
-    ctx.pinion.logger.log(
-      chalk.gray(`\nIf a browser window did not open, visit ${chalk.underline(login.url)} to sign in.\n`)
-    )
-
-    await open(login.url)
-
-    const timeout = login.expiry - Date.now()
-    const { user } = await gpt.client.authenticate(
-      { strategy: 'code', code: login.code },
-      {
-        connection: { timeout }
-      }
-    )
-
-    return {
-      ...ctx,
-      user
-    }
-  }
-}
-
 /**
- * A tagged template string handler that returns a Pinion operation
+ * Run a Pinion GPT task using a template string.
  *
  * @param strings
  * @param values
@@ -132,7 +80,7 @@ export const gpt =
         ctx.pinion.logger.notice(`Running "${chalk.grey(request.prompt)}"`)
 
         const stopLoader = consoleLoader()
-        const response = await gpt.client
+        const response = await client
           .service('prompt')
           .create(request)
           .catch((error: unknown) => {
@@ -154,5 +102,10 @@ export const gpt =
 
         return addTrace(ctx, 'gpt', { request, response })
       })
+      .catch(async (error) => {
+        if (error.code === 402) {
+          return handlePayment(error, ctx)
+        }
 
-gpt.client = client
+        throw error
+      })
