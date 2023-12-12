@@ -20,7 +20,7 @@
     "url": "https://github.com/feathershq/pinion/issues"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "workspaces": [
     "packages/*"
