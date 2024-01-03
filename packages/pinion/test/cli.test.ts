@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { cli } from '../src'
 
-describe('@feathershq/pinion/cli', () => {
+describe('@featherscloud/pinion/cli', () => {
   it('runs the CLI with a generator', async () => {
     const oldCwd = process.cwd()
 

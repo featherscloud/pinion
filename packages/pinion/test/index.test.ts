@@ -16,7 +16,7 @@ interface NamedContext extends PinionContext {
   finalized: boolean
 }
 
-describe('@feathershq/pinion', () => {
+describe('@featherscloud/pinion', () => {
   const rootGenerator = path.join(__dirname, 'templates', 'pinion.ts')
 
   it('simple', async () => {

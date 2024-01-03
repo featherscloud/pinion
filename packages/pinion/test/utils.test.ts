@@ -2,7 +2,7 @@ import path from 'path'
 import assert from 'assert'
 import { merge, listAllFiles, loadModule, listFiles, consoleLoader } from '../src/utils'
 
-describe('@feathershq/pinion/utils', () => {
+describe('@featherscloud/pinion/utils', () => {
   it('listFiles with extension', async () => {
     const files = await listFiles(path.join(__dirname, 'templates'), '.tpl.ts')
 

@@ -34,7 +34,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.3.5](https://github.com/feathershq/pinion/compare/v0.3.4...v0.3.5) (2022-08-03)
 
-**Note:** Version bump only for package @feathershq/pinion
+**Note:** Version bump only for package @featherscloud/pinion
 
 ## [0.3.4](https://github.com/feathershq/pinion/compare/v0.3.3...v0.3.4) (2022-07-28)
 
@@ -105,7 +105,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.2.3](https://github.com/feathershq/pinion/compare/v0.2.2...v0.2.3) (2022-03-25)
 
-**Note:** Version bump only for package @feathershq/pinion
+**Note:** Version bump only for package @featherscloud/pinion
 
 ## [0.2.2](https://github.com/feathershq/pinion/compare/v0.2.1...v0.2.2) (2022-03-11)
 
