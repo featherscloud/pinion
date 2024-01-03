@@ -1,6 +1,10 @@
 import path from 'path'
 import assert from 'assert'
 import { merge, listAllFiles, loadModule, listFiles, consoleLoader } from '../src/utils'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 describe('@featherscloud/pinion/utils', () => {
   it('listFiles with extension', async () => {

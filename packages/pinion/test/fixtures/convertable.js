@@ -1,1 +1,1 @@
-exports.doSomething = name => `Yo ${name}`
+export const doSomething = name => `Yo ${name}`

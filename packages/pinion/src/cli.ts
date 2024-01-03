@@ -1,9 +1,13 @@
-import { join } from 'path'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import { existsSync, readFileSync } from 'fs'
 import { Command } from 'commander'
 
 import { getContext } from './core'
 import { loadModule } from './utils'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const { version } = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'))
 const BASE_ACTIONS = ['help', '--help', '-h', '--version', '-V']

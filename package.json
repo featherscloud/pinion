@@ -32,7 +32,7 @@
     "prettier": "npx prettier \"packages/{,!(node_modules)/**/(src|test)/**/}*.ts\" --write",
     "eslint": "eslint \"packages/**/*.ts\" --fix",
     "lint": "npm run prettier && npm run eslint",
-    "update-dependencies": "ncu -u && lerna exec -- ncu -u -x inquirer,chalk,open",
+    "update-dependencies": "ncu -u && lerna exec -- ncu -u",
     "test": "npm run lint && c8 lerna run test"
   },
   "devDependencies": {
