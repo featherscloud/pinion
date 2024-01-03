@@ -1,5 +1,5 @@
-import { Callable, getCallable, PinionContext } from '../core'
-import { addTrace } from './helpers'
+import { Callable, getCallable, PinionContext } from '../core.js'
+import { addTrace } from './helpers.js'
 
 export const install =
   <C extends PinionContext>(

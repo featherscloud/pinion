@@ -1,5 +1,5 @@
-import { PinionContext, Callable, getCallable } from '../core'
-import { WriteFileOptions, promptWriteFile, addTrace } from './helpers'
+import { PinionContext, Callable, getCallable } from '../core.js'
+import { WriteFileOptions, promptWriteFile, addTrace } from './helpers.js'
 
 /**
  * Renders a template to a file.

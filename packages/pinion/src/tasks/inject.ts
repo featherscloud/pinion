@@ -1,9 +1,9 @@
 import { existsSync } from 'fs'
 import { relative } from 'path'
 import { readFile, writeFile } from 'fs/promises'
-import { PinionContext, Callable, getCallable } from '../core'
 import { EOL } from 'os'
-import { addTrace } from './helpers'
+import { PinionContext, Callable, getCallable } from '../core.js'
+import { addTrace } from './helpers.js'
 
 const EOLRegex = /\r?\n/
 

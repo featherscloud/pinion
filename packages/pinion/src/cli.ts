@@ -3,8 +3,8 @@ import { fileURLToPath } from 'url'
 import { existsSync, readFileSync } from 'fs'
 import { Command } from 'commander'
 
-import { getContext } from './core'
-import { loadModule } from './utils'
+import { getContext } from './core.js'
+import { loadModule } from './utils.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

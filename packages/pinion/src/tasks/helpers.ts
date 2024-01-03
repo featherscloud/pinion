@@ -1,7 +1,7 @@
 import { relative } from 'path'
 import { existsSync } from 'fs'
 import { writeFile } from 'fs/promises'
-import { PinionContext } from '../core'
+import { PinionContext } from '../core.js'
 
 /**
  * Add tracing information on what happened to the Pinion context

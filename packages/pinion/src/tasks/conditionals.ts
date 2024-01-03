@@ -1,5 +1,5 @@
-import { PinionContext, Callable, getCallable } from '../core'
-import { addTrace } from './helpers'
+import { PinionContext, Callable, getCallable } from '../core.js'
+import { addTrace } from './helpers.js'
 
 /**
  * Conditionally run an operation

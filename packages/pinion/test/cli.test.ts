@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { cli } from '../src'
+import { cli } from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

@@ -11,7 +11,7 @@
     "typescript"
   ],
   "bin": {
-    "pinion": "./bin/pinion"
+    "pinion": "./bin/pinion.js"
   },
   "license": "MIT",
   "funding": {
