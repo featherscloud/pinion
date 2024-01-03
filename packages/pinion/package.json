@@ -4,13 +4,14 @@
   "version": "0.4.0-pre.3",
   "homepage": "https://feathersjs.com",
   "main": "lib/",
+  "type": "module",
   "keywords": [
     "pinion",
     "generator",
     "typescript"
   ],
   "bin": {
-    "pinion": "./bin/pinion"
+    "pinion": "./bin/pinion.js"
   },
   "license": "MIT",
   "funding": {
@@ -56,9 +57,8 @@
   "dependencies": {
     "@types/inquirer": "^9.0.7",
     "commander": "^11.1.0",
-    "inquirer": "^8.0.0",
-    "open": "^8.4.0",
-    "ts-node": "^10.9.2"
+    "inquirer": "^9.2.12",
+    "tsx": "^4.7.0"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",

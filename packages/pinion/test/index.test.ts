@@ -1,7 +1,11 @@
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { getContext, PinionContext, runModule } from '../src/index'
+import { getContext, PinionContext, runModule } from '../src/index.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const expectedFileContent = `<!-- Prepended -->
 This is injected before
@@ -30,7 +34,7 @@ describe('@featherscloud/pinion', () => {
       }
     )
     const ctx: NamedContext = await runModule(rootGenerator, initialCtx)
-    const json = require('./tmp/testing.json')
+    const json = JSON.parse((await readFile(path.join(__dirname, './tmp/testing.json'))).toString())
 
     assert.ok(ctx.finalized)
     assert.deepStrictEqual(json, {

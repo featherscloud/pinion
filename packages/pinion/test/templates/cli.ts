@@ -1,4 +1,4 @@
-import { PinionContext, Command, generator } from '../../src/index'
+import { PinionContext, Command, generator } from '../../src/index.js'
 
 interface Context extends PinionContext {
   name: string

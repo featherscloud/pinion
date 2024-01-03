@@ -1,6 +1,6 @@
 import { Question, QuestionCollection } from 'inquirer'
-import { PinionContext, Callable, getCallable } from '../core'
-import { addTrace } from './helpers'
+import { PinionContext, Callable, getCallable } from '../core.js'
+import { addTrace } from './helpers.js'
 
 export type InferAnswerType<Q extends Question> = Q extends { type: 'input' }
   ? string

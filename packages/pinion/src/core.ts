@@ -2,7 +2,7 @@ import { spawn, SpawnOptions } from 'child_process'
 import inquirer from 'inquirer'
 import chalk from 'chalk'
 
-import { loadModule } from './utils'
+import { loadModule } from './utils.js'
 
 const { prompt } = inquirer
 const { yellow, red, blue } = chalk

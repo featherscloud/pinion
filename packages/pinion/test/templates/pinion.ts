@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 import {
   PinionContext,
   generator,
@@ -14,7 +16,10 @@ import {
   before,
   install,
   copyFiles
-} from '../../src/index'
+} from '../../src/index.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 export interface GeneratorContext extends PinionContext {
   name: string

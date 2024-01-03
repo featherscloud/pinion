@@ -1,8 +1,8 @@
 import { resolve, dirname, relative, join } from 'path'
 import { mkdir, readFile, writeFile, copyFile } from 'fs/promises'
-import { PinionContext, Callable, mapCallables, getCallable } from '../core'
-import { WriteFileOptions, promptWriteFile, overwrite, addTrace } from './helpers'
-import { listAllFiles, merge } from '../utils'
+import { PinionContext, Callable, mapCallables, getCallable } from '../core.js'
+import { WriteFileOptions, promptWriteFile, overwrite, addTrace } from './helpers.js'
+import { listAllFiles, merge } from '../utils.js'
 
 export type FileNameOptions = {
   createFolders: boolean

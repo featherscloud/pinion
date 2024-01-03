@@ -2,9 +2,9 @@ import { existsSync } from 'fs'
 import { readdir } from 'fs/promises'
 import path from 'path'
 
-let tsNode: any
+let tsModule: any
 
-const tsNodeRegister = async (mod = 'ts-node/register') => (tsNode = tsNode || import(mod))
+const tsRegister = async (mod = 'tsx') => (tsModule = tsModule || import(mod))
 
 const extensionCheck = /(\.ts|\.js)$/
 const getFileName = (file: string) => {
@@ -27,7 +27,7 @@ export const loadModule = async (file: string) => {
   const fileName = getFileName(file)
 
   if (fileName.endsWith('.ts')) {
-    await tsNodeRegister()
+    await tsRegister()
   }
 
   return import(file)

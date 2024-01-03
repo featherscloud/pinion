@@ -1,4 +1,4 @@
-export { loadModule } from './utils'
-export * from './core'
-export * from './tasks/index'
-export * from './cli'
+export { loadModule } from './utils.js'
+export * from './core.js'
+export * from './tasks/index.js'
+export * from './cli.js'
