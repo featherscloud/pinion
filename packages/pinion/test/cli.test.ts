@@ -7,7 +7,7 @@ describe('@feathershq/pinion/cli', () => {
 
     process.chdir(__dirname)
 
-    const ctx = await cli(['run', 'templates/cli.ts', '--name', 'testing'])
+    const ctx = await cli(['templates/cli.ts', '--name', 'testing'])
 
     assert.ok(ctx.noop)
     assert.strictEqual(ctx.name, 'testing')

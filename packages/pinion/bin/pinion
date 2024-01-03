@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 
 'use strict'
-const chalk = require('chalk')
 
 require('../lib/cli/index').cli(process.argv.slice(2)).then(() => {
   process.exit(0)
 }).catch(error => {
-  console.error(`${chalk.red('Oh no! Something went wrong:')} ${error.message}`)
-
-  if (error.data?.id) {
-    console.error(`${chalk.grey('We have been notified and will look into it! Your error reference is:')} ${error.data.id}`)
-  }
+  console.error(`Oh no! Something went wrong: ${error.message}`)
 
   process.exit(1)
 })
