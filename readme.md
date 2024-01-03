@@ -1,7 +1,7 @@
 # Pinion
 
 [![CI](https://github.com/feathershq/pinion/actions/workflows/nodejs.yml/badge.svg)](https://github.com/feathershq/pinion/actions/workflows/nodejs.yml)
-[![Download Status](https://img.shields.io/npm/dm/@feathershq/pinion.svg?style=flat-square)](https://www.npmjs.com/package/@feathershq/pinion)
+[![Download Status](https://img.shields.io/npm/dm/@featherscloud/pinion.svg?style=flat-square)](https://www.npmjs.com/package/@featherscloud/pinion)
 
 > A fast and typesafe code generator
 
@@ -10,7 +10,7 @@ Creating and maintaining CLI tooling and generators can be a very time consuming
 
 - Putting generator templates as close to your project as possible
 - TypeScript first to give you full flexibility over what your generators can do and how
-- Using JavaScript template strings instead of hard to debug templating syntaxes like EJS or Mustache 
+- Using JavaScript template strings instead of hard to debug templating syntaxes like EJS or Mustache
 - A functional programming approach that keeps your generators robust and easy to follow
 
 ## Installation
@@ -18,7 +18,7 @@ Creating and maintaining CLI tooling and generators can be a very time consuming
 Pinion is installed as a development dependency and its command line is available via `npx pinion`:
 
 ```
-npm install @feathershq/pinion --save-dev
+npm install @featherscloud/pinion --save-dev
 ```
 
 ## Getting started
@@ -26,7 +26,7 @@ npm install @feathershq/pinion --save-dev
 A Pinion generator is any TypeScript file that exports a `generate` function. For example, in your project folder, create a `generators/readme.ts` file with the following content:
 
 ```ts
-import { PinionContext, generator, prompt, renderTemplate, toFile } from '@feathershq/pinion'
+import { PinionContext, generator, prompt, renderTemplate, toFile } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -69,7 +69,7 @@ npx pinion generators/readme.ts
 A Pinion generator is a TypeScript (or JavaScript) file that exports a `generate` function. The `generate` function takes a `context` which contains runtime properties (like the current working directory, access to a logger etc.) and properties added by command line arguments, prompts and other operations. A basic generator looks like this:
 
 ```ts
-import { PinionContext, generator } from '@feathershq/pinion'
+import { PinionContext, generator } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -77,8 +77,7 @@ export interface Context extends PinionContext {
   name: string
 }
 
-export const generate = (context: Context) => generator(context)
-  .then(/* operations run here */)
+export const generate = (context: Context) => generator(context).then(/* operations run here */)
 ```
 
 ## Command line options
@@ -86,11 +85,10 @@ export const generate = (context: Context) => generator(context)
 A generator can define command line options using [Commander](https://www.npmjs.com/package/commander) through a `command` export:
 
 ```ts
-import { Command } from '@feathershq/pinion'
+import { Command } from '@featherscloud/pinion'
 
-export const command = (program: Command) => program
-  .description('My awesome generator')
-  .option('-n, --name <name>', 'The project name')
+export const command = (program: Command) =>
+  program.description('My awesome generator').option('-n, --name <name>', 'The project name')
 ```
 
 These will then be accessible via the Pinion command line:
@@ -112,7 +110,7 @@ Operations perform actions and possibly update the context with information that
 `prompt(options|context => options)` takes a list of questions using [inquirer.js](https://github.com/SBoudrias/Inquirer.js) and updates the context with results. A context callback can be used to only ask prompts conditionally (e.g. skipping when they have already been provided from the command line).
 
 ```ts
-import { PinionContext, generator, prompt } from '@feathershq/pinion'
+import { PinionContext, generator, prompt } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -120,14 +118,18 @@ export interface Context extends PinionContext {
   name: string
 }
 
-export const generate = (context: Context) => generator(context)
-  .then(prompt(context => [{
-    type: 'input',
-    name: 'name',
-    message: 'What is the name of your app?',
-    // Only show prompt if there is no name
-    when: !context.name
-  }]))
+export const generate = (context: Context) =>
+  generator(context).then(
+    prompt((context) => [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of your app?',
+        // Only show prompt if there is no name
+        when: !context.name
+      }
+    ])
+  )
 ```
 
 ### renderTemplate
@@ -137,7 +139,7 @@ export const generate = (context: Context) => generator(context)
 To put together file names dynamically, the `toFile` helper can be used"
 
 ```ts
-import { PinionContext, generator, prompt, renderTemplate, toFile } from '@feathershq/pinion'
+import { PinionContext, generator, prompt, renderTemplate, toFile } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -145,24 +147,28 @@ export interface Context extends PinionContext {
   name: string
 }
 
-export const template = ({ name } : Context) =>
-`# ${name}
+export const template = ({ name }: Context) =>
+  `# ${name}
 
 This is a readme generated by Pinion
 
 Copyright (c) ${new Date().getFullYear()}
 `
 
-
-export const generate = (context: Context) => generator(context)
-  .then(prompt(context => [{
-    type: 'input',
-    name: 'name',
-    message: 'What is the name of your app?',
-    // Only show prompt if there is no --name CLI argument
-    when: !context.name
-  }]))
-  .then(renderTemplate(template, toFile('readme.md')))
+export const generate = (context: Context) =>
+  generator(context)
+    .then(
+      prompt((context) => [
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is the name of your app?',
+          // Only show prompt if there is no --name CLI argument
+          when: !context.name
+        }
+      ])
+    )
+    .then(renderTemplate(template, toFile('readme.md')))
 ```
 
 ### when
@@ -170,7 +176,7 @@ export const generate = (context: Context) => generator(context)
 `when(boolean|context => boolean, operation)` evaluates a condition and runs the operation when it returns true.
 
 ```ts
-import { PinionContext, generator, prompt } from '@feathershq/pinion'
+import { PinionContext, generator, prompt } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -202,11 +208,12 @@ export const generate = (context: Context) => generator(context)
 - `append()` inject at the end of the file
 
 ```ts
-import { PinionContext, inject, before, prepend, toFile } from '@feathershq/pinion'
+import { PinionContext, inject, before, prepend, toFile } from '@featherscloud/pinion'
 
-export const generate = (context: PinionContext) => generator(context)
-  .then(inject('Injected before copyright notice', before('Copyright (c)'), toFile('readme.md')))
-  .then(inject('Appended hello world', append(), toFile('readme.md')))
+export const generate = (context: PinionContext) =>
+  generator(context)
+    .then(inject('Injected before copyright notice', before('Copyright (c)'), toFile('readme.md')))
+    .then(inject('Appended hello world', append(), toFile('readme.md')))
 ```
 
 ### copyFiles
@@ -214,10 +221,10 @@ export const generate = (context: PinionContext) => generator(context)
 `copyFiles(fromFile, toFile, options)` recursively copies all files from a location to a destination. It will prompt to overwrite if a file already exists. `writeOptions` can be `{ force: true }` to skip prompting if an an existing file should be overwritten.
 
 ```ts
-import { PinionContext, copyFiles, fromFile, toFile } from '@feathershq/pinion'
+import { PinionContext, copyFiles, fromFile, toFile } from '@featherscloud/pinion'
 
-export const generate = (context: PinionContext) => generator(context)
-  .then(copyFiles(fromFile(__dirname, 'static'), toFile('.')))
+export const generate = (context: PinionContext) =>
+  generator(context).then(copyFiles(fromFile(__dirname, 'static'), toFile('.')))
 ```
 
 ### writeJSON
@@ -225,10 +232,10 @@ export const generate = (context: PinionContext) => generator(context)
 `writeJSON(data|context => data, toFile, writeOptions)` write JSON data to a file. `writeOptions` can be `{ force: true }` to skip prompting if an an existing file should be overwritten.
 
 ```ts
-import { PinionContext, writeJSON, toFile } from '@feathershq/pinion'
+import { PinionContext, writeJSON, toFile } from '@featherscloud/pinion'
 
-export const generate = (context: PinionContext) => generator(context)
-  .then(writeJSON({ description: 'Something' }, toFile('package.json')))
+export const generate = (context: PinionContext) =>
+  generator(context).then(writeJSON({ description: 'Something' }, toFile('package.json')))
 ```
 
 ### mergeJSON
@@ -237,11 +244,11 @@ export const generate = (context: PinionContext) => generator(context)
 
 ### readJSON
 
-`readJSON(fromFile, converter, fallback?)` loads a JSON file, parses it and extends the `context` with the data returned by `converter`. 
+`readJSON(fromFile, converter, fallback?)` loads a JSON file, parses it and extends the `context` with the data returned by `converter`.
 
 ```ts
 import { PackageJson } from 'type-fest'
-import { PinionContext, writeJSON, readJSON fromFile, toFile } from '@feathershq/pinion'
+import { PinionContext, writeJSON, readJSON fromFile, toFile } from '@featherscloud/pinion'
 
 // The main types of your generator
 export interface Context extends PinionContext {
@@ -263,11 +270,12 @@ export const generate = (context: Context) => generator(context)
 `install(dependencies[]|context => dependencies[], dev, packageManager = 'npm')` dependencies using the `npm` or `yarn` package manager.
 
 ```ts
-import { PinionContext, generator, install } from '@feathershq/pinion'
+import { PinionContext, generator, install } from '@featherscloud/pinion'
 
-export const generate = (context: Context) => generator(context)
-  .then(install(['@feathersjs/feathers']))
-  .then(install(['ts-node'], true))
+export const generate = (context: Context) =>
+  generator(context)
+    .then(install(['@feathersjs/feathers']))
+    .then(install(['ts-node'], true))
 ```
 
 ### runGenerators
@@ -275,7 +283,7 @@ export const generate = (context: Context) => generator(context)
 `runGenerators((filePart|context => filePart)[])` will run all `*.tpl.ts` or `*.tpl.js` generators in the given path alphabetically in sequence, passing the current context.
 
 ```ts
-import { PinionContext, generator, runGenerators } from '@feathershq/pinion'
+import { PinionContext, generator, runGenerators } from '@featherscloud/pinion'
 
 export const generate = (context: Context) => generator(context)
   .then(runGenerators(__dirname, 'templates')
