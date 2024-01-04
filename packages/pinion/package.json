@@ -46,7 +46,7 @@
   "scripts": {
     "prepublish": "npm run compile",
     "compile": "shx rm -rf lib/ && tsc",
-    "test": "shx rm -rf test/tmp && mocha --config ../../.mocharc.json --recursive test/**.test.ts test/**/*.test.ts --exit"
+    "test": "npm run compile && shx rm -rf test/tmp && mocha --config ../../.mocharc.json --recursive test/**.test.ts test/**/*.test.ts --exit"
   },
   "directories": {
     "lib": "lib"

@@ -1,5 +1,6 @@
 import { Callable, PinionContext, getCallable } from '../core.js'
-import { Command } from 'commander'
+import type { Command } from 'commander'
+import { addTrace } from './helpers.js'
 
 /**
  * Parse the command line arguments using a commander instance and
@@ -15,9 +16,14 @@ export const commander =
     const args = commander.parse(ctx.argv || [], {
       from: 'user'
     })
+    const options = args.opts()
 
-    return {
-      ...ctx,
-      ...args.opts()
-    }
+    return addTrace(
+      {
+        ...ctx,
+        ...args.opts()
+      },
+      'commander',
+      options
+    )
   }

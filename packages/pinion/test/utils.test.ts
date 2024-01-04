@@ -1,6 +1,6 @@
 import path from 'path'
 import assert from 'assert'
-import { merge, listAllFiles, loadModule, listFiles, consoleLoader } from '../src/utils.js'
+import { merge, listAllFiles, loadModule, listFiles } from '../lib/utils.js'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -34,14 +34,6 @@ describe('@featherscloud/pinion/utils', () => {
       some: { thing: true, other: 'message' },
       value: { deep: true }
     })
-  })
-
-  it('consoleLoader', () => {
-    const stopLoader = consoleLoader()
-
-    assert.strictEqual(typeof stopLoader, 'function')
-
-    stopLoader()
   })
 
   describe('loadModule', () => {
