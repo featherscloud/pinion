@@ -54,7 +54,14 @@ export type Configuration = {
 }
 
 export type PinionContext = {
+  /**
+   * The current working directory
+   */
   cwd: string
+  /**
+   * The command line arguments
+   */
+  argv?: string[]
   pinion: Configuration
 }
 
