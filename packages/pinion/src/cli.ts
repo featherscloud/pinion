@@ -33,15 +33,16 @@ export const cli = async (cmd: string[]) => {
   const moduleName = join(process.cwd(), generatorFile)
 
   if (!existsSync(moduleName)) {
-    throw new Error(`The generator file ${name} does not exists`)
+    throw new Error(`The generator file ${moduleName} does not exists`)
   }
 
-  const { command, generate } = await loadModule(moduleName)
-  const commander: Command = typeof command === 'function' ? await command(new Command()) : new Command()
-  const args = commander.parse(argRest, {
-    from: 'user'
-  })
-  const generatorContext = getContext(args.opts(), {})
+  const { generate } = await loadModule(moduleName)
+  const generatorContext = getContext(
+    {
+      argv: argRest
+    },
+    {}
+  )
 
   if (typeof generate !== 'function') {
     throw new Error('The generator file must export a generate function')
