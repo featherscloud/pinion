@@ -20,7 +20,7 @@ export const cli = async (cmd: string[]) => {
   program.command('<file> [args...]').description('Run a generator file with command line arguments.')
   program.version(version)
 
-  if (!generatorFile || BASE_ACTIONS.includes(generatorFile)) {
+  if (BASE_ACTIONS.includes(generatorFile)) {
     return program.parse(cmd, {
       from: 'user'
     })

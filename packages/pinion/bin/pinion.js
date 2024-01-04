@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 'use strict'
+import chalk from 'chalk'
 
 import('../lib/cli.js').then(async ({ cli }) => {
   try {
@@ -8,7 +9,7 @@ import('../lib/cli.js').then(async ({ cli }) => {
       process.exit(0)
     })
   } catch (error) {
-    console.error(`Oh no! Something went wrong: ${error.message}`)
+    console.error(`${chalk.red('Oh no! Something went wrong')}: ${error.message}`)
   
     process.exit(1)
   }

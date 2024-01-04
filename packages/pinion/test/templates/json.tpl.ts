@@ -10,7 +10,7 @@ import {
   writeJSON,
   mergeJSON,
   PinionContext
-} from '../../src/index.js'
+} from '../../lib/index.js'
 
 export const generate = (ctx: PinionContext) =>
   generator(ctx)
