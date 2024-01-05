@@ -14,7 +14,7 @@ export const exec =
     })
 
     if (exitCode !== 0) {
-      throw new Error(`Package manager ${command} exited with error code ${exitCode}`)
+      throw new Error(`Command "${command}" exited with error code ${exitCode}`)
     }
 
     return addTrace(ctx, 'exec', { command, args })
