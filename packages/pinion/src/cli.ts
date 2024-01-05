@@ -13,7 +13,7 @@ const { version } = JSON.parse(readFileSync(join(__dirname, '../package.json'), 
 const BASE_ACTIONS = ['help', '--help', '-h', '--version', '-V']
 
 export const cli = async (cmd: string[]) => {
-  const [generatorFile, ...argRest] = cmd
+  const [generatorFile, ...argv] = cmd
   const program = new Command()
 
   program.name('pinion').description('The Pinion CLI')
@@ -37,12 +37,7 @@ export const cli = async (cmd: string[]) => {
   }
 
   const { generate } = await loadModule(moduleName)
-  const generatorContext = getContext(
-    {
-      argv: argRest
-    },
-    {}
-  )
+  const generatorContext = getContext({ argv }, {})
 
   if (typeof generate !== 'function') {
     throw new Error('The generator file must export a generate function')
