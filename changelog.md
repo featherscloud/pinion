@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0-pre.2](https://github.com/feathershq/pinion/compare/v0.5.0-pre.1...v0.5.0-pre.2) (2024-01-06)
+
+### Bug Fixes
+
+- Fix module loading and readme example ([#55](https://github.com/feathershq/pinion/issues/55)) ([60b85b7](https://github.com/feathershq/pinion/commit/60b85b702f30327718b24758dcc4e1dc7f485557))
+
 # [0.5.0-pre.1](https://github.com/feathershq/pinion/compare/v0.4.0-pre.3...v0.5.0-pre.1) (2024-01-06)
 
 ### Bug Fixes
