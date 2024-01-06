@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0-pre.1](https://github.com/feathershq/pinion/compare/v0.4.0-pre.3...v0.5.0-pre.1) (2024-01-06)
+
+### Bug Fixes
+
+- Improve generic type inference ([#42](https://github.com/feathershq/pinion/issues/42)) ([e1e860c](https://github.com/feathershq/pinion/commit/e1e860cb0a837ebe717f7b352abb947809d6ded1))
+
+### Features
+
+- Add commander task for CLI option parsing ([#48](https://github.com/feathershq/pinion/issues/48)) ([cf3fc7a](https://github.com/feathershq/pinion/commit/cf3fc7a2afb43abaa07999be308cde5903394688))
+- Add exec task and remove install task ([#50](https://github.com/feathershq/pinion/issues/50)) ([8fa4d4e](https://github.com/feathershq/pinion/commit/8fa4d4e9feb641df560576c80ba1e8b672fef878))
+- Allow plan upgrades ([#41](https://github.com/feathershq/pinion/issues/41)) ([be72794](https://github.com/feathershq/pinion/commit/be72794e9e8daae87bb9bb156e53c25e9090f2be))
+- Infer prompt answers ([#28](https://github.com/feathershq/pinion/issues/28)) ([a20827a](https://github.com/feathershq/pinion/commit/a20827af38ccdc2b3eb64ac787333d15ca61fd5b))
+- Move to ES modules and tsx ([#47](https://github.com/feathershq/pinion/issues/47)) ([499c916](https://github.com/feathershq/pinion/commit/499c9165a53ee1a137e4a32e3a1ab01bbbadb186))
+- Remove GPT integration and rename operations to tasks ([#45](https://github.com/feathershq/pinion/issues/45)) ([f6a7605](https://github.com/feathershq/pinion/commit/f6a7605099260d61d75a20fb02fa300104d5807f))
+
 # [0.5.0-pre.0](https://github.com/feathershq/pinion/compare/v0.4.0-pre.3...v0.5.0-pre.0) (2024-01-06)
 
 ### Bug Fixes
