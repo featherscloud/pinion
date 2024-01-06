@@ -36,7 +36,8 @@ export const cli = async (cmd: string[]) => {
     throw new Error(`The generator file ${moduleName} does not exists`)
   }
 
-  const { generate } = await loadModule(moduleName)
+  const module = await loadModule(moduleName)
+  const generate = module.default?.generate || module.generate
   const generatorContext = getContext({ argv }, {})
 
   if (typeof generate !== 'function') {
