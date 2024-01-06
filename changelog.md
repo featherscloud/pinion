@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0-pre.3](https://github.com/feathershq/pinion/compare/v0.5.0-pre.2...v0.5.0-pre.3) (2024-01-06)
+
+**Note:** Version bump only for package pinion
+
 # [0.5.0-pre.2](https://github.com/feathershq/pinion/compare/v0.5.0-pre.1...v0.5.0-pre.2) (2024-01-06)
 
 ### Bug Fixes
