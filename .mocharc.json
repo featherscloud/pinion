@@ -1,6 +1,0 @@
-{
-  "timeout": 50000,
-  "require": ["tsx", "source-map-support/register"],
-  "reporter": "Spec",
-  "extension": ".test.ts"
-}

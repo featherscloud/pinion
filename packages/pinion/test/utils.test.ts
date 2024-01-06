@@ -1,3 +1,4 @@
+import { describe, it } from 'node:test'
 import path from 'path'
 import assert from 'assert'
 import { merge, listAllFiles, loadModule, listFiles } from '../lib/utils.js'
