@@ -1,3 +1,3 @@
-import { PinionContext, generator } from '../../lib/index.js'
+import { PinionContext } from '../../lib/index.js'
 
-export const generate = (ctx: PinionContext) => generator(ctx)
+export const generate = (ctx: PinionContext) => Promise.resolve(ctx)

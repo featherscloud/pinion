@@ -2,7 +2,6 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import {
   PinionContext,
-  generator,
   runGenerators,
   renderTemplate,
   when,
@@ -32,7 +31,7 @@ export interface GeneratorContext extends PinionContext {
 export type GeneratorArguments = PinionContext & Partial<Pick<GeneratorContext, 'name'>>
 
 export const generate = (ctx: GeneratorArguments) =>
-  generator(ctx)
+  Promise.resolve(ctx)
     .then(renderTemplate('# Hello (world)', toFile('tmp', 'hello.md')))
     .then(inject('\nThis is injected after', after('Hello (world)'), toFile('tmp', 'hello.md')))
     .then(inject('This is injected before\n', before(/Hello\s/), toFile('tmp', 'hello.md')))
