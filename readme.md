@@ -18,7 +18,7 @@ npm install @featherscloud/pinion --save-dev
 Then create your first generator file e.g. in `generators/readme.tpl.ts` like this:
 
 ```ts
-import { PinionContext, toFile, renderTemplate } from '@feathershq/pinion'
+import { PinionContext, toFile, renderTemplate } from '@featherscloud/pinion'
 
 interface Context extends PinionContext {
   // Any additional variable types used in the generator go here
