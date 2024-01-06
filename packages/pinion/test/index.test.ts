@@ -1,3 +1,4 @@
+import { describe, it } from 'node:test'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
