@@ -2,18 +2,10 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-import {
-  generator,
-  loadJSON,
-  fromFile,
-  toFile,
-  writeJSON,
-  mergeJSON,
-  PinionContext
-} from '../../lib/index.js'
+import { loadJSON, fromFile, toFile, writeJSON, mergeJSON, PinionContext } from '../../lib/index.js'
 
 export const generate = (ctx: PinionContext) =>
-  generator(ctx)
+  Promise.resolve(ctx)
     .then(loadJSON(fromFile(__dirname, '..', 'fixtures', 'example.json'), (example) => ({ example })))
     .then(
       writeJSON(

@@ -1,4 +1,4 @@
-import { PinionContext, commander, Command, generator } from '../../lib/index.js'
+import { PinionContext, commander, Command } from '../../lib/index.js'
 
 interface Context extends PinionContext {
   name: string
@@ -9,6 +9,6 @@ const program = new Command()
   .option('-n, --name <name>', 'Name of your project')
 
 export const generate = (ctx: Context) =>
-  generator(ctx)
+  Promise.resolve(ctx)
     .then(commander(program))
     .then((ctx) => ({ ...ctx, noop: true }))
