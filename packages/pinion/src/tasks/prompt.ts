@@ -2,7 +2,10 @@ import { Question, QuestionCollection } from 'inquirer'
 import { PinionContext, Callable, getCallable } from '../core.js'
 import { addTrace } from './helpers.js'
 
-export type InferAnswerType<Q extends Question> = Q extends { type: 'input' }
+/**
+ * Get the type from an Inquirer question
+ */
+export type AnswerType<Q extends Question> = Q extends { type: 'input' }
   ? string
   : Q extends { type: 'list' }
     ? string
@@ -20,15 +23,17 @@ export type InferAnswerType<Q extends Question> = Q extends { type: 'input' }
                 ? string
                 : unknown
 
-export type InferAnswerTypes<Q extends QuestionCollection> = Q extends ReadonlyArray<
-  Question & { name: string }
->
-  ? { [K in Q[number] as K['name']]: InferAnswerType<K> }
+/**
+ * Get the types for the answers from a prompt() function
+ */
+export type AnswerTypes<Q extends QuestionCollection> = Q extends ReadonlyArray<Question & { name: string }>
+  ? { [K in Q[number] as K['name']]: AnswerType<K> }
   : Q extends { [key: string]: Question }
     ? {
-        [K in keyof Q]: InferAnswerType<Q[K]>
+        [K in keyof Q]: AnswerType<Q[K]>
       }
     : unknown
+
 /**
  * Show prompts using Inquirer
  *
@@ -42,7 +47,7 @@ export const prompt =
     const result = {
       ...ctx,
       ...answers
-    } as C & InferAnswerTypes<Q>
+    } as C & AnswerTypes<Q>
 
     return addTrace(result, 'prompt', answers)
   }

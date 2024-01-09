@@ -1,6 +1,13 @@
 import { Callable, getCallable, PinionContext } from '../core.js'
 import { addTrace } from './helpers.js'
 
+/**
+ * Run a command with arguments.
+ *
+ * @param cmd  The command to run
+ * @param _args The arguments for the command
+ * @returns The current context
+ */
 export const exec =
   <C extends PinionContext>(cmd: Callable<string, C>, _args: string[] = []) =>
   async (ctx: C) => {

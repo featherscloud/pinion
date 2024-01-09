@@ -7,12 +7,33 @@ import { addTrace } from './helpers.js'
 
 const EOLRegex = /\r?\n/
 
+const newline = (str: string) => {
+  const newlines = str.match(/(?:\r?\n)/g) || []
+
+  if (newlines.length === 0) {
+    return EOL
+  }
+
+  const crlf = newlines.filter((newline) => newline === '\r\n').length
+  const lf = newlines.length - crlf
+
+  return crlf > lf ? '\r\n' : '\n'
+}
+
 export type Location<C extends PinionContext> = (
   lines: string[],
   ctx: C,
   fileName: string
 ) => Promise<{ index: number; pattern?: string | RegExp | undefined }>
 
+/**
+ * Inject a template into a file at a specific location. All locations are line based.
+ *
+ * @param template The content to inject
+ * @param location The location where to inject. Can be one of `before()`, `after()`, `prepend()` or `append()`
+ * @param target The target file to inject to
+ * @returns The current context
+ */
 export const inject =
   <C extends PinionContext>(
     template: Callable<string, C>,
@@ -74,6 +95,12 @@ const getLineNumber = (pattern: string | RegExp, lines: string[], isBefore: bool
   return oneLineMatchIndex + (isBefore ? 0 : 1)
 }
 
+/**
+ * Inject before a line matching the given pattern.
+ *
+ * @param pattern The pattern to inject before
+ * @returns The location used by the `inject` task
+ */
 export const before =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
   async (lines: string[], ctx: C, fileName: string) => {
@@ -87,6 +114,12 @@ export const before =
     return { index, pattern: line }
   }
 
+/**
+ * Inject after a line matching a given pattern.
+ *
+ * @param pattern The pattern to inject after
+ * @returns The location used by the `inject` task
+ */
 export const after =
   <C extends PinionContext>(pattern: Callable<string | RegExp, C>) =>
   async (lines: string[], ctx: C, fileName: string) => {
@@ -100,23 +133,20 @@ export const after =
     return { index, pattern: line }
   }
 
+/**
+ * Inject at the beginning of a file.
+ *
+ * @returns The location used by the `inject` task
+ */
 export const prepend = () => async () => {
   return { index: 0 }
 }
 
+/**
+ * Append at the end of a file.
+ *
+ * @returns The location used by the `inject` task.
+ */
 export const append = () => async (lines: string[]) => {
   return { index: lines.length }
-}
-
-const newline = (str: string) => {
-  const newlines = str.match(/(?:\r?\n)/g) || []
-
-  if (newlines.length === 0) {
-    return EOL
-  }
-
-  const crlf = newlines.filter((newline) => newline === '\r\n').length
-  const lf = newlines.length - crlf
-
-  return crlf > lf ? '\r\n' : '\n'
 }

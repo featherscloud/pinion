@@ -44,6 +44,7 @@ export const runGenerators =
  *
  * @param pathParts The parts of the folder to run. Can be assembled dynamically based on context.
  * @returns The current and generator context merged together
+ * @deprecated Use `runGenerators` instead. For individual generators, import and run them directly.
  */
 export const runGenerator =
   <C extends PinionContext>(...pathParts: Callable<string, C>[]) =>
