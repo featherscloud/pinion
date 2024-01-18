@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0-pre.4](https://github.com/feathershq/pinion/compare/v0.5.0-pre.3...v0.5.0-pre.4) (2024-01-18)
+
+### Bug Fixes
+
+- **pinion:** Make arguments in exec task callable ([#57](https://github.com/feathershq/pinion/issues/57)) ([414a45c](https://github.com/feathershq/pinion/commit/414a45cc1f8832f912b38ad5d1a66ea3aea0a93c))
+
 # [0.5.0-pre.3](https://github.com/feathershq/pinion/compare/v0.5.0-pre.2...v0.5.0-pre.3) (2024-01-06)
 
 **Note:** Version bump only for package pinion
