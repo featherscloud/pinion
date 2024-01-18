@@ -49,7 +49,12 @@ export const generate = (ctx: GeneratorArguments) =>
         }
       }))
     )
-    .then(when((ctx) => !!ctx.name && !ctx.age, exec('echo', ['"This is a test"'])))
+    .then(
+      when(
+        (ctx) => !!ctx.name && !ctx.age,
+        exec('echo', () => ['"This is a test"'])
+      )
+    )
     .then(copyFiles(fromFile(__dirname), toFile('tmp', 'copy')))
     .then(runGenerators(__dirname))
     .then((ctx) => ({
