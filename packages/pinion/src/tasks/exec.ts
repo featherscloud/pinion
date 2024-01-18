@@ -9,7 +9,7 @@ import { addTrace } from './helpers.js'
  * @returns The current context
  */
 export const exec =
-  <C extends PinionContext>(cmd: Callable<string, C>, _args: string[] = []) =>
+  <C extends PinionContext>(cmd: Callable<string, C>, _args: Callable<string[], C> = []) =>
   async (ctx: C) => {
     const command = await getCallable(cmd, ctx)
     const args = await getCallable(_args, ctx)
