@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/feathershq/pinion/compare/v0.5.0-pre.4...v0.5.0) (2024-01-19)
+
+### Bug Fixes
+
+- Fix package.json lib field ([#58](https://github.com/feathershq/pinion/issues/58)) ([5622a5c](https://github.com/feathershq/pinion/commit/5622a5cebd248bb03922d07265199dfcd8feaf60))
+
 # [0.5.0-pre.4](https://github.com/feathershq/pinion/compare/v0.5.0-pre.3...v0.5.0-pre.4) (2024-01-18)
 
 ### Bug Fixes
