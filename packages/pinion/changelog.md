@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/feathershq/pinion/compare/v0.5.0...v0.5.1) (2024-01-25)
+
+### Bug Fixes
+
+- Ensure all module URLs start with file: ([#59](https://github.com/feathershq/pinion/issues/59)) ([53ce826](https://github.com/feathershq/pinion/commit/53ce826c945eecd589a0b8f3ed7182980ccc59f9))
+
 # [0.5.0](https://github.com/feathershq/pinion/compare/v0.5.0-pre.4...v0.5.0) (2024-01-19)
 
 ### Bug Fixes
