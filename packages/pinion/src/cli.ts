@@ -1,8 +1,8 @@
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { existsSync, readFileSync } from 'fs'
-import { Command } from 'commander'
 
+import { Command } from 'commander'
+import { fileURLToPath } from 'url'
 import { getContext } from './core.js'
 import { loadModule } from './utils.js'
 

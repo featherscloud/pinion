@@ -1,6 +1,7 @@
 import { existsSync } from 'fs'
-import { readdir } from 'fs/promises'
 import path from 'path'
+import { pathToFileURL } from 'url'
+import { readdir } from 'fs/promises'
 
 let tsModule: any
 
@@ -19,10 +20,10 @@ const getFileUrl = (file: string) => {
   }
 
   if (!url.startsWith('file://')) {
-    url = `file://${url}`
+    url = pathToFileURL(url).href
   }
 
-  return file
+  return url
 }
 
 export const loadModule = async (file: string) => {
@@ -32,7 +33,7 @@ export const loadModule = async (file: string) => {
     await tsRegister()
   }
 
-  return import(file)
+  return import(fileName)
 }
 
 export const listFiles = async (folder: string, extension?: string): Promise<string[]> => {
