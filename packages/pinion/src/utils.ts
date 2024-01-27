@@ -7,24 +7,26 @@ let tsModule: any
 const tsRegister = async (mod = 'tsx') => (tsModule = tsModule || import(mod))
 
 const extensionCheck = /(\.ts|\.js)$/
-const getFileName = (file: string) => {
-  if (extensionCheck.test(file)) {
-    return file
+const getFileUrl = (file: string) => {
+  let url = file
+
+  if (!extensionCheck.test(file)) {
+    if (existsSync(`${file}.js`)) {
+      url = `${file}.js`
+    } else if (existsSync(`${file}.ts`)) {
+      url = `${file}.ts`
+    }
   }
 
-  if (existsSync(`${file}.js`)) {
-    return `${file}.js`
-  }
-
-  if (existsSync(`${file}.ts`)) {
-    return `${file}.ts`
+  if (!url.startsWith('file://')) {
+    url = `file://${url}`
   }
 
   return file
 }
 
 export const loadModule = async (file: string) => {
-  const fileName = getFileName(file)
+  const fileName = getFileUrl(file)
 
   if (fileName.endsWith('.ts')) {
     await tsRegister()

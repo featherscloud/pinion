@@ -162,7 +162,7 @@ export const getContext = <T extends PinionContext>(
 export const generator = async <T extends PinionContext>(initialContext: T) => initialContext
 
 export const runModule = async (file: string, ctx: PinionContext) => {
-  const { generate } = await loadModule(`file://${file}`)
+  const { generate } = await loadModule(file)
 
   return generate(ctx)
 }
