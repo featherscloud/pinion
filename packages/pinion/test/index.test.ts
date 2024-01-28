@@ -54,7 +54,8 @@ describe('@featherscloud/pinion', () => {
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
     const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
 
-    assert.strictEqual(written.toString().replace(/\r\n/g, '\n'), expectedFileContent)
+    assert.strictEqual(written.toString().replace(/\r/g, ''), expectedFileContent)
+
     assert.deepStrictEqual(writtenJSON, {
       written: true,
       merged: true,
