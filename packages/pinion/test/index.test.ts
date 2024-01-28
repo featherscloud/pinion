@@ -1,9 +1,9 @@
-import { describe, it } from 'node:test'
+import { describe, it } from 'vitest'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { getContext, PinionContext, runModule } from '../lib/index.js'
+import { getContext, PinionContext, runModule } from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

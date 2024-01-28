@@ -1,4 +1,4 @@
-import { PinionContext, commander, Command } from '../../lib/index.js'
+import { PinionContext, commander, Command } from '../../src/index.js'
 
 interface Context extends PinionContext {
   name: string

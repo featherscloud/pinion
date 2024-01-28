@@ -45,8 +45,7 @@
   ],
   "scripts": {
     "prepublish": "npm run compile",
-    "compile": "shx rm -rf lib/ && tsc",
-    "test": "npm run compile && shx rm -rf test/tmp && node --import tsx --test test/**.test.ts"
+    "compile": "shx rm -rf lib/ && tsc"
   },
   "directories": {
     "lib": "lib"
