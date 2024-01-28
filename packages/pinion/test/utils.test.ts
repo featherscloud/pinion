@@ -1,7 +1,7 @@
-import { describe, it } from 'node:test'
+import { describe, it } from 'vitest'
 import path from 'path'
 import assert from 'assert'
-import { merge, listAllFiles, loadModule, listFiles } from '../lib/utils.js'
+import { merge, listAllFiles, loadModule, listFiles } from '../src/utils.js'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)

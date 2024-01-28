@@ -1,11 +1,9 @@
-import { PinionContext, getContext, runModule } from '../lib/index.js'
-import { describe, it } from 'node:test'
-
-import assert from 'assert'
-import { fileURLToPath } from 'url'
+import { describe, it } from 'vitest'
 import path from 'path'
-import { platform } from 'os'
+import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
+import assert from 'assert'
+import { getContext, PinionContext, runModule } from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -56,11 +54,7 @@ describe('@featherscloud/pinion', () => {
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
     const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
 
-    if (platform() === 'win32') {
-      assert.strictEqual(written.toString().replace(/\r/g, ''), expectedFileContent.replace(/\r/g, ''))
-    } else if (platform() !== 'win32') {
-      assert.strictEqual(written.toString(), expectedFileContent)
-    }
+    assert.strictEqual(written.toString().replace(/\r/g, ''), expectedFileContent)
 
     assert.deepStrictEqual(writtenJSON, {
       written: true,

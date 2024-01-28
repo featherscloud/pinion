@@ -26,13 +26,14 @@ export type AnswerType<Q extends Question> = Q extends { type: 'input' }
 /**
  * Get the types for the answers from a prompt() function
  */
-export type AnswerTypes<Q extends QuestionCollection> = Q extends ReadonlyArray<Question & { name: string }>
-  ? { [K in Q[number] as K['name']]: AnswerType<K> }
-  : Q extends { [key: string]: Question }
-    ? {
-        [K in keyof Q]: AnswerType<Q[K]>
-      }
-    : unknown
+export type AnswerTypes<Q extends QuestionCollection> =
+  Q extends ReadonlyArray<Question & { name: string }>
+    ? { [K in Q[number] as K['name']]: AnswerType<K> }
+    : Q extends { [key: string]: Question }
+      ? {
+          [K in keyof Q]: AnswerType<Q[K]>
+        }
+      : unknown
 
 /**
  * Show prompts using Inquirer

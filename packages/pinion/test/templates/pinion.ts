@@ -15,7 +15,7 @@ import {
   before,
   exec,
   copyFiles
-} from '../../lib/index.js'
+} from '../../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
