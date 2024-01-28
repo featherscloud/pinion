@@ -3,7 +3,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
-import { EOL } from 'os'
 import { getContext, PinionContext, runModule } from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -15,7 +14,7 @@ This is injected before
 # Hello (world)
 
 This is injected after
-<!-- Appended -->`.replace(/\n/g, EOL)
+<!-- Appended -->`
 
 interface NamedContext extends PinionContext {
   name: string
@@ -55,7 +54,7 @@ describe('@featherscloud/pinion', () => {
     const written = await readFile(path.join(__dirname, 'tmp', 'hello.md'))
     const writtenJSON = JSON.parse((await readFile(path.join(__dirname, 'tmp', 'testing.json'))).toString())
 
-    assert.strictEqual(written.toString(), expectedFileContent)
+    assert.strictEqual(written.toString().replace(/\r\n/g, '\n'), expectedFileContent)
     assert.deepStrictEqual(writtenJSON, {
       written: true,
       merged: true,
