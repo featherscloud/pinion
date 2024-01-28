@@ -3,6 +3,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { readFile } from 'fs/promises'
 import assert from 'assert'
+import { EOL } from 'os'
 import { getContext, PinionContext, runModule } from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -14,7 +15,7 @@ This is injected before
 # Hello (world)
 
 This is injected after
-<!-- Appended -->`
+<!-- Appended -->`.replace(/\n/g, EOL)
 
 interface NamedContext extends PinionContext {
   name: string
