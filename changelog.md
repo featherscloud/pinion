@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.4](https://github.com/feathershq/pinion/compare/v0.5.3...v0.5.4) (2024-04-10)
+
+### Bug Fixes
+
+- Set minimum Node engine to v20 and update dependencies ([#68](https://github.com/feathershq/pinion/issues/68)) ([a618928](https://github.com/feathershq/pinion/commit/a618928b9bac931062bd197b6e51356370cde5ae))
+
 ## [0.5.3](https://github.com/feathershq/pinion/compare/v0.5.2...v0.5.3) (2024-01-28)
 
 ### Bug Fixes
