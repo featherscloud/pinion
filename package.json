@@ -39,18 +39,18 @@
     "test": "npm run lint && npm run compile --workspaces && npm run vitest"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
-    "@vitest/coverage-v8": "^1.4.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "@vitest/coverage-v8": "^1.5.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "lerna": "^8.1.2",
-    "npm-check-updates": "^16.14.18",
+    "npm-check-updates": "^16.14.20",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
-    "vitest": "^1.4.0"
+    "vitest": "^1.5.3"
   }
 }
