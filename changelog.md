@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/feathershq/pinion/compare/v0.5.4...v0.5.5) (2024-10-17)
+
+### Bug Fixes
+
+- Support absolute file path for CLI ([#73](https://github.com/feathershq/pinion/issues/73)) ([da20207](https://github.com/feathershq/pinion/commit/da202072f05740aa9cdf1408aaa92162853dee65))
+- Update all dependencies and fix task ([#72](https://github.com/feathershq/pinion/issues/72)) ([322b141](https://github.com/feathershq/pinion/commit/322b141b3d3ad59dfe227e0c92259767e5cb4a43))
+
 ## [0.5.4](https://github.com/feathershq/pinion/compare/v0.5.3...v0.5.4) (2024-04-10)
 
 ### Bug Fixes
