@@ -5,6 +5,7 @@ import { Command } from 'commander'
 import { fileURLToPath } from 'url'
 import { getContext } from './core.js'
 import { loadModule } from './utils.js'
+import { isAbsolute } from 'path';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -29,8 +30,8 @@ export const cli = async (cmd: string[]) => {
   if (!generatorFile) {
     throw new Error('Please specify a generator file name')
   }
-
-  const moduleName = join(process.cwd(), generatorFile)
+  
+  const moduleName = isAbsolute(generatorFile) ? generatorFile : join(process.cwd(), generatorFile)
 
   if (!existsSync(moduleName)) {
     throw new Error(`The generator file ${moduleName} does not exists`)
