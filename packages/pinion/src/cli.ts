@@ -30,12 +30,8 @@ export const cli = async (cmd: string[]) => {
   if (!generatorFile) {
     throw new Error('Please specify a generator file name')
   }
-  let moduleName:string
-  if(isAbsolute(generatorFile)){
-     moduleName = generatorFile
-  }else{
-     moduleName = join(process.cwd(), generatorFile)
-  }
+  
+  const moduleName = isAbsolute(generatorFile) ? generatorFile : join(process.cwd(), generatorFile)
 
   if (!existsSync(moduleName)) {
     throw new Error(`The generator file ${moduleName} does not exists`)
