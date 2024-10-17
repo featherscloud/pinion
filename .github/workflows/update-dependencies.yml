@@ -28,3 +28,4 @@ jobs:
           gh pr create --title "chore(dependencies): Update all dependencies" --body ""
         env:
           GH_TOKEN: ${{ github.token }}
+      - run: npm test
