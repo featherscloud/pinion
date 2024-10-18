@@ -21,6 +21,10 @@ export type WriteFileOptions = {
   force: boolean
 }
 
+export type WalkIgnoreOptions = {
+  ignoreList: string[]
+}
+
 export const overwrite = async <C extends PinionContext>(
   ctx: C,
   fileName: string,

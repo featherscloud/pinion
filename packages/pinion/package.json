@@ -57,6 +57,7 @@
     "@types/inquirer": "^9.0.7",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
+    "ignore-walk": "^7.0.0",
     "inquirer": "^9.3.2",
     "tsx": "^4.19.1"
   },
