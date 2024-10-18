@@ -1,8 +1,10 @@
 import { resolve, dirname, relative, join } from 'path'
 import { mkdir, readFile, writeFile, copyFile } from 'fs/promises'
 import { PinionContext, Callable, mapCallables, getCallable } from '../core.js'
-import { WriteFileOptions, promptWriteFile, overwrite, addTrace } from './helpers.js'
+import { WriteFileOptions, promptWriteFile, overwrite, addTrace, WalkIgnoreOptions } from './helpers.js'
 import { listAllFiles, merge } from '../utils.js'
+import walk from 'ignore-walk'
+import path from 'path'
 
 export type FileNameOptions = {
   createFolders: boolean
@@ -75,6 +77,40 @@ export const copyFiles =
     return addTrace(ctx, 'copyFiles', { fileList, target, source })
   }
 
+
+  export const copyFilesWithIgnoreFileList =
+  <C extends PinionContext>(
+    from: Callable<string, C>,
+    to: Callable<string, C>,
+    options: Partial<WriteFileOptions> & Partial<WalkIgnoreOptions> = {}
+  ) =>
+  async (ctx: C) => {
+    const source = await getCallable(from, ctx)
+    const target = await getCallable(to, ctx)
+    let fileListWalk = walk.sync({ 
+      path: source,
+      ignoreFiles: options.ignoreList, // list of filenames. defaults to ['.ignore']
+      includeEmpty: true, // true to include empty dirs, default false
+      follow: false // true to follow symlink dirs, default false
+    })
+    const fileList = fileListWalk.map((file) => join(source, path.sep, file ))
+
+    await Promise.all(
+      fileList.map(async (file) => {
+        const destination = join(target, relative(source, file))
+
+        await mkdir(dirname(destination), {
+          recursive: true
+        })
+
+        if (await overwrite(ctx, destination, options)) {
+          await copyFile(file, destination)
+        }
+      })
+    )
+
+    return addTrace(ctx, 'copyFilesWithIgnoreFileList', { fileList, target, source })
+  }
 /**
  * Load a JSON file and merge the data into the context
  *
